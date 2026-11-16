@@ -1,0 +1,64 @@
+{
+  "v": 2,
+  "sections": [
+    {"id": "affix", "title": "词缀", "subtitle": "一个词缀一页", "groups": [
+      {"title": "前缀", "pages": ["af-me", "af-ter"]}
+    ]},
+    {"id": "contrast", "title": "易混辨析", "subtitle": "成对的混淆点", "groups": [
+      {"title": "", "pages": ["vs-kan-i"]}
+    ]},
+    {"id": "wordclass", "title": "词类", "subtitle": "", "groups": [
+      {"title": "虚词", "pages": ["wc-yang"]}
+    ]}
+  ],
+  "pages": [
+    {"id": "af-me", "section": "affix", "title": "me- 前缀", "title_id": "prefiks meN-",
+     "summary": "构成主动动词；词首音变有规律。", "aliases": ["meN-", "鼻音前缀"],
+     "blocks": [
+       {"t": "lead", "text": "me- 加在词根前构成**主动动词**。"},
+       {"t": "h", "text": "形式与音变"},
+       {"t": "table", "title": "音变表", "cols": ["词首", "形式", "例子"],
+        "rows": [["b, f, p", "mem-", "baca → membaca　pukul → memukul"], ["d, t", "men-", "tulis → menulis"]]},
+       {"t": "h", "text": "意思"},
+       {"t": "ex", "items": [{"i": "Saya **membaca** buku.", "z": "我读书。"}]},
+       {"t": "pit", "items": ["k、p、s、t 开头的词根，首字母**脱落**。"]},
+       {"t": "steps", "title": "怎么判断", "items": ["先看词首字母", "再查音变表"]}
+     ],
+     "see": ["af-ter", "vs-kan-i"], "words": ["membaca"]},
+    {"id": "af-ter", "section": "affix", "title": "ter- 前缀", "title_id": "prefiks ter-",
+     "summary": "表示无意、状态或最高级。", "aliases": [],
+     "blocks": [
+       {"t": "lead", "text": "ter- 三种意思：无意、状态、最高级。"},
+       {"t": "text", "text": "例如 terbesar（最大）。"}
+     ],
+     "see": [], "words": []},
+    {"id": "vs-kan-i", "section": "contrast", "title": "me-kan 还是 me-i", "title_id": "",
+     "summary": "看宾语是被移动还是被作用的地方。", "aliases": ["kan i"],
+     "blocks": [
+       {"t": "vs", "a": {"title": "me-kan", "text": "宾语被移动", "ex": [{"i": "Dia **menanamkan** padi.", "z": "他种下稻子。"}]},
+        "b": {"title": "me-i", "text": "宾语是地方", "ex": [{"i": "Dia **menanami** sawah.", "z": "他在田里种上东西。"}]},
+        "note": "先问：宾语是东西还是地方？"},
+       {"t": "tree", "q": "宾语是什么？", "opts": [
+         {"label": "被移动的东西", "hint": "padi", "result": {"answer": "me-kan", "rule": "东西被放到某处。", "examples": ["menanamkan padi"]}},
+         {"label": "被作用的地方", "hint": "sawah", "result": {"answer": "me-i", "rule": "地方承受动作。", "examples": ["menanami sawah"]}}
+       ]}
+     ],
+     "see": ["af-me"], "words": []},
+    {"id": "wc-yang", "section": "wordclass", "title": "yang 的用法", "title_id": "",
+     "summary": "关系词：引出修饰语。", "aliases": [],
+     "blocks": [
+       {"t": "text", "text": "yang 引出修饰成分。"},
+       {"t": "words", "title": "相关词", "list": ["yang"]}
+     ],
+     "see": [], "words": ["yang"]}
+  ],
+  "quiz": [
+    {"id": "q-me-1", "page": "af-me", "q": "baca 加 me- 是？", "opts": ["menbaca", "membaca", "mebaca"], "ans": 1, "why": "b 开头用 mem-。"},
+    {"id": "q-me-2", "page": "af-me", "q": "tulis 加 me- 是？", "opts": ["mentulis", "menulis"], "ans": 1, "why": "t 脱落，用 men-。"},
+    {"id": "q-me-3", "page": "af-me", "q": "pukul 加 me- 是？", "opts": ["memukul", "mempukul"], "ans": 0, "why": "p 脱落。"},
+    {"id": "q-vs-1", "page": "vs-kan-i", "q": "Dia ___ sawah itu.", "opts": ["menanamkan", "menanami"], "ans": 1, "why": "sawah 是地方。"},
+    {"id": "q-vs-2", "page": "vs-kan-i", "q": "Dia ___ padi.", "opts": ["menanamkan", "menanami"], "ans": 0, "why": "padi 是被种下的东西。"}
+  ],
+  "hot": ["af-me", "vs-kan-i"],
+  "path": ["af-me", "af-ter", "vs-kan-i"]
+}
