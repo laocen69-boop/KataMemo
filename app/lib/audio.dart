@@ -24,7 +24,8 @@ class AudioService {
   static final AudioService instance = AudioService._();
   AudioService._();
 
-  late final AudioPlayer _player = AudioPlayer();
+  static final bool _isTest = Platform.environment.containsKey('FLUTTER_TEST');
+  late final AudioPlayer? _player = _isTest ? null : AudioPlayer();
 
   void Function(String? word)? debugOnPlayCard;
 
@@ -179,16 +180,18 @@ class AudioService {
   }
 
   Future<bool> _playAssetWait(String path, int seq) async {
+    final player = _player;
+    if (player == null) return false;
     for (final p in audioAssetCandidates(path)) {
       if (seq != _seq) return false;
       try {
 
-        await _player.stop();
+        await player.stop();
         if (seq != _seq) return false;
         final src = await _sourceForAsset(p);
         if (seq != _seq) return false;
-        final done = _player.onPlayerComplete.first;
-        await _player.play(src);
+        final done = player.onPlayerComplete.first;
+        await player.play(src);
         await done.timeout(const Duration(seconds: 10));
         return true;
       } catch (_) {
@@ -270,9 +273,11 @@ class AudioService {
   }
 
   Future<bool> _playAsset(String path) async {
+    final player = _player;
+    if (player == null) return false;
     try {
-      await _player.stop();
-      await _player.play(await _sourceForAsset(path));
+      await player.stop();
+      await player.play(await _sourceForAsset(path));
       return true;
     } catch (_) {
       return false;
@@ -280,10 +285,12 @@ class AudioService {
   }
 
   Future<bool> _playFile(String path) async {
+    final player = _player;
+    if (player == null) return false;
     try {
       if (!await File(path).exists()) return false;
-      await _player.stop();
-      await _player.play(DeviceFileSource(path));
+      await player.stop();
+      await player.play(DeviceFileSource(path));
       return true;
     } catch (_) {
       return false;
