@@ -67,6 +67,7 @@ flutter build apk --release --target-platform android-arm64
   - [open-spaced-repetition](https://github.com/open-spaced-repetition)（`fsrs-rs` / `fsrs-rs-c` / `ts-fsrs`）：本项目 FSRS-6 记忆算法与端内参数优化的核心参考与原生实现基础
   - [wordfreq](https://github.com/rspeer/wordfreq)（Robyn Speer 等，CC BY-SA 4.0）：词频分层标签划分参考
   - [Flutter](https://flutter.dev)、[Google ML Kit](https://developers.google.com/ml-kit) 及各 Flutter 社区依赖库
+- 词库新增、校对与音频打包工作流见 [docs/词库贡献与新增工作流.md](docs/词库贡献与新增工作流.md)（配套校验与打包脚本见 `tools/`）
 - 数据来源边界、隐私说明及 KBBI / TTS 资源披露见 [OPEN_SOURCE_NOTES.md](OPEN_SOURCE_NOTES.md)
 - 完整第三方依赖许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 - 本项目源码采用 [MIT License](LICENSE) 开源

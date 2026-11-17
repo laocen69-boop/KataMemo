@@ -5,11 +5,13 @@ on:
     branches: [main]
     paths:
       - "app/**"
+      - "tools/**"
       - ".github/workflows/ci.yml"
   pull_request:
     branches: [main]
     paths:
       - "app/**"
+      - "tools/**"
 
 jobs:
   analyze_and_test:
@@ -25,6 +27,12 @@ jobs:
           channel: stable
           flutter-version: "3.44.9"
           cache: true
+
+      - name: Validate data & audio pack
+        working-directory: .
+        run: |
+          python3 tools/validate_data.py
+          python3 tools/pack_audio.py verify
 
       - name: Get dependencies
         run: flutter pub get
