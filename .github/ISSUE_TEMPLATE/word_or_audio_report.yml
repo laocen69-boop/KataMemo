@@ -1,0 +1,30 @@
+name: 词条 / 发音纠错 (Word or Audio Report)
+description: 反馈印尼语拼写、中文释义、例句或单词发音有误
+title: "[Data/Audio] "
+labels: ["data"]
+body:
+  - type: input
+    id: word
+    attributes:
+      label: 词形或词条 ID (Word / ID)
+      placeholder: 例如：ke / rumah / berdebat
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: 问题类型 (Issue Type)
+      options:
+        - 发音有误或截断 (Pronunciation / Audio issue)
+        - 中文释义不准确 (Chinese gloss error)
+        - 印尼语拼写 / 重音 / 例句问题 (Spelling / Example issue)
+        - 建议补充新词 (New word suggestion)
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 具体说明与修改建议 (Details & Reference)
+      description: 建议附带 KBBI 释义或真实例句语境说明
+    validations:
+      required: true

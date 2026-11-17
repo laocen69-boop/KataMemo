@@ -1,0 +1,25 @@
+name: Bug 反馈 (Bug Report)
+description: 报告 App 闪退、界面异常或功能故障
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 应用版本 (App Version)
+      placeholder: 例如：v1.0.3+12
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: 设备与系统 (Device & OS)
+      placeholder: 例如：Android 14 / Redmi ...
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤与预期结果 (Steps to Reproduce)
+    validations:
+      required: true

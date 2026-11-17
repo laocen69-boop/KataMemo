@@ -1,3 +1,5 @@
+**中文** | [English](README_EN.md)
+
 # KataMemo — 印尼语背单词学习软件
 
 面向中文学习者的开源印尼语背单词 Android 应用（Flutter + SQLite + FSRS-6）。
