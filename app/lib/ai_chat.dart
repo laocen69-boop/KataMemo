@@ -2,7 +2,8 @@ library;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+
+import 'platform/io_shim.dart';
 
 import 'ai_context.dart';
 import 'ai_skill.dart';

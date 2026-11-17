@@ -2,7 +2,6 @@ library;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'
@@ -17,6 +16,7 @@ import '../audio_picker.dart';
 import '../db.dart';
 import '../export_dir.dart';
 import '../models.dart';
+import '../platform/io_shim.dart';
 import '../widgets/speak_button.dart' show kSpeakGreen;
 import '../widgets/swipe_reveal_row.dart';
 import '../widgets/word_list_actions.dart';

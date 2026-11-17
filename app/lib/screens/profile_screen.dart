@@ -1,5 +1,6 @@
 library;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -398,14 +399,16 @@ void _showAbout(BuildContext context) {
   showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('关于 $kAppName'),
+      title: const Text('关于 $kAppName${kIsWeb ? '（网页版）' : ''}'),
       content: SingleChildScrollView(
         child: Column(
           key: const ValueKey('about-note'),
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('v$kAppVersion · build $kBuildNumber',
+            Text(
+                'v$kAppVersion · build $kBuildNumber'
+                '${kIsWeb ? ' · Web / PWA' : ''}',
                 style: TextStyle(fontSize: 13, color: ctx.k.t2)),
             const SizedBox(height: 10),
             const Text('记忆算法：FSRS-6。音标参考 KBBI（印尼语大词典）；本版不含 KBBI 释义。',

@@ -53,6 +53,7 @@ Future<void> showTargetGuide(
     await app.remember(ids);
     if (sheet.mounted) Navigator.pop(sheet);
     messenger?.showSnackBar(SnackBar(
+      persist: false,
       duration: const Duration(seconds: 3),
       content: Text('已加入 ${ids.length} 个词，下一组开始优先学习'),
       action: SnackBarAction(label: '去学习', onPressed: () => _goStudy(context)),
@@ -168,12 +169,29 @@ Future<void> showTargetGuide(
                           key: Key('target.preset.${pItem.count}'),
                           label: Text(pItem.label),
                           selected: selectedBatch == pItem.count,
+                          selectedColor: k.tint,
+                          backgroundColor: k.surface,
+                          checkmarkColor: k.deep,
+                          side: BorderSide(
+                            color:
+                                selectedBatch == pItem.count ? k.brand : k.line,
+                          ),
+                          labelStyle: TextStyle(
+                            color:
+                                selectedBatch == pItem.count ? k.deep : k.text,
+                            fontWeight: selectedBatch == pItem.count
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                          ),
                           onSelected: (_) =>
                               setSheetState(() => selectedBatch = pItem.count),
                         ),
                       ActionChip(
                         key: const Key('target.customCount'),
-                        avatar: const Icon(Icons.tune, size: 16),
+                        avatar: Icon(Icons.tune, size: 16, color: k.deep),
+                        backgroundColor: k.surface,
+                        side: BorderSide(color: k.line),
+                        labelStyle: TextStyle(color: k.text),
                         label: Text(
                           seenCounts.contains(selectedBatch)
                               ? '自选数量'

@@ -1,7 +1,5 @@
 library;
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, PlatformException;
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../app_state.dart';
 import '../models.dart';
 import '../ocr_scan.dart';
+import '../platform/io_shim.dart';
 import '../theme/k_colors.dart';
 import '../widgets/quota_dialog.dart';
 import '../widgets/word_search.dart' show SrsLevelMap, loadLevels, strengthOf;
@@ -307,7 +306,7 @@ class _ScanScreenState extends State<ScanScreen> {
             if (_imagePath.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(14),
-                child: Image.file(File(_imagePath),
+                child: buildFileImage(File(_imagePath),
                     width: 190, height: 190, fit: BoxFit.cover),
               )
             else

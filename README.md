@@ -42,7 +42,10 @@
 └── LICENSE                  # MIT 许可证
 ```
 
-> **平台说明**：当前仅在 **Android（`arm64-v8a`）** 完成完整测试与真机验证；`app/ios/` 与 `docs/iOS打包说明.md` 为实验性 iOS 适配草稿，尚未在 macOS / iPhone 真机编译验证，欢迎有 Mac 环境的开发者协助完善。
+> **平台说明**：
+> - **Android（`arm64-v8a`）**：已完成完整测试与真机验证；
+> - **Web / PWA（含 iOS Safari 添加到主屏幕）**：支持纯静态构建与个人独立部署，详见 [docs/Web与PWA部署说明.md](docs/Web与PWA部署说明.md)；
+> - **iOS 原生（`app/ios/`）**：见 [docs/iOS打包说明.md](docs/iOS打包说明.md)（实验性配置，尚未在 macOS / iPhone 真机编译验证）。
 
 ---
 

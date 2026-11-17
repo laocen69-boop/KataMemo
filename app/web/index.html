@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="KataMemo — 印尼语背单词与语法学习（FSRS-6 间隔重复）">
+  <meta name="theme-color" content="#147B5D">
+
+  <!-- iOS PWA meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="KataMemo">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>KataMemo — 印尼语背单词</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body style="margin:0;background:#F4F8F6;">
+  <script>
+    // Unlock Web Audio on first user gesture for iOS Safari autoSpeak
+    (function () {
+      var unlocked = false;
+      function unlock() {
+        if (unlocked) return;
+        unlocked = true;
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (Ctx) {
+            var ctx = new Ctx();
+            var buf = ctx.createBuffer(1, 1, 22050);
+            var src = ctx.createBufferSource();
+            src.buffer = buf;
+            src.connect(ctx.destination);
+            if (src.start) src.start(0);
+            if (ctx.state === 'suspended') ctx.resume();
+          }
+        } catch (e) {}
+        window.removeEventListener('touchstart', unlock, true);
+        window.removeEventListener('pointerdown', unlock, true);
+      }
+      window.addEventListener('touchstart', unlock, true);
+      window.addEventListener('pointerdown', unlock, true);
+    })();
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

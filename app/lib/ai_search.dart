@@ -1,7 +1,8 @@
 library;
 
 import 'dart:convert';
-import 'dart:io';
+
+import 'platform/io_shim.dart';
 
 import 'ai_chat.dart' show AiException, redactKey;
 

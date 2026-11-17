@@ -1,13 +1,12 @@
 library;
 
-import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 import 'package:provider/provider.dart';
 
 import '../ai_tools.dart' show AiHomeTabs;
 import '../app_state.dart';
+import '../platform/io_shim.dart' show Platform;
 import '../theme/k_colors.dart';
 import '../widgets/first_notice.dart';
 import 'study_screen.dart';

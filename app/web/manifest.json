@@ -1,0 +1,35 @@
+{
+    "name": "KataMemo — 印尼语背单词",
+    "short_name": "KataMemo",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#F4F8F6",
+    "theme_color": "#147B5D",
+    "description": "面向中文学习者的印尼语背单词与语法学习应用（FSRS-6）",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:flutter/services.dart';
@@ -60,10 +61,12 @@ class _AppBody extends StatelessWidget {
       builder: (context, child) {
         if (child == null) return const SizedBox.shrink();
         final mq = MediaQuery.of(context);
+        final bool wideWeb = kIsWeb && mq.size.width > 500;
+        final double targetW = wideWeb ? 420.0 : mq.size.width;
         const designW = 390.0;
-        final scale = mq.size.width / designW;
+        final scale = targetW / designW;
         final canvasH = mq.size.height / scale;
-        final scaled = MediaQuery(
+        Widget scaled = MediaQuery(
           data: mq.copyWith(
             size: Size(designW, canvasH),
             padding: mq.padding / scale,
@@ -86,6 +89,30 @@ class _AppBody extends StatelessWidget {
             ),
           ),
         );
+        if (wideWeb) {
+          scaled = ColoredBox(
+            color: const Color(0xFFEAF0ED),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                  width: targetW,
+                  height: mq.size.height,
+                ),
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 24,
+                      ),
+                    ],
+                  ),
+                  child: ClipRect(child: scaled),
+                ),
+              ),
+            ),
+          );
+        }
 
         final dark = Theme.of(context).brightness == Brightness.dark;
         return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -133,6 +160,8 @@ class _AppBody extends StatelessWidget {
       onSecondary: k.onbrand,
       primaryContainer: k.tint,
       onPrimaryContainer: k.deep,
+      secondaryContainer: k.tint,
+      onSecondaryContainer: k.deep,
 
       inversePrimary: kSpeakGreen,
 
@@ -207,8 +236,10 @@ class _ImportSplash extends StatelessWidget {
                   const SizedBox(height: 18),
                   Text(
                       repo.importIsUpdate
-                          ? '只在词库更新后需要一次，约十秒。\n学习记录、加入的词和自建词都不受影响。'
-                          : '只有第一次打开需要，约十秒。',
+                          ? '只在词库更新后需要一次，约数秒。\n学习记录、加入的词和自建词都不受影响。'
+                          : (kIsWeb
+                              ? '首次打开需载入本地词库，请稍候（约数秒）。'
+                              : '只有第一次打开需要，约十秒。'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 12.5,

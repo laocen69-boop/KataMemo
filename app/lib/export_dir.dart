@@ -1,9 +1,6 @@
 library;
 
-import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
-
+import 'platform/io_shim.dart';
 import 'version.dart' show kAppName;
 
 Future<Directory> exportBaseDir() async {

@@ -1,12 +1,13 @@
 library;
 
 import 'dart:convert';
-import 'package:flutter/foundation.dart' show ValueNotifier;
+import 'package:flutter/foundation.dart' show ValueNotifier, kIsWeb;
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'db.dart';
 import 'models.dart';
 import 'perf_log.dart';
+import 'platform/io_shim.dart' show seedWebDatabaseFromAsset;
 import 'version.dart' show kKbbiLocal, kNoKbbiBuild;
 
 const int kDataVersionEffective =
@@ -44,6 +45,18 @@ class DataRepo {
     if (await db.wordCount() > 0) {
       importIsUpdate = true;
       await db.clearWords();
+    } else if (kIsWeb) {
+      await db.close();
+      final seeded = await seedWebDatabaseFromAsset(
+        'assets/data/web_seed.db.gz',
+        onProgress: (v) => importProgress.value = v,
+      );
+      if (seeded &&
+          await db.dataVersion() == kDataVersionEffective &&
+          await db.wordCount() > 0) {
+        _imported = true;
+        return;
+      }
     }
     final sw = Stopwatch()..start();
     final raw = await rootBundle.loadString('assets/data/words.json');
@@ -52,14 +65,16 @@ class DataRepo {
     final batch = <Map<String, Object?>>[];
     var done = 0;
     importProgress.value = 0;
+    const batchSize = kIsWeb ? 2000 : 500;
     for (final item in list) {
       batch.add(_toRow(item));
-      if (batch.length >= 500) {
+      if (batch.length >= batchSize) {
         await db.upsertWords(batch);
         done += batch.length;
         batch.clear();
 
         importProgress.value = 0.95 * done / list.length;
+        if (kIsWeb) await Future<void>.delayed(Duration.zero);
       }
     }
     if (batch.isNotEmpty) await db.upsertWords(batch);

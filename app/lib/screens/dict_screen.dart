@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +8,7 @@ import '../dict_import/dict_model.dart';
 import '../dict_import/dict_parse.dart';
 import '../dict_import/dict_pick.dart';
 import '../dict_import/dict_store.dart';
+import '../platform/io_shim.dart';
 import '../theme/k_colors.dart';
 
 class DictScreen extends StatefulWidget {
@@ -566,9 +564,9 @@ class _DictScreenState extends State<DictScreen> {
 
 Future<DictPreview> _previewInBackground(
         DictFormat format, String path, DictImportOptions opt) =>
-    Isolate.run(() => buildDictPreview(format, File(path).readAsStringSync(), opt));
+    runCompute(() => buildDictPreview(format, File(path).readAsStringSync(), opt));
 
 Future<ImportResult> _importInBackground(DictFormat format, String path,
         bool hasHeader, Map<ImportField, String> mapping, DictImportOptions opt) =>
-    Isolate.run(() => importDictText(
+    runCompute(() => importDictText(
         format, File(path).readAsStringSync(), hasHeader, mapping, opt));

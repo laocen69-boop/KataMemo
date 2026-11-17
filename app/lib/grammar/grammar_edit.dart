@@ -98,13 +98,16 @@ Map<String, dynamic> _vsSideJson(GVsSide s) => {
       'ex': [for (final e in s.ex) {'i': e.i, 'z': e.z}]
     };
 
+final BigInt _fnvOffset = BigInt.parse('cbf29ce484222325', radix: 16);
+final BigInt _fnvPrime = BigInt.parse('100000001b3', radix: 16);
+final BigInt _fnvMask = (BigInt.one << 64) - BigInt.one;
+
 String _fnv1a64(String s) {
-  var h = 0xcbf29ce484222325;
+  var h = _fnvOffset;
   for (final c in utf8.encode(s)) {
-    h ^= c;
-    h *= 0x100000001b3;
+    h = ((h ^ BigInt.from(c)) * _fnvPrime) & _fnvMask;
   }
-  return h.toUnsigned(64).toRadixString(16).padLeft(16, '0');
+  return h.toRadixString(16).padLeft(16, '0');
 }
 
 String gBlockKey(GBlock b) => _fnv1a64(jsonEncode(gBlockToJson(b)));

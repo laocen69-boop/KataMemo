@@ -976,7 +976,7 @@ class _WordListScreenState extends State<WordListScreen>
               Row(children: [
                 Expanded(
                     child:
-                        _sheetCell(ctx, '全选未加入', 'selAll', enabled: canSelAll)),
+                        _sheetCell(ctx, '全选本页', 'selAll', enabled: canSelAll)),
                 Expanded(
                     child: _sheetCell(ctx, '全选已加入', 'selEnrolled',
                         enabled: canSelEnrolled)),
@@ -1026,13 +1026,15 @@ class _WordListScreenState extends State<WordListScreen>
         }
         return;
       case 'selAll':
-
+        final picked = _selectableRows();
         setState(() {
           _pickMode = _PickMode.none;
-          for (final w in _selectableRows()) {
+          _selection.clear();
+          for (final w in picked) {
             _selection[w.id] = true;
           }
         });
+        _showNotice('已勾上当前可见 ${picked.length} 个词（加入后按每日卡量排队），点右下「加入记忆」确认');
       case 'selEnrolled':
 
         setState(() {
@@ -1312,7 +1314,10 @@ class _WordListScreenState extends State<WordListScreen>
 
   int get _remainQuota => context.read<AppState>().dailyQuota - _todayDone;
 
-  int get _pickCount => _remainQuota > 0 ? _remainQuota : 100;
+  int get _pickCount {
+    final quota = context.read<AppState>().dailyQuota;
+    return _remainQuota > 0 ? _remainQuota : quota;
+  }
 
   Future<void> _randomPick() async {
     if (_pickMode == _PickMode.random) {

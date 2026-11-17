@@ -3,10 +3,12 @@ library;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
 import 'audio.dart' show AudioService, kUserAudioPrefix;
+import 'platform/io_shim.dart' show ensureWebDatabaseFactory;
 import 'clitic.dart';
 import 'models.dart';
 import 'passive.dart';
@@ -195,7 +197,11 @@ class AppDb {
 
   Future<Database> _open() async {
     _closed = false;
-    final path = dbPath ?? p.join(await getDatabasesPath(), 'katamemo.db');
+    ensureWebDatabaseFactory();
+    final path = dbPath ??
+        (kIsWeb
+            ? 'katamemo.db'
+            : p.join(await getDatabasesPath(), 'katamemo.db'));
     return openDatabase(path,
         version: kSchemaVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }

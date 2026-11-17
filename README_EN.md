@@ -29,8 +29,8 @@
 ## Platform Status
 
 - **Android (`arm64-v8a`)**: Fully tested and verified on real devices. Prebuilt APKs are available in [Releases](https://github.com/laocen69-boop/KataMemo/releases).
-- **iOS (`app/ios/`)**: Experimental setup only (`docs/iOS打包说明.md`), not yet compiled/verified on macOS or iPhone.
-- **Web / PWA**: Planned (see open exploration roadmap).
+- **Web / PWA (including iOS Safari "Add to Home Screen")**: Static web build and self-hosting guide available at [docs/Web与PWA部署说明.md](docs/Web与PWA部署说明.md) (with a manual GitHub Pages workflow in `.github/workflows/deploy-web.yml`).
+- **iOS Native (`app/ios/`)**: Experimental setup only (`docs/iOS打包说明.md`), not yet compiled/verified on macOS or iPhone.
 
 ---
 

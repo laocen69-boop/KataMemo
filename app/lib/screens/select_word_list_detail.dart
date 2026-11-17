@@ -345,7 +345,7 @@ class _WordListDetailScreenState extends State<WordListDetailScreen>
     final app = context.read<AppState>();
     final done = await app.db.todayAnsweredWords();
     final remain = app.dailyQuota - done;
-    final n = remain > 0 ? remain : 100;
+    final n = remain > 0 ? remain : app.dailyQuota;
     while (_hasMore) {
       if (_loadingMore) {
         await Future<void>.delayed(const Duration(milliseconds: 30));

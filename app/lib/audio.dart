@@ -1,13 +1,13 @@
 library;
 
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart' show AssetManifest, MethodChannel, rootBundle;
-import 'package:path_provider/path_provider.dart';
+
+import 'platform/io_shim.dart';
 
 const String kUserAudioPrefix = 'user:';
 
@@ -259,8 +259,14 @@ class AudioService {
       final entry = idx[name];
       if (entry != null) {
         final b = entry.bucket.toString().padLeft(2, '0');
+        final packRel = 'assets/audio_pack/ardi_$b.pak';
+        final webBytes =
+            await fetchWebPackSlice(packRel, entry.offset, entry.length);
+        if (webBytes != null && webBytes.isNotEmpty) {
+          return BytesSource(webBytes, mimeType: 'audio/ogg');
+        }
         final bytes = await _packCh.invokeMethod<Uint8List>('readPackAudio', {
-          'pack': 'assets/audio_pack/ardi_$b.pak',
+          'pack': packRel,
           'offset': entry.offset,
           'length': entry.length,
         });

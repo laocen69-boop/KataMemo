@@ -9,6 +9,7 @@
 |---|---|
 | provider | 应用状态注入 |
 | sqflite | 本地 SQLite 数据库 |
+| sqflite_common_ffi_web | Web 端 SQLite WASM 数据库适配器 |
 | path / path_provider | 文件路径 |
 | audioplayers | 音频播放 |
 | fl_chart | 统计图表 |
@@ -53,5 +54,6 @@
 
 - Flutter SDK 与 Dart：BSD-3-Clause（Google）。
 - Material Icons 字体：Apache License 2.0（Google），构建时按用到的图标子集化。
+- `app/web/sqlite3.wasm` 与 `app/web/sqflite_sw.js`：由 `sqflite_common_ffi_web` / `sqlite3.dart` 官方工具生成（MIT / SQLite Public Domain）。
 
 发现遗漏或需要更正，请提 issue。

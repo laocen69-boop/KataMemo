@@ -1,10 +1,9 @@
 library;
 
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+
+import 'platform/io_shim.dart';
 
 const String kImageDir = 'mnemonic';
 

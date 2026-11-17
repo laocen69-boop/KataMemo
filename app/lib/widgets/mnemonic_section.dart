@@ -1,13 +1,13 @@
 library;
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../platform/io_shim.dart';
 import '../theme/k_colors.dart';
 import '../app_state.dart';
 import '../images.dart';
@@ -97,7 +97,7 @@ class _MnemonicImageState extends State<_MnemonicImage> {
         width: widget.width,
         height: widget.height,
         color: widget.backgroundColor,
-        child: Image.file(
+        child: buildFileImage(
           f,
           width: widget.width,
           height: widget.height,
@@ -176,7 +176,7 @@ void showImageViewer(BuildContext context, File file, String caption) {
               maxScale: 6,
 
               child: Center(
-                child: Image.file(file, fit: BoxFit.contain),
+                child: buildFileImage(file, fit: BoxFit.contain),
               ),
             ),
           ),

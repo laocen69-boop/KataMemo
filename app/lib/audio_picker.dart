@@ -1,10 +1,9 @@
 library;
 
-import 'dart:io' show Platform;
-
 import 'package:flutter/services.dart';
 
 import 'native_channel.dart';
+import 'platform/io_shim.dart' show Platform;
 
 Future<String?> pickAudioFile() {
   if (Platform.isIOS) {
