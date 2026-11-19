@@ -17,6 +17,8 @@ Future<bool> seedWebDatabaseFromAsset(
 }) async =>
     false;
 
+Future<String?> loadWebGzipTextAsset(String assetRelPath) async => null;
+
 Future<Uint8List?> fetchWebPackSlice(
         String packAsset, int offset, int length) async =>
     null;

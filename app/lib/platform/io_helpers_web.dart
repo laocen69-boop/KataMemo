@@ -1,5 +1,6 @@
 library;
 
+import 'dart:convert' show utf8;
 import 'dart:js_interop';
 import 'dart:typed_data';
 
@@ -74,6 +75,19 @@ Future<bool> seedWebDatabaseFromAsset(
     return true;
   } catch (_) {
     return false;
+  }
+}
+
+Future<String?> loadWebGzipTextAsset(String assetRelPath) async {
+  try {
+    final resp = await _webFetch('assets/$assetRelPath'.toJS).toDart;
+    if (!resp.ok || resp.body == null) return null;
+    final decompressed =
+        resp.body!.pipeThrough(_JSDecompressionStream('gzip'));
+    final ab = await _RangeResp(decompressed).arrayBuffer().toDart;
+    return utf8.decode(ab.toDart.asUint8List());
+  } catch (_) {
+    return null;
   }
 }
 

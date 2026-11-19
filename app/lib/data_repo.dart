@@ -7,7 +7,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'db.dart';
 import 'models.dart';
 import 'perf_log.dart';
-import 'platform/io_shim.dart' show seedWebDatabaseFromAsset;
+import 'platform/io_shim.dart'
+    show loadWebGzipTextAsset, seedWebDatabaseFromAsset;
 import 'version.dart' show kKbbiLocal, kNoKbbiBuild;
 
 const int kDataVersionEffective =
@@ -59,7 +60,10 @@ class DataRepo {
       }
     }
     final sw = Stopwatch()..start();
-    final raw = await rootBundle.loadString('assets/data/words.json');
+    final raw = (kIsWeb
+            ? await loadWebGzipTextAsset('assets/data/words.json.gz')
+            : null) ??
+        await rootBundle.loadString('assets/data/words.json');
     final list = jsonDecode(raw) as List<dynamic>;
     perfLog('import.parse', sw, 'bytes=${raw.length}');
     final batch = <Map<String, Object?>>[];
