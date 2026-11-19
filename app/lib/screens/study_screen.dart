@@ -369,6 +369,7 @@ class _StudyScreenState extends State<StudyScreen>
     _seenRevision = _app!.queueRevision;
     _app!.addListener(_onAppChanged);
     widget.focusTick?.addListener(_onFocus);
+    unawaited(AudioService.instance.warmUp());
     _load();
 
     _app!.db.metaGet('seen_ex_hint').then((v) {

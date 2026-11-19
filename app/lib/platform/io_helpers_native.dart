@@ -17,7 +17,22 @@ Future<bool> seedWebDatabaseFromAsset(
 }) async =>
     false;
 
-Future<String?> loadWebGzipTextAsset(String assetRelPath) async => null;
+Future<String?> loadWebGzipTextAsset(
+  String assetRelPath, {
+  bool persist = false,
+}) async =>
+    null;
+
+Future<int> webAudioCachedShardCount() async => 0;
+
+Future<void> clearWebAudioCache() async {}
+
+Future<void> downloadWebAudioShards(
+  int fromBucket,
+  int toBucket, {
+  void Function(int done, int total)? onProgress,
+  bool Function()? isCancelled,
+}) async {}
 
 Future<Uint8List?> fetchWebPackSlice(
         String packAsset, int offset, int length) async =>

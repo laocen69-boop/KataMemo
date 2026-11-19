@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 import 'package:flutter/services.dart' show AssetManifest, MethodChannel, rootBundle;
 
 import 'platform/io_shim.dart';
@@ -62,9 +62,13 @@ class AudioService {
     if (_packIndex != null) return Future.value(_packIndex!);
     return _packLoading ??= () async {
       try {
-        final raw = await rootBundle.loadString(
-            'assets/audio_pack/ardi_idx.tsv',
-            cache: false);
+        final raw = (kIsWeb
+                ? await loadWebGzipTextAsset(
+                    'assets/audio_pack/ardi_idx.tsv.gz',
+                    persist: true)
+                : null) ??
+            await rootBundle.loadString('assets/audio_pack/ardi_idx.tsv',
+                cache: false);
         final map = <String, ({int bucket, int offset, int length})>{};
         final builtIn = <String>{};
         for (final line in raw.split('\n')) {
@@ -156,6 +160,9 @@ class AudioService {
   Future<void> warmUp() async {
     if (_isTest) return;
     await _loadPackIndex();
+    if (kIsWeb) {
+      unawaited(downloadWebAudioShards(0, 1));
+    }
   }
 
   Future<void> prefetchCard({

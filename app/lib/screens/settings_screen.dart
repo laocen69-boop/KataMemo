@@ -1,7 +1,11 @@
 library;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../platform/io_shim.dart'
+    show clearWebAudioCache, downloadWebAudioShards, webAudioCachedShardCount;
 
 import '../theme/k_colors.dart';
 import '../ai_chat.dart' show aiVendorNames;
@@ -167,6 +171,15 @@ class SettingsScreen extends StatelessWidget {
                   trailing: Icon(Icons.record_voice_over, size: 20, color: k.t2),
                 ),
               ),
+              if (kIsWeb)
+                _Row(
+                  key: const ValueKey('settings.row.离线语音包'),
+                  title: '离线语音包（防卡顿）',
+                  subtitle: '集中缓存在浏览器沙盒中，不占手机文件目录',
+                  trailing: Icon(Icons.download_for_offline_outlined,
+                      size: 22, color: k.brand),
+                  onTap: () => _showWebAudioPackSheet(context),
+                ),
             ],
           ),
           _Group(
@@ -521,6 +534,143 @@ class _ThemeSegment extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+void _showWebAudioPackSheet(BuildContext context) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    builder: (_) => const _WebAudioPackSheet(),
+  );
+}
+
+class _WebAudioPackSheet extends StatefulWidget {
+  const _WebAudioPackSheet();
+
+  @override
+  State<_WebAudioPackSheet> createState() => _WebAudioPackSheetState();
+}
+
+class _WebAudioPackSheetState extends State<_WebAudioPackSheet> {
+  int _cached = 0;
+  bool _downloading = false;
+  bool _cancelled = false;
+  int _done = 0;
+  int _total = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshCount();
+  }
+
+  Future<void> _refreshCount() async {
+    final n = await webAudioCachedShardCount();
+    if (mounted) setState(() => _cached = n);
+  }
+
+  Future<void> _download(int from, int to) async {
+    if (_downloading) return;
+    setState(() {
+      _downloading = true;
+      _cancelled = false;
+      _done = 0;
+      _total = to - from + 1;
+    });
+    await downloadWebAudioShards(
+      from,
+      to,
+      onProgress: (d, t) {
+        if (mounted) {
+          setState(() {
+            _done = d;
+            _total = t;
+          });
+        }
+      },
+      isCancelled: () => _cancelled || !mounted,
+    );
+    await _refreshCount();
+    if (mounted) setState(() => _downloading = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final k = context.k;
+    final ratio = _total > 0 ? (_done / _total).clamp(0.0, 1.0) : 0.0;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 22),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              '离线语音包管理',
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w700, color: k.text),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              '已本地缓存 $_cached 个数据包（集中存放在浏览器私有沙盒，不会出现在手机「文件」里）。',
+              style: TextStyle(fontSize: 13, height: 1.45, color: k.t2),
+            ),
+            if (_downloading) ...[
+              const SizedBox(height: 14),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: ratio,
+                  minHeight: 7,
+                  color: k.brand,
+                  backgroundColor: k.tint,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('正在缓存分片 $_done / $_total…',
+                      style: TextStyle(fontSize: 12.5, color: k.t2)),
+                  TextButton(
+                    onPressed: () => setState(() => _cancelled = true),
+                    child: const Text('暂停'),
+                  ),
+                ],
+              ),
+            ] else ...[
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                onPressed: () => _download(0, 11),
+                icon: const Icon(Icons.bolt_rounded),
+                label: const Text('下载核心高频词语音（t1–t4，约 6 MB）'),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => _download(0, 511),
+                icon: const Icon(Icons.cloud_download_outlined),
+                label: const Text('下载全库离线语音（9.7 万词，约 220 MB）'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: _cached == 0
+                    ? null
+                    : () async {
+                        await clearWebAudioCache();
+                        await _refreshCount();
+                      },
+                child: Text('清空本地语音缓存',
+                    style: TextStyle(
+                        color: _cached == 0
+                            ? k.t3
+                            : Theme.of(context).colorScheme.error)),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
