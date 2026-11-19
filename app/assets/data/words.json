@@ -23123,6 +23123,11 @@
   "zh": "玛琅国立大学（缩写 UM）；无成人陪伴儿童（缩写 UM）；母亲（阿拉伯语）；虾卵",
   "ex": [
    {
+    "i": "Banyak lulusan sekolah menengah di Jawa Timur memilih melanjutkan kuliah di UM.",
+    "z": "东爪哇的许多中学毕业生选择去玛琅国立大学继续深造。",
+    "q": "UM"
+   },
+   {
     "i": "Kakak mengantar adik mendaftar ulang di kampus UM pada awal semester ini.",
     "z": "学期初，姐姐陪弟弟去玛琅国立大学办理重新注册。",
     "q": "UM"
@@ -176511,6 +176516,11 @@
   "c": "n",
   "zh": "动物生态群",
   "ex": [
+   {
+    "i": "Para peneliti biologi mencatat perubahan komposisi zoom burung di pulau terpencil itu.",
+    "z": "生物学研究人员记录了那座偏远岛屿上鸟类动物生态群的构成变化。",
+    "q": "zoom"
+   },
    {
     "i": "Di kawasan hutan itu, zoom serangga mulai pulih setelah musim hujan tiba.",
     "z": "那片林子里的昆虫群落随着雨季到来开始恢复。",
@@ -591852,6 +591862,11 @@
   ],
   "ex": [
    {
+    "i": "Setiap malam setelah salat Isya, para santri berkumpul untuk mengaji bersama.",
+    "z": "每天晚上宵礼之后，宗教学生们都会聚在一起诵读经文。",
+    "q": "santri"
+   },
+   {
     "i": "Para santri menyapu halaman asrama sebelum sarapan bersama disajikan.",
     "z": "寄宿学校的学生们在早饭端上来之前把院子扫干净了。",
     "q": "santri"
@@ -591898,6 +591913,11 @@
    "resu"
   ],
   "ex": [
+   {
+    "i": "Pelanggan dapat melacak posisi paket secara daring dengan memasukkan nomor resi pengiriman.",
+    "z": "顾客可以通过输入发货收据编号在线追踪包裹的位置。",
+    "q": "resi"
+   },
    {
     "i": "Simpan resi ini baik-baik sampai barang kiriman tiba di rumah.",
     "z": "把这张收据收好，等包裹送到家再说。",
@@ -594760,6 +594780,11 @@
   "c": "n",
   "zh": "苏南（爪哇国王或伊斯兰九圣的称号）",
   "ex": [
+   {
+    "i": "Banyak peziarah datang mengunjungi makam para sunan yang menyebarkan agama Islam di Jawa.",
+    "z": "许多朝圣者前来拜谒在爪哇传播伊斯兰教的诸位苏南陵墓。",
+    "q": "sunan"
+   },
    {
     "i": "Naskah tua itu bercerita tentang Sunan yang mengajar di pesisir utara.",
     "z": "那份旧手稿讲的是在北海岸传道的一位苏南。",
