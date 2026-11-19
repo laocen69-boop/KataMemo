@@ -328,17 +328,57 @@ extension AppDbStudy on AppDb {
 
   Future<List<WordCard>> newWords(
           {int limit = 20, Map<String, dynamic>? filter}) async =>
-      (await _newWordRows('w.*', limit: limit, filter: filter))
+      interleaveFreshRows(
+              await _newWordRows('w.*', limit: limit, filter: filter))
           .map(WordCard.fromDb)
           .toList();
 
   Future<List<String>> newWordIds(
           {int limit = 20, Map<String, dynamic>? filter}) async =>
       [
-        for (final r
-            in await _newWordRows('w.id', limit: limit, filter: filter))
+        for (final r in interleaveFreshRows(await _newWordRows(
+            'w.id, w.base_word, w.word',
+            limit: limit,
+            filter: filter)))
           r['id'] as String
       ];
+
+  static List<Map<String, Object?>> interleaveFreshRows(
+    List<Map<String, Object?>> rows, {
+    int window = 6,
+    int minGap = 3,
+  }) {
+    if (rows.length <= 2) return rows;
+    String keyOf(Map<String, Object?> r) {
+      final base = (r['base_word'] as String?)?.trim().toLowerCase() ?? '';
+      if (base.isNotEmpty) return 'b:$base';
+      final raw = ((r['word'] as String?) ?? (r['id'] as String?) ?? '')
+          .trim()
+          .toLowerCase();
+      final m = RegExp(r'[a-z]{4,}').firstMatch(raw);
+      if (m != null) return 'p:${m.group(0)!.substring(0, 4)}';
+      return 'id:${r['id']}';
+    }
+
+    final pool = List<Map<String, Object?>>.from(rows);
+    final out = <Map<String, Object?>>[];
+    final recent = <String>[];
+    while (pool.isNotEmpty) {
+      final scan = pool.length < window ? pool.length : window;
+      var pick = 0;
+      for (var i = 0; i < scan; i++) {
+        if (!recent.contains(keyOf(pool[i]))) {
+          pick = i;
+          break;
+        }
+      }
+      final chosen = pool.removeAt(pick);
+      out.add(chosen);
+      recent.add(keyOf(chosen));
+      if (recent.length > minGap) recent.removeAt(0);
+    }
+    return out;
+  }
 
   Future<List<Map<String, Object?>>> _newWordRows(String cols,
       {required int limit, Map<String, dynamic>? filter}) async {

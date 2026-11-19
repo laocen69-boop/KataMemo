@@ -142,6 +142,66 @@ extension _StudyFaces on _StudyScreenState {
                 onOpenDetail: detailOpener(context)),
           ),
 
+          if ((_curSrs?.lapses ?? 0) >= 4)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 2),
+              child: Container(
+                key: const Key('study.leechBanner'),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: context.k.tint,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                      color: context.k.brand.withValues(alpha: 0.25)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline_rounded,
+                        size: 16, color: context.k.brand),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        '易忘词（已遗忘 ${_curSrs!.lapses} 次）· 建议建联想',
+                        style: TextStyle(
+                            fontSize: 12.5,
+                            color: context.k.deep,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    GestureDetector(
+                      key: const Key('study.leechMnemonic'),
+                      onTap: () => _editCard(card, only: 'mn'),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        child: Text(card.hasOwnMnemonic ? '改助记' : '写助记',
+                            style: TextStyle(
+                                fontSize: 12.5,
+                                fontWeight: FontWeight.w600,
+                                color: context.k.brand)),
+                      ),
+                    ),
+                    if (kAiChat)
+                      GestureDetector(
+                        key: const Key('study.leechAi'),
+                        onTap: () => showAiChatSheet(context, card,
+                            onCardChanged: _reloadCard),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 4, top: 2, bottom: 2),
+                          child: Text('问 AI',
+                              style: TextStyle(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.k.deep)),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+
           if (userOrdered) ...[
             for (final seg in card.cardOrder!.split(',')) ...[
               if (seg == 'ex') ..._backExBlockOf(card),
@@ -376,3 +436,4 @@ extension _StudyFaces on _StudyScreenState {
     ];
   }
 }
+
