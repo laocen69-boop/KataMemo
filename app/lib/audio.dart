@@ -287,6 +287,26 @@ class AudioService {
     );
   }
 
+  void showWebPackPill() {
+    _webPackDismissed = false;
+    final cur = webPackStatus.value;
+    if (cur.done >= cur.total && !cur.doneToast) {
+      unawaited(startBackgroundWebPack());
+      return;
+    }
+    webPackStatus.value = (
+      visible: true,
+      running: cur.running,
+      paused: cur.paused,
+      doneToast: cur.doneToast,
+      done: cur.done,
+      total: cur.total,
+    );
+    if (!cur.running && !cur.paused) {
+      unawaited(startBackgroundWebPack());
+    }
+  }
+
   Future<void> prefetchCard({
     String? audio,
     List<String> parts = const [],

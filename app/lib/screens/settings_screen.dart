@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../platform/io_shim.dart'
     show clearWebAudioCache, downloadWebAudioShards, webAudioCachedShardCount;
 
+import '../audio.dart';
 import '../theme/k_colors.dart';
 import '../ai_chat.dart' show aiVendorNames;
 import '../app_state.dart';
@@ -655,6 +656,17 @@ class _WebAudioPackSheetState extends State<_WebAudioPackSheet> {
                 label: const Text('下载全库离线语音（9.7 万词，约 220 MB）'),
               ),
               const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: _cached >= AudioService.kWebTotalShards
+                    ? null
+                    : () {
+                        AudioService.instance.showWebPackPill();
+                        Navigator.pop(context);
+                      },
+                icon: const Icon(Icons.picture_in_picture_alt_outlined),
+                label: const Text('恢复显示悬浮进度球'),
+              ),
+              const SizedBox(height: 6),
               TextButton(
                 onPressed: _cached == 0
                     ? null
