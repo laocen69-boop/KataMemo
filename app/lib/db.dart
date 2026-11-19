@@ -38,7 +38,7 @@ const String kGrammarEditDdl = '''
     PRIMARY KEY (scope, page_id, block_key)
   )''';
 
-const int kDataVersion = 934848;
+const int kDataVersion = 747777;
 
 const int kSchemaVersion = 28;
 
