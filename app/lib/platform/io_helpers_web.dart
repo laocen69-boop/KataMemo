@@ -92,6 +92,7 @@ Future<String?> loadWebGzipTextAsset(String assetRelPath) async {
 }
 
 final Map<String, Uint8List> _fullShardCache = {};
+final Map<String, Future<Uint8List?>> _inFlightSlices = {};
 
 Future<Uint8List?> fetchWebPackSlice(
   String packAsset,
@@ -106,6 +107,25 @@ Future<Uint8List?> fetchWebPackSlice(
     return null;
   }
 
+  final key = '$packAsset#$offset#$length';
+  final pending = _inFlightSlices[key];
+  if (pending != null) return pending;
+
+  final future = _fetchWebPackSliceOnce(packAsset, offset, length);
+  _inFlightSlices[key] = future;
+  try {
+    return await future;
+  } finally {
+    // ignore: unawaited_futures
+    _inFlightSlices.remove(key);
+  }
+}
+
+Future<Uint8List?> _fetchWebPackSliceOnce(
+  String packAsset,
+  int offset,
+  int length,
+) async {
   final url = 'assets/$packAsset';
   try {
     final hdr = _RangeHeaders();
