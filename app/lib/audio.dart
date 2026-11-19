@@ -153,6 +153,38 @@ class AudioService {
     return null;
   }
 
+  Future<void> warmUp() async {
+    if (_isTest) return;
+    await _loadPackIndex();
+  }
+
+  Future<void> prefetchCard({
+    String? audio,
+    List<String> parts = const [],
+    String? word,
+  }) async {
+    if (_isTest) return;
+    var rel = audio;
+    if ((rel == null || rel.isEmpty) && parts.isNotEmpty) rel = parts.first;
+    if ((rel == null || rel.isEmpty) && word != null && word.trim().isNotEmpty) {
+      rel = await resolveBuiltInAudio(word);
+    }
+    if (rel == null || rel.isEmpty || rel.startsWith(kUserAudioPrefix)) return;
+    for (final p in audioAssetCandidates(rel)) {
+      const ardiPrefix = 'audio/edge/ardi/';
+      if (!p.startsWith(ardiPrefix)) continue;
+      final name = p.substring(ardiPrefix.length);
+      final idx = await _loadPackIndex();
+      final entry = idx[name];
+      if (entry != null) {
+        final b = entry.bucket.toString().padLeft(2, '0');
+        await fetchWebPackSlice(
+            'assets/audio_pack/ardi_$b.pak', entry.offset, entry.length);
+      }
+      break;
+    }
+  }
+
   Future<PlayOutcome> playCard({
     String? audio,
     List<String> parts = const [],

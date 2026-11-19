@@ -503,6 +503,15 @@ class _StudyScreenState extends State<StudyScreen>
       if (resetFlip) _flipped = false;
       _resetCardUi();
     });
+    unawaited(AudioService.instance.prefetchCard(
+        audio: _audioOf(card), parts: card.audioParts, word: card.word));
+    final nextCard = _cardAt(_index + 1);
+    if (nextCard != null) {
+      unawaited(AudioService.instance.prefetchCard(
+          audio: _audioOf(nextCard),
+          parts: nextCard.audioParts,
+          word: nextCard.word));
+    }
   }
 
   Widget _planBar() {
