@@ -4,7 +4,8 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
+import 'package:flutter/foundation.dart'
+    show ValueNotifier, kIsWeb, visibleForTesting;
 import 'package:flutter/services.dart' show AssetManifest, MethodChannel, rootBundle;
 
 import 'platform/io_shim.dart';
@@ -157,12 +158,133 @@ class AudioService {
     return null;
   }
 
+  static const int kWebTotalShards = 512;
+
+  final ValueNotifier<({bool visible, bool running, bool paused, bool doneToast, int done, int total})>
+      webPackStatus = ValueNotifier((
+    visible: false,
+    running: false,
+    paused: false,
+    doneToast: false,
+    done: 0,
+    total: kWebTotalShards,
+  ));
+
+  bool _webPackStarted = false;
+  bool _webPackPaused = false;
+  bool _webPackDismissed = false;
+
   Future<void> warmUp() async {
     if (_isTest) return;
     await _loadPackIndex();
-    if (kIsWeb) {
-      unawaited(downloadWebAudioShards(0, 1));
+    if (kIsWeb && !_webPackStarted) {
+      unawaited(startBackgroundWebPack());
     }
+  }
+
+  Future<void> startBackgroundWebPack() async {
+    if (!kIsWeb || _isTest) return;
+    if (webPackStatus.value.running) return;
+    _webPackStarted = true;
+    _webPackPaused = false;
+    final cached = await webAudioCachedShardCount();
+    if (cached >= kWebTotalShards) {
+      webPackStatus.value = (
+        visible: false,
+        running: false,
+        paused: false,
+        doneToast: false,
+        done: kWebTotalShards,
+        total: kWebTotalShards,
+      );
+      return;
+    }
+    webPackStatus.value = (
+      visible: !_webPackDismissed,
+      running: true,
+      paused: false,
+      doneToast: false,
+      done: cached,
+      total: kWebTotalShards,
+    );
+    await downloadWebAudioShards(
+      0,
+      kWebTotalShards - 1,
+      concurrency: 2,
+      onProgress: (d, t) {
+        webPackStatus.value = (
+          visible: !_webPackDismissed,
+          running: true,
+          paused: false,
+          doneToast: false,
+          done: d,
+          total: t,
+        );
+      },
+      isCancelled: () => _webPackPaused,
+    );
+    final nowCached = await webAudioCachedShardCount();
+    if (_webPackPaused) {
+      webPackStatus.value = (
+        visible: !_webPackDismissed,
+        running: false,
+        paused: true,
+        doneToast: false,
+        done: nowCached,
+        total: kWebTotalShards,
+      );
+      return;
+    }
+    if (nowCached >= kWebTotalShards) {
+      webPackStatus.value = (
+        visible: true,
+        running: false,
+        paused: false,
+        doneToast: true,
+        done: kWebTotalShards,
+        total: kWebTotalShards,
+      );
+      await Future<void>.delayed(const Duration(seconds: 2));
+      webPackStatus.value = (
+        visible: false,
+        running: false,
+        paused: false,
+        doneToast: false,
+        done: kWebTotalShards,
+        total: kWebTotalShards,
+      );
+    } else {
+      webPackStatus.value = (
+        visible: !_webPackDismissed,
+        running: false,
+        paused: false,
+        doneToast: false,
+        done: nowCached,
+        total: kWebTotalShards,
+      );
+    }
+  }
+
+  void toggleBackgroundWebPack() {
+    if (!kIsWeb) return;
+    if (webPackStatus.value.running) {
+      _webPackPaused = true;
+    } else {
+      unawaited(startBackgroundWebPack());
+    }
+  }
+
+  void dismissWebPackPill() {
+    _webPackDismissed = true;
+    final cur = webPackStatus.value;
+    webPackStatus.value = (
+      visible: false,
+      running: cur.running,
+      paused: cur.paused,
+      doneToast: false,
+      done: cur.done,
+      total: cur.total,
+    );
   }
 
   Future<void> prefetchCard({

@@ -30,6 +30,7 @@ Future<void> clearWebAudioCache() async {}
 Future<void> downloadWebAudioShards(
   int fromBucket,
   int toBucket, {
+  int concurrency = 4,
   void Function(int done, int total)? onProgress,
   bool Function()? isCancelled,
 }) async {}

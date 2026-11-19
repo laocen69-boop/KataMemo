@@ -9,6 +9,7 @@ import '../app_state.dart';
 import '../platform/io_shim.dart' show Platform;
 import '../theme/k_colors.dart';
 import '../widgets/first_notice.dart';
+import '../widgets/web_audio_pill.dart';
 import 'study_screen.dart';
 import 'grammar/grammar_hub_screen.dart';
 import 'select_screen.dart';
@@ -160,7 +161,12 @@ class _HomeShellState extends State<HomeShell> {
       child: HomeTabs(
         select: _selectTab,
         child: Scaffold(
-          body: IndexedStack(index: _tab, children: _pages),
+          body: Stack(
+            children: [
+              IndexedStack(index: _tab, children: _pages),
+              const WebAudioPackPill(),
+            ],
+          ),
           bottomNavigationBar: _FlatNavBar(
             index: _tab,
             taskBadge: _badge,

@@ -51,10 +51,14 @@ extension type _JSCacheStorage._(JSObject _) implements JSObject {
   external JSPromise<JSBoolean> remove(JSString cacheName);
 }
 
+extension type _JSCacheKey._(JSObject _) implements JSObject {
+  external String get url;
+}
+
 extension type _JSCache._(JSObject _) implements JSObject {
   external JSPromise<_RangeResp?> match(JSString request);
   external JSPromise<JSAny?> put(JSString request, _RangeResp response);
-  external JSPromise<JSArray<JSAny?>> keys();
+  external JSPromise<JSArray<_JSCacheKey>> keys();
 }
 
 const String _kAudioCacheName = 'katamemo-audio-v1';
@@ -234,7 +238,12 @@ Future<int> webAudioCachedShardCount() async {
   if (cache == null) return 0;
   try {
     final keys = await cache.keys().toDart;
-    return keys.toDart.length;
+    var count = 0;
+    for (final k in keys.toDart) {
+      final u = k.url;
+      if (u.contains('ardi_') && u.endsWith('.pak')) count++;
+    }
+    return count;
   } catch (_) {
     return 0;
   }
@@ -250,6 +259,7 @@ Future<void> clearWebAudioCache() async {
 Future<void> downloadWebAudioShards(
   int fromBucket,
   int toBucket, {
+  int concurrency = 4,
   void Function(int done, int total)? onProgress,
   bool Function()? isCancelled,
 }) async {
@@ -257,7 +267,7 @@ Future<void> downloadWebAudioShards(
   if (cache == null) return;
   final total = toBucket - fromBucket + 1;
   var done = 0;
-  const batch = 4;
+  final batch = concurrency < 1 ? 1 : concurrency;
   for (var start = fromBucket; start <= toBucket; start += batch) {
     if (isCancelled?.call() ?? false) break;
     final end = (start + batch - 1) > toBucket ? toBucket : (start + batch - 1);
