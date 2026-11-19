@@ -27,20 +27,22 @@ KataMemo 支持编译为纯静态 **Web / PWA（渐进式网页应用）**。iOS
 
 ## 3. 开发者自己部署一份（3 种方式）
 
-### 方式 A：Cloudflare Pages（最推荐，原生支持大文件与密码门禁）
+### 方式 A：Cloudflare Pages（最推荐，全球加速与访问控制）
 
 为什么推荐 Cloudflare Pages：
-- 单个 `.pak` 音频分片约 `12.5 ~ 13.0 MB`，完全符合 Cloudflare Pages 单文件 `≤ 25 MB` 的免费额度；
-- 原生支持 HTTP `206 Range` 请求，播放单词时只按偏移拉取 1～2 KB 音频切片，不卡首屏；
-- 如果只想给少数朋友私密使用，可在 Cloudflare 控制台免费开启 **Cloudflare Access**（设置邮箱验证码或访问密码门禁）。
+- 免费版不限带宽、支持自定义访问门禁（**Cloudflare Access** 邮箱验证码门禁），国内与东南亚连通性稳定；
+- **单文件 ≤ 25 MiB 兼容机制**：`words.json` 未压缩约 42 MiB，部署前可将其压缩为 `words.json.gz`（~11 MiB）并移除未压缩原文件，Web 端在 `data_repo.dart` 自动走浏览器 `DecompressionStream('gzip')` 在线解压；`web_seed.db.gz` 约 13.5 MiB，完全符合单文件上限；
+- **音频按词频小分片 + `CacheStorage` 离线缓存**：部分静态托管不响应 HTTP `206 Range`（会整片返回 `200`）。推荐将音频拆分为 512 个按词频聚类的 `.pak` 小分片（单片 ~430–520 KB，`t1–t2` 集中在前 2 片仅 ~1.35 MiB）并压缩 `ardi_idx.tsv.gz`；Web 端配合 `app/web/_headers` 强缓存、浏览器 `CacheStorage` 持久化沙盒与右下角悬浮进度胶囊（`WebAudioPackPill`）在后台静默缓存全库，下完即完全离线秒播；
+- **彻底离线运行（无外网 CDN 依赖）**：编译时加上 `--no-web-resources-cdn`，使 `canvaskit.wasm` 走同源路径并由 Service Worker 离线缓存，PWA 添加到主屏幕后即使开启飞行模式也能正常打开。
 
 **部署步骤：**
 1. 本地编译（在 `app/` 目录执行）：
    ```bash
    flutter pub get
-   flutter build web --release --no-wasm-dry-run
+   flutter build web --release --no-wasm-dry-run --no-web-resources-cdn
    ```
-2. 将 `app/build/web/` 目录上传到 Cloudflare Pages（或关联你 Fork 后的仓库，构建命令填上述指令、输出目录填 `app/build/web`）。
+2. 若部署到单文件限制 ≤ 25 MiB 的平台（如 Cloudflare Pages），在上传 `app/build/web/` 前将 `assets/assets/data/words.json` 压为 `words.json.gz` 并删除原 `words.json`（可选将 `audio_pack/` 拆分为 512 个小分片并生成 `ardi_idx.tsv.gz`）；
+3. 将 `app/build/web/` 上传到 Cloudflare Pages（或使用 `wrangler pages deploy`）。
 
 ---
 

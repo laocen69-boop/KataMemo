@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Flutter Web
         working-directory: app
-        run: flutter build web --release --no-wasm-dry-run --base-href "/${{ github.event.repository.name }}/"
+        run: flutter build web --release --no-wasm-dry-run --no-web-resources-cdn --base-href "/${{ github.event.repository.name }}/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
