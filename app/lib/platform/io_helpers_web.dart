@@ -72,6 +72,19 @@ Future<_JSCache?> _openAudioCache() async {
 @JS('fetch')
 external JSPromise<_RangeResp> _webFetch(JSString url, [_RangeReqInit? init]);
 
+@JS('window.open')
+external JSObject? _windowOpen(
+    JSString url, JSString target, JSString features);
+
+bool openWebExternalUrl(String url) {
+  try {
+    final w = _windowOpen(url.toJS, '_blank'.toJS, 'noopener,noreferrer'.toJS);
+    return w != null;
+  } catch (_) {
+    return false;
+  }
+}
+
 bool _webDbInited = false;
 
 void ensureWebDatabaseFactory() {

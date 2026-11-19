@@ -34,6 +34,8 @@ Future<void> downloadWebAudioShards(
   bool Function()? isCancelled,
 }) async {}
 
+bool openWebExternalUrl(String url) => false;
+
 Future<Uint8List?> fetchWebPackSlice(
         String packAsset, int offset, int length) async =>
     null;
