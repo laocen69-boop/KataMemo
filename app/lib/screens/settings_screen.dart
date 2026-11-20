@@ -662,6 +662,11 @@ class _WebAudioPackSheetState extends State<_WebAudioPackSheet> {
                     : () {
                         AudioService.instance.showWebPackPill();
                         Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              duration: Duration(milliseconds: 1400),
+                              content: Text('已恢复显示悬浮进度球')),
+                        );
                       },
                 icon: const Icon(Icons.picture_in_picture_alt_outlined),
                 label: const Text('恢复显示悬浮进度球'),

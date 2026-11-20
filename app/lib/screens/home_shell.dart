@@ -164,7 +164,7 @@ class _HomeShellState extends State<HomeShell> {
           body: Stack(
             children: [
               IndexedStack(index: _tab, children: _pages),
-              const WebAudioPackPill(),
+              const Positioned.fill(child: WebAudioPackPill()),
             ],
           ),
           bottomNavigationBar: _FlatNavBar(

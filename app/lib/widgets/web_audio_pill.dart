@@ -56,50 +56,54 @@ class _WebAudioPackPillState extends State<WebAudioPackPill> {
             }
 
             if (_minimized && !st.doneToast) {
-              return Positioned(
-                left: left,
-                top: top,
-                child: GestureDetector(
-                  onPanUpdate: onDrag,
-                  onTap: () => setState(() => _minimized = false),
-                  child: Material(
-                    color: k.surface.withValues(alpha: 0.86),
-                    elevation: 2,
-                    shadowColor: Colors.black26,
-                    shape: const CircleBorder(),
-                    child: Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: k.line, width: 0.8),
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                            width: 28,
-                            height: 28,
-                            child: CircularProgressIndicator(
-                              value: ratio > 0 ? ratio : null,
-                              strokeWidth: 2.2,
-                              color: st.paused ? k.t3 : k.brand,
-                              backgroundColor: k.tint,
-                            ),
+              return Stack(
+                children: [
+                  Positioned(
+                    left: left,
+                    top: top,
+                    child: GestureDetector(
+                      onPanUpdate: onDrag,
+                      onTap: () => setState(() => _minimized = false),
+                      child: Material(
+                        color: k.surface.withValues(alpha: 0.86),
+                        elevation: 2,
+                        shadowColor: Colors.black26,
+                        shape: const CircleBorder(),
+                        child: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: k.line, width: 0.8),
                           ),
-                          Text(
-                            '$pct%',
-                            style: TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
-                              color: k.t2,
-                            ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(
+                                width: 28,
+                                height: 28,
+                                child: CircularProgressIndicator(
+                                  value: ratio > 0 ? ratio : null,
+                                  strokeWidth: 2.2,
+                                  color: st.paused ? k.t3 : k.brand,
+                                  backgroundColor: k.tint,
+                                ),
+                              ),
+                              Text(
+                                '$pct%',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                  color: k.t2,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               );
             }
 
@@ -108,90 +112,95 @@ class _WebAudioPackPillState extends State<WebAudioPackPill> {
                 : (st.paused
                     ? '已暂停 ${st.done}/${st.total}'
                     : '语音缓存 ${st.done}/${st.total}');
-            return Positioned(
-              left: left,
-              top: top,
-              child: GestureDetector(
-                onPanUpdate: onDrag,
-                child: Material(
-                  color: k.surface.withValues(alpha: 0.94),
-                  elevation: 3,
-                  shadowColor: Colors.black26,
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 6, 5),
-                    decoration: BoxDecoration(
+            return Stack(
+              children: [
+                Positioned(
+                  left: left,
+                  top: top,
+                  child: GestureDetector(
+                    onPanUpdate: onDrag,
+                    child: Material(
+                      color: k.surface.withValues(alpha: 0.94),
+                      elevation: 3,
+                      shadowColor: Colors.black26,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: st.doneToast ? k.brand : k.line,
-                        width: 0.8,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          borderRadius: BorderRadius.circular(12),
-                          onTap: st.doneToast
-                              ? null
-                              : AudioService.instance.toggleBackgroundWebPack,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (st.doneToast)
-                                Icon(Icons.check_circle_rounded,
-                                    size: 15, color: k.brand)
-                              else if (st.paused)
-                                Icon(Icons.play_arrow_rounded,
-                                    size: 16, color: k.brand)
-                              else
-                                SizedBox(
-                                  width: 14,
-                                  height: 14,
-                                  child: CircularProgressIndicator(
-                                    value: ratio > 0 ? ratio : null,
-                                    strokeWidth: 2,
-                                    color: k.brand,
-                                    backgroundColor: k.tint,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(10, 5, 6, 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: st.doneToast ? k.brand : k.line,
+                            width: 0.8,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              borderRadius: BorderRadius.circular(12),
+                              onTap: st.doneToast
+                                  ? null
+                                  : AudioService.instance.toggleBackgroundWebPack,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (st.doneToast)
+                                    Icon(Icons.check_circle_rounded,
+                                        size: 15, color: k.brand)
+                                  else if (st.paused)
+                                    Icon(Icons.play_arrow_rounded,
+                                        size: 16, color: k.brand)
+                                  else
+                                    SizedBox(
+                                      width: 14,
+                                      height: 14,
+                                      child: CircularProgressIndicator(
+                                        value: ratio > 0 ? ratio : null,
+                                        strokeWidth: 2,
+                                        color: k.brand,
+                                        backgroundColor: k.tint,
+                                      ),
+                                    ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    label,
+                                    style: TextStyle(
+                                      fontSize: 11.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: st.doneToast ? k.deep : k.t2,
+                                    ),
                                   ),
+                                ],
+                              ),
+                            ),
+                            if (!st.doneToast) ...[
+                              const SizedBox(width: 4),
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () => setState(() => _minimized = true),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Icon(Icons.minimize_rounded,
+                                      size: 14, color: k.t3),
                                 ),
-                              const SizedBox(width: 6),
-                              Text(
-                                label,
-                                style: TextStyle(
-                                  fontSize: 11.5,
-                                  fontWeight: FontWeight.w500,
-                                  color: st.doneToast ? k.deep : k.t2,
+                              ),
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: AudioService.instance.dismissWebPackPill,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child:
+                                      Icon(Icons.close, size: 13, color: k.t3),
                                 ),
                               ),
                             ],
-                          ),
+                          ],
                         ),
-                        if (!st.doneToast) ...[
-                          const SizedBox(width: 4),
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => setState(() => _minimized = true),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Icon(Icons.minimize_rounded,
-                                  size: 14, color: k.t3),
-                            ),
-                          ),
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: AudioService.instance.dismissWebPackPill,
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Icon(Icons.close, size: 13, color: k.t3),
-                            ),
-                          ),
-                        ],
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             );
           },
         );
