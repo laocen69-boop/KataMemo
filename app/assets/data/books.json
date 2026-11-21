@@ -103,7 +103,7 @@
    "id": "nofreq",
    "name": "词频未知",
    "parent": null,
-   "count": 29729,
+   "count": 29741,
    "filter": {
     "noFreq": true
    },
@@ -174,7 +174,7 @@
    "id": "phr",
    "name": "词组与短语",
    "parent": null,
-   "count": 62517,
+   "count": 62569,
    "filter": {
     "tier": [
      "phrase"
@@ -187,7 +187,7 @@
    "id": "phr_kind",
    "name": "词组与短语分类",
    "parent": null,
-   "count": 62517,
+   "count": 62569,
    "filter": {
     "phraseKind": [
      "func",
@@ -206,7 +206,7 @@
    "id": "phr_freq",
    "name": "短语词频",
    "parent": null,
-   "count": 47245,
+   "count": 47297,
    "filter": {
     "phraseTier": [
      "p1",
@@ -247,16 +247,16 @@
    "id": "all",
    "name": "全部词汇",
    "parent": null,
-   "count": 95416,
+   "count": 95480,
    "filter": {},
-   "desc": "完整词库 95,416 词",
+   "desc": "完整词库 95,480 词",
    "group": "其他"
   },
   {
    "id": "cls_n",
    "name": "名词",
    "parent": "cls",
-   "count": 17978,
+   "count": 17984,
    "filter": {
     "wordClass": [
      "n"
@@ -601,7 +601,7 @@
    "id": "cls_v",
    "name": "动词",
    "parent": "cls",
-   "count": 12535,
+   "count": 12539,
    "filter": {
     "wordClass": [
      "v"
@@ -690,7 +690,7 @@
    "id": "cls_a",
    "name": "形容词",
    "parent": "cls",
-   "count": 3270,
+   "count": 3272,
    "filter": {
     "wordClass": [
      "a"
@@ -947,7 +947,7 @@
    "id": "cls_other",
    "name": "未分类",
    "parent": "cls",
-   "count": 62563,
+   "count": 62615,
    "filter": {
     "wordClassIsNull": true
    },
@@ -1012,7 +1012,7 @@
    "id": "ori_阿拉伯语",
    "name": "阿拉伯语",
    "parent": "ori",
-   "count": 579,
+   "count": 580,
    "filter": {
     "originAny": [
      "Arab"
@@ -1137,7 +1137,7 @@
    "id": "ori_巽他语",
    "name": "巽他语",
    "parent": "ori",
-   "count": 60,
+   "count": 61,
    "filter": {
     "originAny": [
      "Sunda"
@@ -1353,7 +1353,7 @@
    "id": "top_日常起居",
    "name": "日常起居",
    "parent": "top",
-   "count": 677,
+   "count": 678,
    "filter": {
     "topicsAny": [
      "日常起居"
@@ -1366,7 +1366,7 @@
    "id": "top_餐饮食物",
    "name": "餐饮食物",
    "parent": "top",
-   "count": 1341,
+   "count": 1343,
    "filter": {
     "topicsAny": [
      "餐饮食物"
@@ -1540,7 +1540,7 @@
    "id": "top_交通出行",
    "name": "交通出行",
    "parent": "top",
-   "count": 906,
+   "count": 907,
    "filter": {
     "topicsAny": [
      "交通出行"
@@ -1579,7 +1579,7 @@
    "id": "topc_生活实用",
    "name": "生活实用",
    "parent": "top",
-   "count": 520,
+   "count": 530,
    "filter": {
     "topicsAny": [
      "生活实用"
@@ -1776,7 +1776,7 @@
    "id": "top_时间日历",
    "name": "时间日历",
    "parent": "top",
-   "count": 925,
+   "count": 938,
    "filter": {
     "topicsAny": [
      "时间日历"
@@ -1872,7 +1872,7 @@
    "id": "topc_情绪感受",
    "name": "情绪感受",
    "parent": "top",
-   "count": 43,
+   "count": 44,
    "filter": {
     "topicsAny": [
      "情绪感受"
@@ -1889,7 +1889,7 @@
    "id": "top_情感心理",
    "name": "情感心理",
    "parent": "top",
-   "count": 712,
+   "count": 713,
    "filter": {
     "topicsAny": [
      "情感心理"
@@ -1928,7 +1928,7 @@
    "id": "top_学习教育",
    "name": "学习教育",
    "parent": "top",
-   "count": 1552,
+   "count": 1553,
    "filter": {
     "topicsAny": [
      "学习教育"
@@ -1958,7 +1958,7 @@
    "id": "top_通讯网络",
    "name": "通讯网络",
    "parent": "top",
-   "count": 622,
+   "count": 628,
    "filter": {
     "topicsAny": [
      "通讯网络"
@@ -1971,7 +1971,7 @@
    "id": "top_通信传媒",
    "name": "通信传媒",
    "parent": "top",
-   "count": 868,
+   "count": 869,
    "filter": {
     "topicsAny": [
      "通信传媒"
@@ -2014,7 +2014,7 @@
    "id": "top_计算机网络",
    "name": "计算机网络",
    "parent": "top",
-   "count": 805,
+   "count": 808,
    "filter": {
     "topicsAny": [
      "计算机网络"
@@ -2144,7 +2144,7 @@
    "id": "top_宗教信仰",
    "name": "宗教信仰",
    "parent": "top",
-   "count": 962,
+   "count": 964,
    "filter": {
     "topicsAny": [
      "宗教信仰"
@@ -2157,7 +2157,7 @@
    "id": "top_节日庆典",
    "name": "节日庆典",
    "parent": "top",
-   "count": 399,
+   "count": 400,
    "filter": {
     "topicsAny": [
      "节日庆典"
@@ -2170,7 +2170,7 @@
    "id": "top_文体娱乐",
    "name": "文体娱乐",
    "parent": "top",
-   "count": 1867,
+   "count": 1869,
    "filter": {
     "topicsAny": [
      "文体娱乐"
@@ -2492,7 +2492,7 @@
    "id": "topc_问答常用",
    "name": "问答常用",
    "parent": "top",
-   "count": 50,
+   "count": 61,
    "filter": {
     "topicsAny": [
      "问答常用"
@@ -2505,7 +2505,7 @@
    "id": "topc_语言与语法",
    "name": "语言与语法",
    "parent": "top",
-   "count": 203,
+   "count": 248,
    "filter": {
     "topicsAny": [
      "语言与语法"
@@ -2552,7 +2552,7 @@
    "id": "phr_生活起居",
    "name": "短语·生活起居",
    "parent": "phr",
-   "count": 4979,
+   "count": 4986,
    "filter": {
     "tier": [
      "phrase"
@@ -2583,7 +2583,7 @@
    "id": "phr_时间与数量",
    "name": "短语·时间与数量",
    "parent": "phr",
-   "count": 1196,
+   "count": 1209,
    "filter": {
     "tier": [
      "phrase"
@@ -2627,7 +2627,7 @@
    "id": "phr_工作与学习",
    "name": "短语·工作与学习",
    "parent": "phr",
-   "count": 3107,
+   "count": 3108,
    "filter": {
     "tier": [
      "phrase"
@@ -2719,7 +2719,7 @@
    "id": "phr_语言与表达",
    "name": "短语·语言与表达",
    "parent": "phr",
-   "count": 233,
+   "count": 285,
    "filter": {
     "tier": [
      "phrase"
@@ -2744,7 +2744,7 @@
    "id": "phk_func",
    "name": "语法与功能短语",
    "parent": "phr_kind",
-   "count": 603,
+   "count": 644,
    "filter": {
     "phraseKind": [
      "func"
@@ -2768,7 +2768,7 @@
    "id": "phk_verbal",
    "name": "动词词组与短语",
    "parent": "phr_kind",
-   "count": 2300,
+   "count": 2305,
    "filter": {
     "phraseKind": [
      "verbal"
@@ -2780,7 +2780,7 @@
    "id": "phk_adj",
    "name": "形容词词组与短语",
    "parent": "phr_kind",
-   "count": 1265,
+   "count": 1271,
    "filter": {
     "phraseKind": [
      "adj"
@@ -2828,7 +2828,7 @@
    "id": "p1",
    "name": "高频短语",
    "parent": "phr_freq",
-   "count": 2686,
+   "count": 2718,
    "filter": {
     "phraseTier": [
      "p1"
@@ -2840,7 +2840,7 @@
    "id": "p2",
    "name": "常用短语",
    "parent": "phr_freq",
-   "count": 19998,
+   "count": 20012,
    "filter": {
     "phraseTier": [
      "p2"
@@ -2852,7 +2852,7 @@
    "id": "p3",
    "name": "低频短语",
    "parent": "phr_freq",
-   "count": 24561,
+   "count": 24567,
    "filter": {
     "phraseTier": [
      "p3"

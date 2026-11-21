@@ -601966,6 +601966,1461 @@
   "phk": "func"
  },
  {
+  "id": "ojol",
+  "w": "ojol",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "（口语）网约摩的；网约摩托车",
+  "tp": [
+   "交通出行"
+  ],
+  "ex": [
+   {
+    "i": "Setiap pagi banyak pekerja memesan ojol untuk menghindari kemacetan di jalan utama.",
+    "z": "每天早上许多上班族都会叫网约摩的，以避开主干道的堵车。",
+    "q": "ojol"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-ojol.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "luring",
+  "w": "luring",
+  "t": "t6",
+  "en": 1,
+  "c": "a",
+  "zh": "线下的；脱机的；非网络的（luar jaringan 缩合）",
+  "tp": [
+   "通讯网络",
+   "计算机网络",
+   "通信传媒",
+   "学习教育"
+  ],
+  "ex": [
+   {
+    "i": "Mulai semester ini, perkuliahan di kampus kami kembali dilaksanakan secara luring.",
+    "z": "从本学期开始，我们学校的课程重新恢复为线下授课。",
+    "q": "luring"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-luring.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "siniar",
+  "w": "siniar",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "播客（数字音频/视频网络广播）",
+  "tp": [
+   "通讯网络",
+   "文体娱乐"
+  ],
+  "ex": [
+   {
+    "i": "Selama perjalanan pulang ke rumah, saya sering mendengarkan siniar tentang sejarah Indonesia.",
+    "z": "在回家的路上，我经常听关于印尼历史的播客。",
+    "q": "siniar"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-siniar.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "swafoto",
+  "w": "swafoto",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "自拍照；自拍",
+  "tp": [
+   "通讯网络",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Para wisatawan mengambil swafoto bersama di depan Candi Borobudur yang megah.",
+    "z": "游客们在宏伟的婆罗浮屠寺前一起拍自拍照。",
+    "q": "swafoto"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-swafoto.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "mabar",
+  "w": "mabar",
+  "t": "t6",
+  "en": 1,
+  "c": "v",
+  "zh": "（口语）一起玩游戏；组队开黑（main bareng 缩合）",
+  "tp": [
+   "文体娱乐",
+   "通讯网络"
+  ],
+  "ex": [
+   {
+    "i": "Pada malam Minggu, adik dan teman-temannya sering mabar gim daring dari rumah masing-masing.",
+    "z": "周六晚上，弟弟和他的朋友们经常各自在家组队开黑玩网络游戏。",
+    "q": "mabar"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-mabar.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "pansos",
+  "w": "pansos",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "（口语）攀附名流；在社交媒体上炫耀博关注（panjat sosial 缩合）",
+  "tp": [
+   "计算机网络",
+   "通讯网络"
+  ],
+  "ex": [
+   {
+    "i": "Ia tidak suka membuat unggahan yang terkesan pansos hanya demi mencari perhatian warganet.",
+    "z": "她不喜欢为了博取网友关注而发那种显得刻意炫耀攀附的帖子。",
+    "q": "pansos"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-pansos.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "halu",
+  "w": "halu",
+  "t": "t6",
+  "en": 1,
+  "c": "a",
+  "zh": "幻觉；空想（halusinasi 缩略）；（口语）产生幻觉；爱幻想、不切实际的",
+  "tp": [
+   "情感心理",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Jangan terlalu halu membayangkan hal yang mustahil terjadi tanpa usaha nyata.",
+    "z": "不要不切实际地空想那些不付出实际努力就不可能发生的事。",
+    "q": "halu"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-halu.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "gibah",
+  "w": "gibah",
+  "t": "t6",
+  "en": 1,
+  "c": "v",
+  "zh": "背后议论他人是非；说闲话；嚼舌根",
+  "tp": [
+   "情绪感受"
+  ],
+  "ex": [
+   {
+    "i": "Kita sebaiknya menghindari kebiasaan gibah agar hubungan dengan tetangga tetap harmonis.",
+    "z": "我们最好避免在背后议论他人是非的习惯，这样与邻居的关系才能保持和睦。",
+    "q": "gibah"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-gibah.ogg"
+  },
+  "o": "Arab",
+  "nf": 1
+ },
+ {
+  "id": "kongko",
+  "w": "kongko",
+  "t": "t6",
+  "en": 1,
+  "c": "v",
+  "zh": "闲聊；闲扯；聚在一起聊天",
+  "tp": [
+   "计算机网络",
+   "生活实用",
+   "问答常用"
+  ],
+  "ns": [
+   "kongkow"
+  ],
+  "ex": [
+   {
+    "i": "Setiap akhir pekan, mereka berkumpul di kedai kopi untuk kongko bersama teman lama.",
+    "z": "每逢周末，他们都会聚在咖啡馆里和老朋友一起闲聊。",
+    "q": "kongko"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-kongko.ogg"
+  },
+  "o": "Jakarta",
+  "nf": 1
+ },
+ {
+  "id": "takjil",
+  "w": "takjil",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "〔伊斯兰教〕尽快开斋；开斋小吃和饮品（甜点、椰枣、冰饮等）",
+  "tp": [
+   "餐饮食物",
+   "宗教信仰"
+  ],
+  "ns": [
+   "takjilan"
+  ],
+  "ex": [
+   {
+    "i": "Menjelang waktu magrib, banyak pedagang menjual aneka takjil manis di pinggir jalan.",
+    "z": "临近昏礼时分，许多小贩在路边售卖各式各样的甜味开斋小吃。",
+    "q": "takjil"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-takjil.ogg"
+  },
+  "nf": 1
+ },
+ {
+  "id": "bukber",
+  "w": "bukber",
+  "t": "t6",
+  "en": 1,
+  "c": "n",
+  "zh": "共同开斋；开斋聚餐（buka puasa bersama 缩合）",
+  "tp": [
+   "餐饮食物",
+   "节日庆典"
+  ],
+  "ex": [
+   {
+    "i": "Alumni sekolah kami berencana mengadakan acara bukber pada minggu kedua bulan Ramadan.",
+    "z": "我们学校的校友计划在斋月第二周举办一次开斋聚餐活动。",
+    "q": "bukber"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bukber.ogg"
+  },
+  "nf": 1,
+  "ph": "/bukbêr/"
+ },
+ {
+  "id": "ngabuburit",
+  "w": "ngabuburit",
+  "t": "t6",
+  "en": 1,
+  "c": "v",
+  "zh": "在斋月傍晚消遣等待昏礼宣礼（开斋）",
+  "tp": [
+   "宗教信仰",
+   "日常起居"
+  ],
+  "ex": [
+   {
+    "i": "Banyak warga pergi ke taman kota untuk ngabuburit sambil berjalan santai bersama keluarga.",
+    "z": "许多市民去城市公园散步消遣，和家人一起等待开斋时刻。",
+    "q": "ngabuburit"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-ngabuburit.ogg"
+  },
+  "o": "Sunda",
+  "nf": 1
+ },
+ {
+  "id": "sesuai dengan",
+  "w": "sesuai dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "符合；按照；与……相符",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Laporan keuangan itu harus disusun sesuai dengan aturan akuntansi yang berlaku.",
+    "z": "那份财务报告必须按照现行会计准则来编制。",
+    "q": "sesuai dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sesuai dengan.ogg"
+  },
+  "pt": "p1",
+  "phk": "adj"
+ },
+ {
+  "id": "berbeda dengan",
+  "w": "berbeda dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……不同；不同于",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Iklim di daerah pegunungan sangat berbeda dengan iklim di kawasan pesisir.",
+    "z": "山区的气候与沿海地区的气候截然不同。",
+    "q": "berbeda dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-berbeda dengan.ogg"
+  },
+  "pt": "p1",
+  "phk": "adj"
+ },
+ {
+  "id": "terkait dengan",
+  "w": "terkait dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……相关；涉及",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Rapat hari ini membahas berbagai kendala yang terkait dengan distribusi barang.",
+    "z": "今天的会议讨论与货物配送相关的各项困难。",
+    "q": "terkait dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-terkait dengan.ogg"
+  },
+  "pt": "p1",
+  "phk": "adj"
+ },
+ {
+  "id": "berkaitan dengan",
+  "w": "berkaitan dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……有关；涉及到",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pertanyaan yang diajukan peserta berkaitan dengan cara pendaftaran beasiswa.",
+    "z": "参与者提出的问题与奖学金申请方式有关。",
+    "q": "berkaitan dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-berkaitan dengan.ogg"
+  },
+  "pt": "p2",
+  "phk": "verbal"
+ },
+ {
+  "id": "sehubungan dengan",
+  "w": "sehubungan dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "关于；鉴于；就……而言",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Sehubungan dengan libur nasional, layanan kantor akan tutup sementara besok.",
+    "z": "鉴于适逢国定假日，明天办公服务将暂停。",
+    "q": "Sehubungan dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sehubungan dengan.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "bertentangan dengan",
+  "w": "bertentangan dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……相违背；抵触",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Tindakan tersebut jelas bertentangan dengan peraturan keselamatan kerja di pabrik.",
+    "z": "该行为明显违背了工厂的安全生产规定。",
+    "q": "bertentangan dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bertentangan dengan.ogg"
+  },
+  "pt": "p2",
+  "phk": "verbal"
+ },
+ {
+  "id": "sejalan dengan",
+  "w": "sejalan dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……一致；顺应；并行不悖",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Program pelatihan ini sejalan dengan rencana pengembangan sumber daya manusia.",
+    "z": "这项培训计划与人力资源发展规划相一致。",
+    "q": "sejalan dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sejalan dengan.ogg"
+  },
+  "pt": "p2",
+  "phk": "adj"
+ },
+ {
+  "id": "berkenaan dengan",
+  "w": "berkenaan dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "关于；就……而言",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Berkenaan dengan permintaan Anda, kami segera mengirimkan rincian biayanya.",
+    "z": "关于您的请求，我们将立即发送费用明细。",
+    "q": "Berkenaan dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-berkenaan dengan.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "mirip dengan",
+  "w": "mirip dengan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "与……相似；像……一样",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Rasa buah ini cukup mirip dengan mangga yang masih agak muda.",
+    "z": "这种水果的味道和微青的芒果颇为相似。",
+    "q": "mirip dengan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-mirip dengan.ogg"
+  },
+  "pt": "p1",
+  "phk": "adj"
+ },
+ {
+  "id": "terdiri dari",
+  "w": "terdiri dari",
+  "t": "phrase",
+  "en": 1,
+  "zh": "由……组成；包含",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Tim peneliti itu terdiri dari lima mahasiswa dan dua orang dosen pembimbing.",
+    "z": "那支研究团队由五名学生和两名指导教师组成。",
+    "q": "terdiri dari"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-terdiri dari.ogg"
+  },
+  "pt": "p1",
+  "phk": "verbal"
+ },
+ {
+  "id": "berdasarkan pada",
+  "w": "berdasarkan pada",
+  "t": "phrase",
+  "en": 1,
+  "zh": "基于；根据",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Keputusan tersebut diambil berdasarkan pada data hasil survei lapangan terbaru.",
+    "z": "该决定是基于最新实地调查数据作出的。",
+    "q": "berdasarkan pada"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-berdasarkan pada.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "bergantung pada",
+  "w": "bergantung pada",
+  "t": "phrase",
+  "en": 1,
+  "zh": "取决于；依赖于",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Keberhasilan panen tahun ini sangat bergantung pada curah hujan yang merata.",
+    "z": "今年收成的好坏很大程度上取决于均匀的降雨量。",
+    "q": "bergantung pada"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bergantung pada.ogg"
+  },
+  "pt": "p2",
+  "phk": "verbal"
+ },
+ {
+  "id": "tergantung pada",
+  "w": "tergantung pada",
+  "t": "phrase",
+  "en": 1,
+  "zh": "取决于；视……而定",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Biaya pengiriman paket tergantung pada berat barang dan jarak tujuan.",
+    "z": "包裹的运费取决于物品重量和目的地距离。",
+    "q": "tergantung pada"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-tergantung pada.ogg"
+  },
+  "pt": "p2",
+  "phk": "adj"
+ },
+ {
+  "id": "disebabkan oleh",
+  "w": "disebabkan oleh",
+  "t": "phrase",
+  "en": 1,
+  "zh": "由……引起；因……所致",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Keterlambatan kereta pagi ini disebabkan oleh gangguan sinyal di stasiun pusat.",
+    "z": "今天早上火车晚点是由中心车站的信号故障引起的。",
+    "q": "disebabkan oleh"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-disebabkan oleh.ogg"
+  },
+  "pt": "p2",
+  "phk": "verbal"
+ },
+ {
+  "id": "sampai saat ini",
+  "w": "sampai saat ini",
+  "t": "phrase",
+  "en": 1,
+  "zh": "到目前为止；迄今为止",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Sampai saat ini, belum ada laporan resmi mengenai kerusakan akibat gempa tersebut.",
+    "z": "到目前为止，还没有关于那次地震造成损坏的正式报告。",
+    "q": "Sampai saat ini"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sampai saat ini.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "hingga saat ini",
+  "w": "hingga saat ini",
+  "t": "phrase",
+  "en": 1,
+  "zh": "迄今为止；直到现在",
+  "tp": [
+   "时间日历",
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Hingga saat ini, proyek pembangunan jembatan itu masih berjalan lancar.",
+    "z": "截至目前，那座桥梁的建设工程依然进展顺利。",
+    "q": "Hingga saat ini"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-hingga saat ini.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "hingga kini",
+  "w": "hingga kini",
+  "t": "phrase",
+  "en": 1,
+  "zh": "至今；直到现在",
+  "tp": [
+   "时间日历",
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Hingga kini, resep kue tradisional itu masih dipertahankan oleh keluarga kami.",
+    "z": "至今，我们家仍然保留着那道传统糕点的配方。",
+    "q": "Hingga kini"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-hingga kini.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "pada waktu itu",
+  "w": "pada waktu itu",
+  "t": "phrase",
+  "en": 1,
+  "zh": "当时；在那个时候",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Pada waktu itu, belum banyak warga yang memiliki telepon genggam di desa kami.",
+    "z": "在那个时候，我们村里还没有多少居民拥有手机。",
+    "q": "Pada waktu itu"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-pada waktu itu.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "sejak saat itu",
+  "w": "sejak saat itu",
+  "t": "phrase",
+  "en": 1,
+  "zh": "从那时起；打那以后",
+  "tp": [
+   "时间日历",
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Sejak saat itu, Budi bertekad untuk belajar bahasa asing dengan lebih tekun.",
+    "z": "从那时起，布迪决心更加刻苦地学习外语。",
+    "q": "Sejak saat itu"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sejak saat itu.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "sejak lama",
+  "w": "sejak lama",
+  "t": "phrase",
+  "en": 1,
+  "zh": "很久以来；早就",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Kedua keluarga itu sudah saling mengenal dan bersahabat sejak lama.",
+    "z": "那两家人很久以前就相识并成为好友了。",
+    "q": "sejak lama"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sejak lama.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "mulai sekarang",
+  "w": "mulai sekarang",
+  "t": "phrase",
+  "en": 1,
+  "zh": "从现在开始；今后",
+  "tp": [
+   "时间日历",
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Mulai sekarang, setiap tamu yang berkunjung wajib mencatat namanya di pos jaga.",
+    "z": "从现在起，每位来访的客人都必须在门卫室登记姓名。",
+    "q": "Mulai sekarang"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-mulai sekarang.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "suatu hari",
+  "w": "suatu hari",
+  "t": "phrase",
+  "en": 1,
+  "zh": "有一天；某一天",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Suatu hari, saya ingin mengunjungi pulau-pulau indah di Indonesia bagian timur.",
+    "z": "有朝一日，我想去探访印度尼西亚东部那些美丽的岛屿。",
+    "q": "Suatu hari"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-suatu hari.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "suatu saat",
+  "w": "suatu saat",
+  "t": "phrase",
+  "en": 1,
+  "zh": "总有一天；某时；在某个时刻",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Pengalaman yang kamu peroleh hari ini pasti akan berguna suatu saat nanti.",
+    "z": "你今天积累的经验将来总有一天会派上用场。",
+    "q": "suatu saat"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-suatu saat.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "setiap saat",
+  "w": "setiap saat",
+  "t": "phrase",
+  "en": 1,
+  "zh": "每时每刻；随时",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Petugas medis di ruang gawat darurat selalu siap melayani pasien setiap saat.",
+    "z": "急诊室的医护人员随时都做好了救治病人的准备。",
+    "q": "setiap saat"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-setiap saat.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "kali ini",
+  "w": "kali ini",
+  "t": "phrase",
+  "en": 1,
+  "zh": "这一次；这次",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Kali ini, kami memilih berangkat lebih pagi agar tidak terjebak macet.",
+    "z": "这一次，我们选择早一点出发，以免堵在路上。",
+    "q": "Kali ini"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-kali ini.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "sekali lagi",
+  "w": "sekali lagi",
+  "t": "phrase",
+  "en": 1,
+  "zh": "再一次；重新；再次",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Mohon periksa sekali lagi seluruh berkas Anda sebelum diserahkan ke loket.",
+    "z": "在提交到窗口之前，请再检查一遍您的全部文件。",
+    "q": "sekali lagi"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-sekali lagi.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "secara umum",
+  "w": "secara umum",
+  "t": "phrase",
+  "en": 1,
+  "zh": "总体而言；一般地；普遍地",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Secara umum, kondisi kesehatan pasien sudah jauh lebih stabil dibandingkan kemarin.",
+    "z": "总体而言，病人的健康状况比昨天稳定多了。",
+    "q": "Secara umum"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara umum.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "secara khusus",
+  "w": "secara khusus",
+  "t": "phrase",
+  "en": 1,
+  "zh": "专门地；特别地",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pelatihan ini dirancang secara khusus bagi pemula yang baru belajar menulis kode.",
+    "z": "这项培训是专门为刚学编程的初学者设计的。",
+    "q": "secara khusus"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara khusus.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "secara resmi",
+  "w": "secara resmi",
+  "t": "phrase",
+  "en": 1,
+  "zh": "正式地；官方地",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pameran buku tahunan tersebut dibuka secara resmi oleh kepala dinas pendidikan.",
+    "z": "一年一度的书展由教育局局长正式宣布开幕。",
+    "q": "secara resmi"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara resmi.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "secara pribadi",
+  "w": "secara pribadi",
+  "t": "phrase",
+  "en": 1,
+  "zh": "个人地；私下地",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Secara pribadi, saya lebih menyukai suasana kerja yang tenang dan teratur.",
+    "z": "就个人而言，我更喜欢安静且井然有序的工作环境。",
+    "q": "Secara pribadi"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara pribadi.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "secara otomatis",
+  "w": "secara otomatis",
+  "t": "phrase",
+  "en": 1,
+  "zh": "自动地",
+  "tp": [
+   "语言与语法",
+   "通讯网络"
+  ],
+  "ex": [
+   {
+    "i": "Lampu teras akan menyala secara otomatis ketika hari mulai gelap.",
+    "z": "天色开始变暗时，门廊的灯会自动亮起。",
+    "q": "secara otomatis"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara otomatis.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "secara perlahan",
+  "w": "secara perlahan",
+  "t": "phrase",
+  "en": 1,
+  "zh": "慢慢地；逐渐地",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Aduk adonan tersebut secara perlahan hingga semua bahan tercampur rata.",
+    "z": "请慢慢搅拌那份面糊，直到所有配料充分混合均匀。",
+    "q": "secara perlahan"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-secara perlahan.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "pada hakikatnya",
+  "w": "pada hakikatnya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "本质上；实质上",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pada hakikatnya, pendidikan bertujuan membentuk karakter serta memperluas wawasan.",
+    "z": "从本质上讲，教育旨在塑造品格并拓宽视野。",
+    "q": "Pada hakikatnya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-pada hakikatnya.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "pada prinsipnya",
+  "w": "pada prinsipnya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "原则上；在原则方面",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pada prinsipnya, seluruh anggota menyetujui usulan jadwal rapat bulanan itu.",
+    "z": "原则上，全体成员都同意那项月度例会时间表提案。",
+    "q": "Pada prinsipnya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-pada prinsipnya.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "jika demikian",
+  "w": "jika demikian",
+  "t": "phrase",
+  "en": 1,
+  "zh": "如果这样的话；既然如此",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Jika demikian, kita perlu menyiapkan rencana cadangan sebelum acara dimulai.",
+    "z": "如果这样的话，我们需要在活动开始前准备一个备用方案。",
+    "q": "Jika demikian"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-jika demikian.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "meski begitu",
+  "w": "meski begitu",
+  "t": "phrase",
+  "en": 1,
+  "zh": "即便如此；尽管那样",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Cuaca hari ini cukup mendung; meski begitu, pertandingan tetap berlangsung lancar.",
+    "z": "今天天气相当阴沉；即便如此，比赛依然顺利进行。",
+    "q": "meski begitu"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-meski begitu.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "kalau begitu",
+  "w": "kalau begitu",
+  "t": "phrase",
+  "en": 1,
+  "zh": "既然如此；那么；那好吧",
+  "tp": [
+   "问答常用",
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Kalau begitu, mari kita lanjutkan diskusi ini besok pagi di ruang rapat.",
+    "z": "既然这样，那我们明天早上在会议室继续讨论吧。",
+    "q": "Kalau begitu"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-kalau begitu.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "tak hanya",
+  "w": "tak hanya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "不仅；不只是",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Museum ini tak hanya menyimpan benda bersejarah, tetapi juga menampilkan seni modern.",
+    "z": "这座博物馆不仅收藏历史文物，还展示现代艺术。",
+    "q": "tak hanya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-tak hanya.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "menurut saya",
+  "w": "menurut saya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "在我看来；我认为",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Menurut saya, penjelasan guru tadi sangat mudah dipahami oleh semua siswa.",
+    "z": "在我看来，老师刚才的讲解所有学生都很容易听懂。",
+    "q": "Menurut saya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-menurut saya.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "bagi saya",
+  "w": "bagi saya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "对我来说；就我而言",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Bagi saya, ketenangan lingkungan lebih penting daripada jarak ke pusat kota.",
+    "z": "对我来说，环境清静比离市中心的距离更重要。",
+    "q": "Bagi saya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bagi saya.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "kalau tidak salah",
+  "w": "kalau tidak salah",
+  "t": "phrase",
+  "en": 1,
+  "zh": "如果我没记错的话",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Kalau tidak salah, perpustakaan daerah buka mulai pukul delapan pagi setiap hari.",
+    "z": "如果我没记错，地方图书馆每天早上八点开始开放。",
+    "q": "Kalau tidak salah"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-kalau tidak salah.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "setahu saya",
+  "w": "setahu saya",
+  "t": "phrase",
+  "en": 1,
+  "zh": "据我所知",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Setahu saya, gedung tua itu pernah digunakan sebagai kantor pos pada masa lalu.",
+    "z": "据我所知，那栋老建筑过去曾被用作邮局。",
+    "q": "Setahu saya"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-setahu saya.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "terus terang saja",
+  "w": "terus terang saja",
+  "t": "phrase",
+  "en": 1,
+  "zh": "坦白说；老实讲",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Terus terang saja, saya masih kesulitan memahami beberapa istilah hukum tersebut.",
+    "z": "老实讲，我在理解那几个法律术语时还是有些吃力。",
+    "q": "Terus terang saja"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-terus terang saja.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "bisa dibilang",
+  "w": "bisa dibilang",
+  "t": "phrase",
+  "en": 1,
+  "zh": "可以说；算得上是",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Rumah makan di ujung jalan ini bisa dibilang paling ramai di kawasan kampus.",
+    "z": "街尽头的那家餐馆可以说是大学区最热闹的一家。",
+    "q": "bisa dibilang"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bisa dibilang.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "boleh dibilang",
+  "w": "boleh dibilang",
+  "t": "phrase",
+  "en": 1,
+  "zh": "可以说；几乎可以说是",
+  "tp": [
+   "问答常用",
+   "生活实用"
+  ],
+  "ex": [
+   {
+    "i": "Kemampuan berbicara bahasa daerahnya boleh dibilang sudah sangat fasih.",
+    "z": "他的地方语言口语能力可以说已经非常流利了。",
+    "q": "boleh dibilang"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-boleh dibilang.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "bukan sekadar",
+  "w": "bukan sekadar",
+  "t": "phrase",
+  "en": 1,
+  "zh": "不仅仅是；不止是",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Kegiatan membaca bukan sekadar hobi, melainkan juga cara memperkaya pengetahuan.",
+    "z": "阅读不仅是一项爱好，更是丰富知识的途径。",
+    "q": "bukan sekadar"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-bukan sekadar.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "tidak sekadar",
+  "w": "tidak sekadar",
+  "t": "phrase",
+  "en": 1,
+  "zh": "不只是；不仅仅",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Pelatihan tersebut tidak sekadar membahas teori, tetapi juga praktik langsung di lapangan.",
+    "z": "那次培训不只是讲理论，还包括实地操作练习。",
+    "q": "tidak sekadar"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-tidak sekadar.ogg"
+  },
+  "pt": "p2",
+  "phk": "func"
+ },
+ {
+  "id": "tidak bisa dipungkiri",
+  "w": "tidak bisa dipungkiri",
+  "t": "phrase",
+  "en": 1,
+  "zh": "不可否认；无可否认",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Tidak bisa dipungkiri bahwa teknologi digital telah mengubah cara kita berkomunikasi.",
+    "z": "不可否认，数字技术已经改变了我们的沟通方式。",
+    "q": "Tidak bisa dipungkiri"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-tidak bisa dipungkiri.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "tak dapat dipungkiri",
+  "w": "tak dapat dipungkiri",
+  "t": "phrase",
+  "en": 1,
+  "zh": "无可否认；不可否认",
+  "tp": [
+   "语言与语法"
+  ],
+  "ex": [
+   {
+    "i": "Tak dapat dipungkiri bahwa peran orang tua sangat menentukan perkembangan anak.",
+    "z": "无可否认，父母的角色对孩子的成长起着决定性作用。",
+    "q": "Tak dapat dipungkiri"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-tak dapat dipungkiri.ogg"
+  },
+  "pt": "p3",
+  "phk": "func"
+ },
+ {
+  "id": "kapan pun",
+  "w": "kapan pun",
+  "t": "phrase",
+  "en": 1,
+  "zh": "无论何时；随时随地",
+  "tp": [
+   "语言与语法",
+   "时间日历"
+  ],
+  "ex": [
+   {
+    "i": "Kamu boleh menghubungi saya kapan pun jika membutuhkan bantuan untuk tugas kuliah.",
+    "z": "如果你在做功课方面需要帮助，随时都可以联系我。",
+    "q": "kapan pun"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-kapan pun.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "di mana pun",
+  "w": "di mana pun",
+  "t": "phrase",
+  "en": 1,
+  "zh": "无论在哪里；随处",
+  "tp": [
+   "语言与语法",
+   "问答常用"
+  ],
+  "ex": [
+   {
+    "i": "Di mana pun kita berada, sikap saling menghormati harus selalu dijaga.",
+    "z": "无论身在何处，我们都应当始终保持彼此尊重的态度。",
+    "q": "Di mana pun"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-di mana pun.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
+  "id": "berapa pun",
+  "w": "berapa pun",
+  "t": "phrase",
+  "en": 1,
+  "zh": "无论多少；不管多少",
+  "tp": [
+   "语言与语法",
+   "问答常用"
+  ],
+  "ex": [
+   {
+    "i": "Berapa pun jumlah peserta yang hadir, seminar pagi ini tetap akan dilaksanakan.",
+    "z": "无论到场有多少位参与者，今天早上的研讨会都将照常举行。",
+    "q": "Berapa pun"
+   }
+  ],
+  "au": {
+   "a": "edge/ardi/id-berapa pun.ogg"
+  },
+  "pt": "p1",
+  "phk": "func"
+ },
+ {
   "id": "abang-abangan",
   "w": "abang-abangan",
   "t": "derived",
