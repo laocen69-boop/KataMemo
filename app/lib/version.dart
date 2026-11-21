@@ -2,9 +2,9 @@ library;
 
 const String kAppName = 'KataMemo';
 
-const String kAppVersion = '1.0.3';
+const String kAppVersion = '1.0.4';
 
-const String kBuildNumber = '12';
+const String kBuildNumber = '13';
 
 const bool kOpenTheme = false;
 
