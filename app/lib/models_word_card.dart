@@ -101,6 +101,8 @@ class WordCard {
 
   final String? properKind;
 
+  final String? phraseKind;
+
   bool enabled;
   bool favorite;
 
@@ -140,6 +142,7 @@ class WordCard {
     this.affixType,
     this.posAll,
     this.properKind,
+    this.phraseKind,
     this.audioArdi,
     this.audioGadis,
     this.audioHuman,
@@ -304,6 +307,17 @@ class WordCard {
         _ => null,
       };
 
+  String? get phraseKindLabel => switch (phraseKind) {
+        'peribahasa' => '谚语俗语',
+        'idiom' => '习语比喻',
+        'func' => '语法与功能短语',
+        'term' => '学科专业术语',
+        'verbal' => '动词词组',
+        'adj' => '形容词词组',
+        'nominal' => '通用名词词组',
+        _ => null,
+      };
+
   String get affixBreakdown {
     if (affixBase == null || affixes.isEmpty) return word;
     final bs = StringBuffer();
@@ -353,6 +367,7 @@ class WordCard {
         'word_class': wordClass,
         'pos_all': posAll,
         'proper_kind': properKind,
+        'phrase_kind': phraseKind,
         'domains': domains.isEmpty ? null : domains.join(','),
         'topics': topics.isEmpty ? null : topics.join(','),
         'origin': origin,
@@ -434,6 +449,7 @@ class WordCard {
         affixType: m['affix_type'] as String?,
         posAll: m['pos_all'] as String?,
         properKind: m['proper_kind'] as String?,
+        phraseKind: m['phrase_kind'] as String?,
         audioArdi: m['audio_ardi'] as String?,
         audioGadis: m['audio_gadis'] as String?,
         audioHuman: m['audio_human'] as String?,

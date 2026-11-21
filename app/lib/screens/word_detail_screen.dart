@@ -812,6 +812,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
         card.tierLabel,
       if (card.originLabel != null) '借自${card.originLabel}',
       if (card.properKindLabel != null) card.properKindLabel!,
+      if (card.phraseKindLabel != null) card.phraseKindLabel!,
       if (card.fullName != null) '简写专名 · ${card.fullName}',
     ];
     for (var i = 0; i < texts.length; i++) {

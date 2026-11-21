@@ -38,9 +38,9 @@ const String kGrammarEditDdl = '''
     PRIMARY KEY (scope, page_id, block_key)
   )''';
 
-const int kDataVersion = 514989;
+const int kDataVersion = 927000;
 
-const int kSchemaVersion = 28;
+const int kSchemaVersion = 29;
 
 typedef TodayPlan = ({
 
@@ -250,6 +250,9 @@ class AppDb {
         -- 短语词频子轴（kSchemaVersion 24，2026-11-01）：p1 高频 / p2 常用 / p3 低频 /
         -- p0 未收录。**只对 tier='phrase' 的条目有值**，单字走 tier 的 t1–t7。
         phrase_tier TEXT,
+        -- 词组与短语语言学细类（kSchemaVersion 29，2026-11-21）：peribahasa / idiom /
+        -- func / term / verbal / adj / nominal。只对 tier='phrase' 的条目有值。
+        phrase_kind TEXT,
         -- 中文释义逐段词性（kSchemaVersion 25，2026-11-01）：`v|n` 这种，
         -- 与 `zh` 的「；」段一一对应；空 = 未核对，界面用卡级 pa 前缀。
         zh_pos TEXT,
@@ -428,6 +431,7 @@ class AppDb {
         'CREATE INDEX IF NOT EXISTS idx_log_card ON study_log(card_id)');
 
     await addCol('phrase_tier');
+    await addCol('phrase_kind');
 
     await addCol('zh_pos');
 
@@ -608,6 +612,11 @@ class AppDb {
     if (pt != null && pt.isNotEmpty) {
       parts.add('phrase_tier IN (${List.filled(pt.length, '?').join(',')})');
       args.addAll(pt);
+    }
+    final phk = (f['phraseKind'] as List?)?.whereType<String>().toList();
+    if (phk != null && phk.isNotEmpty) {
+      parts.add('phrase_kind IN (${List.filled(phk.length, '?').join(',')})');
+      args.addAll(phk);
     }
 
     if (f['noFreq'] == true) {
@@ -1126,6 +1135,46 @@ class AppDb {
     'marabahaya': 'mara bahaya',
     'andaikata': 'andai kata',
     'sumberdaya': 'sumber daya',
+    'ada kalanya': 'adakalanya',
+    'apa bila': 'apabila',
+    'belase': 'sumpit',
+    'berkerjasama': 'bekerja sama',
+    'bumi putra': 'bumiputra',
+    'daun bawang': 'bawang daun',
+    'deria': 'indra',
+    'dolat': 'daulat',
+    'duka cita': 'dukacita',
+    'fan fiksi': 'fiksi fan',
+    'frasa nomina': 'frasa nominal',
+    'frasa numeralia': 'frasa numeral',
+    'frasa preposisi': 'frasa preposisional',
+    'gula alkohol': 'alkohol gula',
+    'herpes labialis': 'herpes mulut',
+    'herpes oral': 'herpes mulut',
+    'ikan lumba-lumba': 'lumba-lumba',
+    'ikan paus': 'paus',
+    'imang': 'timang',
+    'kerak telor': 'kerak telur',
+    'kue mangkok': 'kue mangkuk',
+    'kue tart': 'kue tar',
+    'limonade': 'limun',
+    'mana kala': 'manakala',
+    'mata hari': 'matahari',
+    'mim': 'meme',
+    'palu godam': 'godam',
+    'pameran dirgantara': 'pameran udara',
+    'papan ketik': 'papan tik',
+    'paus beluga': 'beluga',
+    'perwatin': 'batin',
+    'roti cane': 'roti canai',
+    'salah ketik': 'salah tik',
+    'segi tiga': 'segitiga',
+    'surung': 'sorong',
+    'syagar': 'sakar',
+    'syakar': 'sakar',
+    'tolak ukur': 'tolok ukur',
+    'tuas transmisi': 'tuas persneling',
+    'wedam': 'weda',
   };
 
   static const Set<String> kRetiredCards = {

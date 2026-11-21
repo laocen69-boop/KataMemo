@@ -550,6 +550,8 @@ class _WordSheetState extends State<WordSheet> {
 
               if (card.properKindLabel != null) _Chip(card.properKindLabel!),
 
+              if (card.phraseKindLabel != null) _Chip(card.phraseKindLabel!),
+
               if (card.isFreqBand && const {'t1', 't2'}.contains(card.tier))
                 _Chip(card.tierLabel),
               if (card.rank != null) _Chip('语料排名 #${card.rank}'),

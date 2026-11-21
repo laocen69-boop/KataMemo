@@ -172,4 +172,38 @@ void main() {
 
     await db.close();
   });
+
+  test('词组与短语细类筛选轴：phraseKind 只命中对应语言学子类，单字不受影响', () async {
+    Map<String, Object?> row(String id, String word, String tier,
+            {String? phk}) =>
+        {
+          'id': id,
+          'word': word,
+          'tier': tier,
+          'rank': null,
+          'frequency': 0,
+          'zh': '测试',
+          'enabled': 1,
+          'favorite': 0,
+          'phrase_kind': phk,
+        };
+
+    final db = AppDb(dbPath: inMemoryDatabasePath);
+    await db.upsertWords([
+      row('p_idiom', 'kambing hitam', 'phrase', phk: 'idiom'),
+      row('p_func', 'akan tetapi', 'phrase', phk: 'func'),
+      row('p_term', 'asam sulfat', 'phrase', phk: 'term'),
+      row('p_nom', 'rumah sakit', 'phrase', phk: 'nominal'),
+      row('w_single', 'makan', 't2'),
+    ]);
+
+    expect(await db.countByFilter({'phraseKind': ['idiom']}), 1);
+    expect(await db.countByFilter({'phraseKind': ['func', 'term']}), 2);
+    final hits = await db.wordsByFilter({'phraseKind': ['idiom', 'nominal']});
+    expect(hits.map((w) => w.id).toSet(), {'p_idiom', 'p_nom'});
+    expect(hits.firstWhere((w) => w.id == 'p_idiom').phraseKindLabel, '习语比喻');
+    expect(hits.firstWhere((w) => w.id == 'p_nom').phraseKindLabel, '通用名词词组');
+
+    await db.close();
+  });
 }

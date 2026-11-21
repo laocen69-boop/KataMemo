@@ -102,6 +102,7 @@ def main() -> None:
           mnemonic_default TEXT,
           mnemonic_images TEXT,
           phrase_tier TEXT,
+          phrase_kind TEXT,
           zh_pos TEXT,
           quiz_zh TEXT,
           user_word INTEGER DEFAULT 0,
@@ -276,6 +277,7 @@ def main() -> None:
                 encode_maps(derivations),
                 None,  # gabungan
                 m.get("pt"),
+                m.get("phk"),
                 m.get("zp"),
                 m.get("zh"),
                 affix_base,
@@ -299,7 +301,7 @@ def main() -> None:
               full_name, affix_type, pos_all, proper_kind, no_freq,
               domains, topics, origin, root_count, base_word,
               non_standard, variants, non_standard_forms, clitics,
-              senses, examples, derivations, gabungan, phrase_tier,
+              senses, examples, derivations, gabungan, phrase_tier, phrase_kind,
               zh_pos, zh, affix_base, affixes, grammar_function,
               grammar_notes, audio_ardi, audio_gadis, audio_human,
               audio_parts, mnemonic_default, quiz_zh, enabled, favorite
@@ -307,7 +309,7 @@ def main() -> None:
               ?,?,?,?,?,?,?,?,?,?,
               ?,?,?,?,?,?,?,?,?,?,
               ?,?,?,?,?,?,?,?,?,?,
-              ?,?,?,?,?,?,?,?,?,?
+              ?,?,?,?,?,?,?,?,?,?,?
             )
             """,
             rows,
