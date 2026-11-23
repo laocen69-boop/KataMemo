@@ -1,0 +1,5 @@
+/assets/assets/audio_pack/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/assets/data/*
+  Cache-Control: public, max-age=86400

@@ -1,0 +1,2936 @@
+{
+ "version": 3,
+ "books": [
+  {
+   "id": "t1",
+   "name": "最高频",
+   "parent": null,
+   "count": 340,
+   "filter": {
+    "tier": [
+     "t1"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 ≥ 5.5（约 340 词）：功能词与最基础实词",
+   "group": "按词频"
+  },
+  {
+   "id": "t2",
+   "name": "高频",
+   "parent": null,
+   "count": 577,
+   "filter": {
+    "tier": [
+     "t2"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 5.0–5.5，日常文本里的主力词",
+   "group": "按词频"
+  },
+  {
+   "id": "t3",
+   "name": "中高频",
+   "parent": null,
+   "count": 1380,
+   "filter": {
+    "tier": [
+     "t3"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 4.5–5.0，读新闻/课本的常见词",
+   "group": "按词频"
+  },
+  {
+   "id": "t4",
+   "name": "中频",
+   "parent": null,
+   "count": 2457,
+   "filter": {
+    "tier": [
+     "t4"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 4.0–4.5",
+   "group": "按词频"
+  },
+  {
+   "id": "t5",
+   "name": "常用",
+   "parent": null,
+   "count": 4006,
+   "filter": {
+    "tier": [
+     "t5"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 3.5–4.0，每百万约 3–10 次",
+   "group": "按词频"
+  },
+  {
+   "id": "t6",
+   "name": "较少用",
+   "parent": null,
+   "count": 5919,
+   "filter": {
+    "tier": [
+     "t6"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 3.0–3.5，每百万约 1–3 次",
+   "group": "按词频"
+  },
+  {
+   "id": "t7",
+   "name": "低频",
+   "parent": null,
+   "count": 2636,
+   "filter": {
+    "tier": [
+     "t7"
+    ],
+    "noFreq": false
+   },
+   "desc": "综合分 < 3.0（有实测）：生僻、古语、专门领域词",
+   "group": "按词频"
+  },
+  {
+   "id": "nofreq",
+   "name": "词频未知",
+   "parent": null,
+   "count": 29741,
+   "filter": {
+    "noFreq": true
+   },
+   "desc": "wordfreq 与牌组语料都没有收录这些词，无法按词频排序；它们仍可正常学习，按意义去词性/主题里找。词仍在原来的层里，这里只是多一个入口",
+   "group": "按词频"
+  },
+  {
+   "id": "cls",
+   "name": "按词性",
+   "parent": null,
+   "count": 0,
+   "filter": null,
+   "desc": "按印尼语词性分类（KBBI 词类）；一词多词性会在多个节点出现",
+   "group": "按分类浏览"
+  },
+  {
+   "id": "top",
+   "name": "主题词库",
+   "parent": null,
+   "count": 0,
+   "filter": null,
+   "desc": "按使用场景编排，一个词可同时属于多个主题",
+   "group": "按分类浏览"
+  },
+  {
+   "id": "ori",
+   "name": "外来借词",
+   "parent": null,
+   "count": 0,
+   "filter": null,
+   "desc": "按借词来源分类（KBBI 词源标记）",
+   "group": "按分类浏览"
+  },
+  {
+   "id": "reg",
+   "name": "语域与风格",
+   "parent": null,
+   "count": 0,
+   "filter": null,
+   "desc": "按使用语域分类（口语/修辞/古语等）",
+   "group": "按分类浏览"
+  },
+  {
+   "id": "prop",
+   "name": "专有名词",
+   "parent": null,
+   "count": 286,
+   "filter": {
+    "properAny": true
+   },
+   "desc": "专名（人名/地名/机构/作品/宗教）——部分词同时挂在词频档",
+   "group": "按分类浏览"
+  },
+  {
+   "id": "dvr",
+   "name": "派生词",
+   "parent": null,
+   "count": 14717,
+   "filter": {
+    "tier": [
+     "derived"
+    ]
+   },
+   "desc": "带词缀的派生形（含词形变化），全量入册可学",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "phr",
+   "name": "词组与短语",
+   "parent": null,
+   "count": 62569,
+   "filter": {
+    "tier": [
+     "phrase"
+    ]
+   },
+   "desc": "常用复合词组、专业术语、语法短语、习语与谚语（可像普通词一样加入记忆）",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "phr_kind",
+   "name": "词组与短语分类",
+   "parent": null,
+   "count": 62569,
+   "filter": {
+    "phraseKind": [
+     "func",
+     "idiom",
+     "verbal",
+     "adj",
+     "nominal",
+     "term",
+     "peribahasa"
+    ]
+   },
+   "desc": "按现代印尼语词法与句法体系全量切分的 7 类词组与短语",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "phr_freq",
+   "name": "短语词频",
+   "parent": null,
+   "count": 47297,
+   "filter": {
+    "phraseTier": [
+     "p1",
+     "p2",
+     "p3"
+    ]
+   },
+   "desc": "只给**短语**分的高频/常用/低频：短语没有语料计数，不能和单字的 t1–t7 混在一起排；两套词频都没有的短语见「词频未知」",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "peribahasa",
+   "name": "常用谚语",
+   "parent": null,
+   "count": 924,
+   "filter": {
+    "domainsAny": [
+     "Peribahasa"
+    ]
+   },
+   "desc": "印尼语高频常用谚语（含 KBBI 释义、直译、寓意与汉语成语/俗语/诗词/书面多维对照）",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "root",
+   "name": "能产词根",
+   "parent": null,
+   "count": 3069,
+   "filter": {
+    "derivMin": [
+     3
+    ]
+   },
+   "desc": "KBBI 里带 3 个以上派生词的词根（turunan）：先学它们能解锁一大批词",
+   "group": "按构词与来源"
+  },
+  {
+   "id": "all",
+   "name": "全部词汇",
+   "parent": null,
+   "count": 95480,
+   "filter": {},
+   "desc": "完整词库 95,480 词",
+   "group": "其他"
+  },
+  {
+   "id": "cls_n",
+   "name": "名词",
+   "parent": "cls",
+   "count": 17984,
+   "filter": {
+    "wordClass": [
+     "n"
+    ]
+   },
+   "desc": "词类：名词"
+  },
+  {
+   "id": "cls_n_生物",
+   "name": "生物",
+   "parent": "cls_n",
+   "count": 156,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Biologi",
+     "Botani",
+     "Zoologi",
+     "Anatomi",
+     "Peternakan",
+     "Pertanian",
+     "Perikanan",
+     "Hewan",
+     "Tumbuhan"
+    ]
+   },
+   "desc": "名词 · 生物领域"
+  },
+  {
+   "id": "cls_n_化学",
+   "name": "化学",
+   "parent": "cls_n",
+   "count": 120,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Kimia",
+     "Farmasi"
+    ]
+   },
+   "desc": "名词 · 化学领域"
+  },
+  {
+   "id": "cls_n_物理",
+   "name": "物理",
+   "parent": "cls_n",
+   "count": 96,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Fisika",
+     "Listrik",
+     "Optik"
+    ]
+   },
+   "desc": "名词 · 物理领域"
+  },
+  {
+   "id": "cls_n_医学",
+   "name": "医学",
+   "parent": "cls_n",
+   "count": 108,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Kedokteran dan Fisiologi",
+     "Kesehatan",
+     "Penyakit"
+    ]
+   },
+   "desc": "名词 · 医学领域"
+  },
+  {
+   "id": "cls_n_心理",
+   "name": "心理",
+   "parent": "cls_n",
+   "count": 49,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Psikologi",
+     "Psikoanalisis"
+    ]
+   },
+   "desc": "名词 · 心理领域"
+  },
+  {
+   "id": "cls_n_语言文学",
+   "name": "语言文学",
+   "parent": "cls_n",
+   "count": 156,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Linguistik",
+     "Sastra",
+     "Kesusastraan",
+     "Tata Bahasa"
+    ]
+   },
+   "desc": "名词 · 语言文学领域"
+  },
+  {
+   "id": "cls_n_法律",
+   "name": "法律",
+   "parent": "cls_n",
+   "count": 55,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Hukum",
+     "Pidana"
+    ]
+   },
+   "desc": "名词 · 法律领域"
+  },
+  {
+   "id": "cls_n_经济金融",
+   "name": "经济金融",
+   "parent": "cls_n",
+   "count": 35,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Ekonomi dan Keuangan",
+     "Ekonomi",
+     "Keuangan",
+     "Perbankan",
+     "Akuntansi"
+    ]
+   },
+   "desc": "名词 · 经济金融领域"
+  },
+  {
+   "id": "cls_n_计算机",
+   "name": "计算机",
+   "parent": "cls_n",
+   "count": 111,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Komputer",
+     "Informatika",
+     "Teknologi Informasi"
+    ]
+   },
+   "desc": "名词 · 计算机领域"
+  },
+  {
+   "id": "cls_n_地理地质",
+   "name": "地理地质",
+   "parent": "cls_n",
+   "count": 47,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Geografi dan Geologi",
+     "Geografi",
+     "Geologi"
+    ]
+   },
+   "desc": "名词 · 地理地质领域"
+  },
+  {
+   "id": "cls_n_数学",
+   "name": "数学",
+   "parent": "cls_n",
+   "count": 42,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Matematika",
+     "Statistika"
+    ]
+   },
+   "desc": "名词 · 数学领域"
+  },
+  {
+   "id": "cls_n_音乐艺术",
+   "name": "音乐艺术",
+   "parent": "cls_n",
+   "count": 125,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Musik",
+     "Kesenian",
+     "Seni",
+     "Film",
+     "Fotografi"
+    ]
+   },
+   "desc": "名词 · 音乐艺术领域"
+  },
+  {
+   "id": "cls_n_体育",
+   "name": "体育",
+   "parent": "cls_n",
+   "count": 92,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Olahraga",
+     "Olah Raga"
+    ]
+   },
+   "desc": "名词 · 体育领域"
+  },
+  {
+   "id": "cls_n_宗教",
+   "name": "宗教",
+   "parent": "cls_n",
+   "count": 114,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Agama Islam",
+     "Agama Katolik",
+     "Agama Kristen",
+     "Agama Hindu",
+     "Agama Budha",
+     "Islam",
+     "Kristen"
+    ]
+   },
+   "desc": "名词 · 宗教领域"
+  },
+  {
+   "id": "cls_n_军事",
+   "name": "军事",
+   "parent": "cls_n",
+   "count": 24,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Militer",
+     "Pertahanan",
+     "Kemiliteran"
+    ]
+   },
+   "desc": "名词 · 军事领域"
+  },
+  {
+   "id": "cls_n_交通航海",
+   "name": "交通航海",
+   "parent": "cls_n",
+   "count": 26,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Pelayaran",
+     "Perhubungan",
+     "Lalu Lintas",
+     "Penerbangan"
+    ]
+   },
+   "desc": "名词 · 交通航海领域"
+  },
+  {
+   "id": "cls_n_天文气象",
+   "name": "天文气象",
+   "parent": "cls_n",
+   "count": 52,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Meteorologi",
+     "Astronomi",
+     "Cuaca"
+    ]
+   },
+   "desc": "名词 · 天文气象领域"
+  },
+  {
+   "id": "cls_n_农业",
+   "name": "农业",
+   "parent": "cls_n",
+   "count": 16,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Pertanian",
+     "Perkebunan",
+     "Peternakan"
+    ]
+   },
+   "desc": "名词 · 农业领域"
+  },
+  {
+   "id": "cls_n_教育",
+   "name": "教育",
+   "parent": "cls_n",
+   "count": 8,
+   "filter": {
+    "wordClass": [
+     "n"
+    ],
+    "domainsAny": [
+     "Pendidikan",
+     "Sekolah"
+    ]
+   },
+   "desc": "名词 · 教育领域"
+  },
+  {
+   "id": "cls_v",
+   "name": "动词",
+   "parent": "cls",
+   "count": 12539,
+   "filter": {
+    "wordClass": [
+     "v"
+    ]
+   },
+   "desc": "词类：动词"
+  },
+  {
+   "id": "cls_v_生物",
+   "name": "生物",
+   "parent": "cls_v",
+   "count": 17,
+   "filter": {
+    "wordClass": [
+     "v"
+    ],
+    "domainsAny": [
+     "Biologi",
+     "Botani",
+     "Zoologi",
+     "Anatomi",
+     "Peternakan",
+     "Pertanian",
+     "Perikanan",
+     "Hewan",
+     "Tumbuhan"
+    ]
+   },
+   "desc": "动词 · 生物领域"
+  },
+  {
+   "id": "cls_v_计算机",
+   "name": "计算机",
+   "parent": "cls_v",
+   "count": 17,
+   "filter": {
+    "wordClass": [
+     "v"
+    ],
+    "domainsAny": [
+     "Komputer",
+     "Informatika",
+     "Teknologi Informasi"
+    ]
+   },
+   "desc": "动词 · 计算机领域"
+  },
+  {
+   "id": "cls_v_体育",
+   "name": "体育",
+   "parent": "cls_v",
+   "count": 15,
+   "filter": {
+    "wordClass": [
+     "v"
+    ],
+    "domainsAny": [
+     "Olahraga",
+     "Olah Raga"
+    ]
+   },
+   "desc": "动词 · 体育领域"
+  },
+  {
+   "id": "cls_v_宗教",
+   "name": "宗教",
+   "parent": "cls_v",
+   "count": 4,
+   "filter": {
+    "wordClass": [
+     "v"
+    ],
+    "domainsAny": [
+     "Agama Islam",
+     "Agama Katolik",
+     "Agama Kristen",
+     "Agama Hindu",
+     "Agama Budha",
+     "Islam",
+     "Kristen"
+    ]
+   },
+   "desc": "动词 · 宗教领域"
+  },
+  {
+   "id": "cls_a",
+   "name": "形容词",
+   "parent": "cls",
+   "count": 3272,
+   "filter": {
+    "wordClass": [
+     "a"
+    ]
+   },
+   "desc": "词类：形容词"
+  },
+  {
+   "id": "cls_a_生物",
+   "name": "生物",
+   "parent": "cls_a",
+   "count": 12,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Biologi",
+     "Botani",
+     "Zoologi",
+     "Anatomi",
+     "Peternakan",
+     "Pertanian",
+     "Perikanan",
+     "Hewan",
+     "Tumbuhan"
+    ]
+   },
+   "desc": "形容词 · 生物领域"
+  },
+  {
+   "id": "cls_a_化学",
+   "name": "化学",
+   "parent": "cls_a",
+   "count": 8,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Kimia",
+     "Farmasi"
+    ]
+   },
+   "desc": "形容词 · 化学领域"
+  },
+  {
+   "id": "cls_a_物理",
+   "name": "物理",
+   "parent": "cls_a",
+   "count": 14,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Fisika",
+     "Listrik",
+     "Optik"
+    ]
+   },
+   "desc": "形容词 · 物理领域"
+  },
+  {
+   "id": "cls_a_医学",
+   "name": "医学",
+   "parent": "cls_a",
+   "count": 13,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Kedokteran dan Fisiologi",
+     "Kesehatan",
+     "Penyakit"
+    ]
+   },
+   "desc": "形容词 · 医学领域"
+  },
+  {
+   "id": "cls_a_心理",
+   "name": "心理",
+   "parent": "cls_a",
+   "count": 5,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Psikologi",
+     "Psikoanalisis"
+    ]
+   },
+   "desc": "形容词 · 心理领域"
+  },
+  {
+   "id": "cls_a_语言文学",
+   "name": "语言文学",
+   "parent": "cls_a",
+   "count": 14,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Linguistik",
+     "Sastra",
+     "Kesusastraan",
+     "Tata Bahasa"
+    ]
+   },
+   "desc": "形容词 · 语言文学领域"
+  },
+  {
+   "id": "cls_a_地理地质",
+   "name": "地理地质",
+   "parent": "cls_a",
+   "count": 3,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Geografi dan Geologi",
+     "Geografi",
+     "Geologi"
+    ]
+   },
+   "desc": "形容词 · 地理地质领域"
+  },
+  {
+   "id": "cls_a_数学",
+   "name": "数学",
+   "parent": "cls_a",
+   "count": 6,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Matematika",
+     "Statistika"
+    ]
+   },
+   "desc": "形容词 · 数学领域"
+  },
+  {
+   "id": "cls_a_宗教",
+   "name": "宗教",
+   "parent": "cls_a",
+   "count": 4,
+   "filter": {
+    "wordClass": [
+     "a"
+    ],
+    "domainsAny": [
+     "Agama Islam",
+     "Agama Katolik",
+     "Agama Kristen",
+     "Agama Hindu",
+     "Agama Budha",
+     "Islam",
+     "Kristen"
+    ]
+   },
+   "desc": "形容词 · 宗教领域"
+  },
+  {
+   "id": "cls_adv",
+   "name": "副词",
+   "parent": "cls",
+   "count": 482,
+   "filter": {
+    "wordClass": [
+     "adv"
+    ]
+   },
+   "desc": "词类：副词"
+  },
+  {
+   "id": "cls_num",
+   "name": "数词",
+   "parent": "cls",
+   "count": 181,
+   "filter": {
+    "wordClass": [
+     "num"
+    ]
+   },
+   "desc": "词类：数词"
+  },
+  {
+   "id": "cls_pron",
+   "name": "代词",
+   "parent": "cls",
+   "count": 79,
+   "filter": {
+    "wordClass": [
+     "pron"
+    ]
+   },
+   "desc": "词类：代词"
+  },
+  {
+   "id": "cls_prep",
+   "name": "介词",
+   "parent": "cls",
+   "count": 17,
+   "filter": {
+    "wordClass": [
+     "prep"
+    ]
+   },
+   "desc": "词类：介词"
+  },
+  {
+   "id": "cls_conj",
+   "name": "连词",
+   "parent": "cls",
+   "count": 36,
+   "filter": {
+    "wordClass": [
+     "conj"
+    ]
+   },
+   "desc": "词类：连词"
+  },
+  {
+   "id": "cls_interj",
+   "name": "感叹词",
+   "parent": "cls",
+   "count": 63,
+   "filter": {
+    "wordClass": [
+     "interj"
+    ]
+   },
+   "desc": "词类：感叹词"
+  },
+  {
+   "id": "cls_part",
+   "name": "助词",
+   "parent": "cls",
+   "count": 187,
+   "filter": {
+    "wordClass": [
+     "part"
+    ]
+   },
+   "desc": "词类：助词"
+  },
+  {
+   "id": "cls_other",
+   "name": "未分类",
+   "parent": "cls",
+   "count": 62615,
+   "filter": {
+    "wordClassIsNull": true
+   },
+   "desc": "KBBI 未标注词类的词汇"
+  },
+  {
+   "id": "reg_口语",
+   "name": "口语",
+   "parent": "reg",
+   "count": 499,
+   "filter": {
+    "domainsAny": [
+     "Cakapan",
+     "Melayu Jakarta"
+    ]
+   },
+   "desc": "语域：口语"
+  },
+  {
+   "id": "reg_修辞比喻",
+   "name": "修辞比喻",
+   "parent": "reg",
+   "count": 1833,
+   "filter": {
+    "domainsAny": [
+     "kiasan",
+     "Ungkapan",
+     "Peribahasa",
+     "Idiom"
+    ]
+   },
+   "desc": "语域：修辞比喻"
+  },
+  {
+   "id": "reg_古语",
+   "name": "古语",
+   "parent": "reg",
+   "count": 115,
+   "filter": {
+    "domainsAny": [
+     "Arkais"
+    ]
+   },
+   "desc": "语域：古语"
+  },
+  {
+   "id": "reg_缩写简称",
+   "name": "缩写简称",
+   "parent": "reg",
+   "count": 449,
+   "filter": {
+    "domainsAny": [
+     "akronim",
+     "singkatan",
+     "kependekan",
+     "Kependekan"
+    ]
+   },
+   "desc": "语域：缩写简称"
+  },
+  {
+   "id": "ori_阿拉伯语",
+   "name": "阿拉伯语",
+   "parent": "ori",
+   "count": 580,
+   "filter": {
+    "originAny": [
+     "Arab"
+    ]
+   },
+   "desc": "借自阿拉伯语"
+  },
+  {
+   "id": "ori_梵语",
+   "name": "梵语",
+   "parent": "ori",
+   "count": 386,
+   "filter": {
+    "originAny": [
+     "Sanskerta"
+    ]
+   },
+   "desc": "借自梵语"
+  },
+  {
+   "id": "ori_爪哇古语",
+   "name": "爪哇古语",
+   "parent": "ori",
+   "count": 553,
+   "filter": {
+    "originAny": [
+     "Jawa Kuno",
+     "Jawa kuno"
+    ]
+   },
+   "desc": "借自爪哇古语"
+  },
+  {
+   "id": "ori_闽南语",
+   "name": "闽南语",
+   "parent": "ori",
+   "count": 77,
+   "filter": {
+    "originAny": [
+     "Hokkien"
+    ]
+   },
+   "desc": "借自闽南语"
+  },
+  {
+   "id": "ori_汉语方言",
+   "name": "汉语方言",
+   "parent": "ori",
+   "count": 17,
+   "filter": {
+    "originAny": [
+     "Mandarin",
+     "Kanton",
+     "Hakka",
+     "Cina",
+     "Ningpo"
+    ]
+   },
+   "desc": "借自汉语方言"
+  },
+  {
+   "id": "ori_波斯语",
+   "name": "波斯语",
+   "parent": "ori",
+   "count": 9,
+   "filter": {
+    "originAny": [
+     "Persia"
+    ]
+   },
+   "desc": "借自波斯语"
+  },
+  {
+   "id": "ori_爪哇语",
+   "name": "爪哇语",
+   "parent": "ori",
+   "count": 759,
+   "filter": {
+    "originAny": [
+     "Jawa"
+    ]
+   },
+   "desc": "借自爪哇语"
+  },
+  {
+   "id": "ori_米南加保语",
+   "name": "米南加保语",
+   "parent": "ori",
+   "count": 106,
+   "filter": {
+    "originAny": [
+     "Minangkabau"
+    ]
+   },
+   "desc": "借自米南加保语"
+  },
+  {
+   "id": "ori_巴塔克语",
+   "name": "巴塔克语",
+   "parent": "ori",
+   "count": 65,
+   "filter": {
+    "originAny": [
+     "Batak"
+    ]
+   },
+   "desc": "借自巴塔克语"
+  },
+  {
+   "id": "ori_雅加达马来语",
+   "name": "雅加达马来语",
+   "parent": "ori",
+   "count": 63,
+   "filter": {
+    "originAny": [
+     "Melayu Jakarta"
+    ]
+   },
+   "desc": "借自雅加达马来语"
+  },
+  {
+   "id": "ori_巽他语",
+   "name": "巽他语",
+   "parent": "ori",
+   "count": 61,
+   "filter": {
+    "originAny": [
+     "Sunda"
+    ]
+   },
+   "desc": "借自巽他语"
+  },
+  {
+   "id": "ori_英语",
+   "name": "英语",
+   "parent": "ori",
+   "count": 94,
+   "filter": {
+    "originAny": [
+     "Inggris"
+    ]
+   },
+   "desc": "借自英语"
+  },
+  {
+   "id": "ori_荷兰语",
+   "name": "荷兰语",
+   "parent": "ori",
+   "count": 40,
+   "filter": {
+    "originAny": [
+     "Belanda"
+    ]
+   },
+   "desc": "借自荷兰语"
+  },
+  {
+   "id": "ori_达雅语",
+   "name": "达雅语",
+   "parent": "ori",
+   "count": 38,
+   "filter": {
+    "originAny": [
+     "Dayak"
+    ]
+   },
+   "desc": "借自达雅语"
+  },
+  {
+   "id": "ori_亚齐语",
+   "name": "亚齐语",
+   "parent": "ori",
+   "count": 26,
+   "filter": {
+    "originAny": [
+     "Aceh"
+    ]
+   },
+   "desc": "借自亚齐语"
+  },
+  {
+   "id": "ori_廖内马来语",
+   "name": "廖内马来语",
+   "parent": "ori",
+   "count": 24,
+   "filter": {
+    "originAny": [
+     "Melayu Riau"
+    ]
+   },
+   "desc": "借自廖内马来语"
+  },
+  {
+   "id": "ori_马都拉语",
+   "name": "马都拉语",
+   "parent": "ori",
+   "count": 22,
+   "filter": {
+    "originAny": [
+     "Madura"
+    ]
+   },
+   "desc": "借自马都拉语"
+  },
+  {
+   "id": "ori_日语",
+   "name": "日语",
+   "parent": "ori",
+   "count": 19,
+   "filter": {
+    "originAny": [
+     "Jepang"
+    ]
+   },
+   "desc": "借自日语"
+  },
+  {
+   "id": "ori_占碑语",
+   "name": "占碑语",
+   "parent": "ori",
+   "count": 14,
+   "filter": {
+    "originAny": [
+     "Jambi"
+    ]
+   },
+   "desc": "借自占碑语"
+  },
+  {
+   "id": "ori_加里曼丹语",
+   "name": "加里曼丹语",
+   "parent": "ori",
+   "count": 9,
+   "filter": {
+    "originAny": [
+     "Kalimantan"
+    ]
+   },
+   "desc": "借自加里曼丹语"
+  },
+  {
+   "id": "ori_葡萄牙语",
+   "name": "葡萄牙语",
+   "parent": "ori",
+   "count": 9,
+   "filter": {
+    "originAny": [
+     "Portugis"
+    ]
+   },
+   "desc": "借自葡萄牙语"
+  },
+  {
+   "id": "ori_加约语",
+   "name": "加约语",
+   "parent": "ori",
+   "count": 9,
+   "filter": {
+    "originAny": [
+     "Gayo"
+    ]
+   },
+   "desc": "借自加约语"
+  },
+  {
+   "id": "ori_拉丁语",
+   "name": "拉丁语",
+   "parent": "ori",
+   "count": 7,
+   "filter": {
+    "originAny": [
+     "Latin"
+    ]
+   },
+   "desc": "借自拉丁语"
+  },
+  {
+   "id": "ori_Kei 语",
+   "name": "Kei 语",
+   "parent": "ori",
+   "count": 5,
+   "filter": {
+    "originAny": [
+     "Kei"
+    ]
+   },
+   "desc": "借自Kei 语"
+  },
+  {
+   "id": "ori_哥伦打洛语",
+   "name": "哥伦打洛语",
+   "parent": "ori",
+   "count": 5,
+   "filter": {
+    "originAny": [
+     "Gorontalo"
+    ]
+   },
+   "desc": "借自哥伦打洛语"
+  },
+  {
+   "id": "ori_特尔纳特语",
+   "name": "特尔纳特语",
+   "parent": "ori",
+   "count": 4,
+   "filter": {
+    "originAny": [
+     "Ternate"
+    ]
+   },
+   "desc": "借自特尔纳特语"
+  },
+  {
+   "id": "ori_Ngaju 语",
+   "name": "Ngaju 语",
+   "parent": "ori",
+   "count": 3,
+   "filter": {
+    "originAny": [
+     "Ngaju"
+    ]
+   },
+   "desc": "借自Ngaju 语"
+  },
+  {
+   "id": "ori_布吉语",
+   "name": "布吉语",
+   "parent": "ori",
+   "count": 3,
+   "filter": {
+    "originAny": [
+     "Bugis"
+    ]
+   },
+   "desc": "借自布吉语"
+  },
+  {
+   "id": "top_日常起居",
+   "name": "日常起居",
+   "parent": "top",
+   "count": 678,
+   "filter": {
+    "topicsAny": [
+     "日常起居"
+    ]
+   },
+   "desc": "场景主题：日常起居",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_餐饮食物",
+   "name": "餐饮食物",
+   "parent": "top",
+   "count": 1343,
+   "filter": {
+    "topicsAny": [
+     "餐饮食物"
+    ]
+   },
+   "desc": "场景主题：餐饮食物",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_烹饪厨艺",
+   "name": "烹饪厨艺",
+   "parent": "top",
+   "count": 158,
+   "filter": {
+    "topicsAny": [
+     "烹饪厨艺"
+    ]
+   },
+   "desc": "场景主题：烹饪厨艺",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_饮品酒水",
+   "name": "饮品酒水",
+   "parent": "top",
+   "count": 226,
+   "filter": {
+    "topicsAny": [
+     "饮品酒水"
+    ]
+   },
+   "desc": "场景主题：饮品酒水",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_食材调料",
+   "name": "食材调料",
+   "parent": "top",
+   "count": 602,
+   "filter": {
+    "topicsAny": [
+     "食材调料"
+    ]
+   },
+   "desc": "场景主题：食材调料",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_服饰穿着",
+   "name": "服饰穿着",
+   "parent": "top",
+   "count": 754,
+   "filter": {
+    "topicsAny": [
+     "服饰穿着"
+    ]
+   },
+   "desc": "场景主题：服饰穿着",
+   "aliases": [
+    "服装",
+    "衣裳"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_房间家具",
+   "name": "房间家具",
+   "parent": "top",
+   "count": 20,
+   "filter": {
+    "topicsAny": [
+     "房间家具"
+    ]
+   },
+   "desc": "主题细化：房间家具（策展表判据见 docs/18）",
+   "aliases": [
+    "家具",
+    "家居",
+    "家里"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_厨房用具",
+   "name": "厨房用具",
+   "parent": "top",
+   "count": 25,
+   "filter": {
+    "topicsAny": [
+     "厨房用具"
+    ]
+   },
+   "desc": "主题细化：厨房用具（策展表判据见 docs/18）",
+   "aliases": [
+    "厨具",
+    "炊具",
+    "厨房"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_餐具",
+   "name": "餐具",
+   "parent": "top",
+   "count": 11,
+   "filter": {
+    "topicsAny": [
+     "餐具"
+    ]
+   },
+   "desc": "主题细化：餐具（策展表判据见 docs/18）",
+   "aliases": [
+    "碗筷",
+    "餐桌"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_房屋居所",
+   "name": "房屋居所",
+   "parent": "top",
+   "count": 50,
+   "filter": {
+    "topicsAny": [
+     "房屋居所"
+    ]
+   },
+   "desc": "主题细化：房屋居所（策展表判据见 docs/18）",
+   "aliases": [
+    "住房",
+    "住宅",
+    "家居"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_颜色",
+   "name": "颜色",
+   "parent": "top",
+   "count": 27,
+   "filter": {
+    "topicsAny": [
+     "颜色"
+    ]
+   },
+   "desc": "主题细化：颜色（策展表判据见 docs/18）",
+   "aliases": [
+    "色彩",
+    "色调"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_交通工具",
+   "name": "交通工具",
+   "parent": "top",
+   "count": 86,
+   "filter": {
+    "topicsAny": [
+     "交通工具"
+    ]
+   },
+   "desc": "主题细化：交通工具（策展表判据见 docs/18）",
+   "aliases": [
+    "车辆",
+    "运输工具"
+   ],
+   "group": "生活起居"
+  },
+  {
+   "id": "top_交通出行",
+   "name": "交通出行",
+   "parent": "top",
+   "count": 907,
+   "filter": {
+    "topicsAny": [
+     "交通出行"
+    ]
+   },
+   "desc": "场景主题：交通出行",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_购物金钱",
+   "name": "购物金钱",
+   "parent": "top",
+   "count": 1500,
+   "filter": {
+    "topicsAny": [
+     "购物金钱"
+    ]
+   },
+   "desc": "场景主题：购物金钱",
+   "group": "生活起居"
+  },
+  {
+   "id": "top_城市建筑",
+   "name": "城市建筑",
+   "parent": "top",
+   "count": 687,
+   "filter": {
+    "topicsAny": [
+     "城市建筑"
+    ]
+   },
+   "desc": "场景主题：城市建筑",
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_生活实用",
+   "name": "生活实用",
+   "parent": "top",
+   "count": 530,
+   "filter": {
+    "topicsAny": [
+     "生活实用"
+    ]
+   },
+   "desc": "主题细化：生活实用（策展表判据见 docs/18）",
+   "group": "生活起居"
+  },
+  {
+   "id": "topc_星期",
+   "name": "星期",
+   "parent": "top",
+   "count": 7,
+   "filter": {
+    "topicsAny": [
+     "星期"
+    ]
+   },
+   "desc": "主题细化：星期（策展表判据见 docs/18）",
+   "aliases": [
+    "礼拜",
+    "周"
+   ],
+   "order": [
+    "senin",
+    "selasa",
+    "rabu",
+    "kamis",
+    "jumat",
+    "sabtu",
+    "minggu"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "topc_月份",
+   "name": "月份",
+   "parent": "top",
+   "count": 12,
+   "filter": {
+    "topicsAny": [
+     "月份"
+    ]
+   },
+   "desc": "主题细化：月份（策展表判据见 docs/18）",
+   "aliases": [
+    "月"
+   ],
+   "order": [
+    "januari",
+    "februari",
+    "maret",
+    "april",
+    "mei",
+    "juni",
+    "juli",
+    "agustus",
+    "september",
+    "oktober",
+    "november",
+    "desember"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "topc_数字",
+   "name": "数字",
+   "parent": "top",
+   "count": 58,
+   "filter": {
+    "topicsAny": [
+     "数字"
+    ]
+   },
+   "desc": "主题细化：数字（策展表判据见 docs/18）",
+   "aliases": [
+    "数词",
+    "数目",
+    "计数"
+   ],
+   "order": [
+    "nol",
+    "satu",
+    "dua",
+    "tiga",
+    "empat",
+    "lima",
+    "enam",
+    "tujuh",
+    "delapan",
+    "sembilan",
+    "sepuluh",
+    "sebelas",
+    "seratus",
+    "ratus",
+    "puluh",
+    "ribu",
+    "juta",
+    "sejuta",
+    "miliar",
+    "pertama",
+    "kedua",
+    "ketiga",
+    "keempat",
+    "keenam",
+    "kesembilan",
+    "kesepuluh",
+    "kesebelas",
+    "persen",
+    "angka bulat",
+    "bilangan bulat",
+    "pecahan",
+    "desimal",
+    "kosong",
+    "seribu",
+    "triliun",
+    "setriliun",
+    "triliunan",
+    "belas",
+    "puluhan",
+    "ratusan",
+    "ribuan",
+    "jutaan",
+    "miliaran",
+    "setengah",
+    "separuh",
+    "seperdua",
+    "sepertiga",
+    "seperempat",
+    "seperlima",
+    "lusin",
+    "lusinan",
+    "angka",
+    "bilangan",
+    "nomor",
+    "berdua",
+    "bertiga",
+    "berempat",
+    "dua-duanya"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "topc_序数",
+   "name": "序数",
+   "parent": "top",
+   "count": 4,
+   "filter": {
+    "topicsAny": [
+     "序数"
+    ]
+   },
+   "desc": "主题细化：序数（策展表判据见 docs/18）",
+   "aliases": [
+    "排名",
+    "第几"
+   ],
+   "order": [
+    "pertama",
+    "kedua",
+    "ketiga",
+    "keempat"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "topc_时间单位",
+   "name": "时间单位",
+   "parent": "top",
+   "count": 8,
+   "filter": {
+    "topicsAny": [
+     "时间单位"
+    ]
+   },
+   "desc": "主题细化：时间单位（策展表判据见 docs/18）",
+   "aliases": [
+    "时间",
+    "时长"
+   ],
+   "order": [
+    "detik",
+    "menit",
+    "jam",
+    "hari",
+    "minggu",
+    "bulan",
+    "tahun",
+    "abad"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "top_时间日历",
+   "name": "时间日历",
+   "parent": "top",
+   "count": 938,
+   "filter": {
+    "topicsAny": [
+     "时间日历"
+    ]
+   },
+   "desc": "场景主题：时间日历",
+   "group": "时间与数量"
+  },
+  {
+   "id": "topc_频率",
+   "name": "频率",
+   "parent": "top",
+   "count": 8,
+   "filter": {
+    "topicsAny": [
+     "频率"
+    ]
+   },
+   "desc": "主题细化：频率（策展表判据见 docs/18）",
+   "aliases": [
+    "频次",
+    "多久一次"
+   ],
+   "order": [
+    "selalu",
+    "sering",
+    "kadang",
+    "jarang",
+    "pernah",
+    "kadang-kadang",
+    "terkadang",
+    "kapan-kapan"
+   ],
+   "group": "时间与数量"
+  },
+  {
+   "id": "top_数学计量",
+   "name": "数学计量",
+   "parent": "top",
+   "count": 759,
+   "filter": {
+    "topicsAny": [
+     "数学计量"
+    ]
+   },
+   "desc": "场景主题：数学计量",
+   "group": "时间与数量"
+  },
+  {
+   "id": "top_身体健康",
+   "name": "身体健康",
+   "parent": "top",
+   "count": 1059,
+   "filter": {
+    "topicsAny": [
+     "身体健康"
+    ]
+   },
+   "desc": "场景主题：身体健康",
+   "group": "人体与情感"
+  },
+  {
+   "id": "top_身体部位",
+   "name": "身体部位",
+   "parent": "top",
+   "count": 743,
+   "filter": {
+    "topicsAny": [
+     "身体部位"
+    ]
+   },
+   "desc": "场景主题：身体部位",
+   "aliases": [
+    "人体",
+    "器官"
+   ],
+   "group": "人体与情感"
+  },
+  {
+   "id": "top_医疗就医",
+   "name": "医疗就医",
+   "parent": "top",
+   "count": 1116,
+   "filter": {
+    "topicsAny": [
+     "医疗就医"
+    ]
+   },
+   "desc": "场景主题：医疗就医",
+   "group": "人体与情感"
+  },
+  {
+   "id": "topc_情绪感受",
+   "name": "情绪感受",
+   "parent": "top",
+   "count": 44,
+   "filter": {
+    "topicsAny": [
+     "情绪感受"
+    ]
+   },
+   "desc": "主题细化：情绪感受（策展表判据见 docs/18）",
+   "aliases": [
+    "心情",
+    "感受"
+   ],
+   "group": "人体与情感"
+  },
+  {
+   "id": "top_情感心理",
+   "name": "情感心理",
+   "parent": "top",
+   "count": 713,
+   "filter": {
+    "topicsAny": [
+     "情感心理"
+    ]
+   },
+   "desc": "场景主题：情感心理",
+   "group": "人体与情感"
+  },
+  {
+   "id": "top_性格品质",
+   "name": "性格品质",
+   "parent": "top",
+   "count": 310,
+   "filter": {
+    "topicsAny": [
+     "性格品质"
+    ]
+   },
+   "desc": "场景主题：性格品质",
+   "group": "人体与情感"
+  },
+  {
+   "id": "top_工作职场",
+   "name": "工作职场",
+   "parent": "top",
+   "count": 1020,
+   "filter": {
+    "topicsAny": [
+     "工作职场"
+    ]
+   },
+   "desc": "场景主题：工作职场",
+   "group": "工作与学习"
+  },
+  {
+   "id": "top_学习教育",
+   "name": "学习教育",
+   "parent": "top",
+   "count": 1553,
+   "filter": {
+    "topicsAny": [
+     "学习教育"
+    ]
+   },
+   "desc": "场景主题：学习教育",
+   "group": "工作与学习"
+  },
+  {
+   "id": "topc_学习用品",
+   "name": "学习用品",
+   "parent": "top",
+   "count": 17,
+   "filter": {
+    "topicsAny": [
+     "学习用品"
+    ]
+   },
+   "desc": "主题细化：学习用品（策展表判据见 docs/18）",
+   "aliases": [
+    "文具",
+    "学习工具"
+   ],
+   "group": "工作与学习"
+  },
+  {
+   "id": "top_通讯网络",
+   "name": "通讯网络",
+   "parent": "top",
+   "count": 628,
+   "filter": {
+    "topicsAny": [
+     "通讯网络"
+    ]
+   },
+   "desc": "场景主题：通讯网络",
+   "group": "工作与学习"
+  },
+  {
+   "id": "top_通信传媒",
+   "name": "通信传媒",
+   "parent": "top",
+   "count": 869,
+   "filter": {
+    "topicsAny": [
+     "通信传媒"
+    ]
+   },
+   "desc": "场景主题：通信传媒",
+   "group": "工作与学习"
+  },
+  {
+   "id": "topc_常用量词",
+   "name": "常用量词",
+   "parent": "top",
+   "count": 12,
+   "filter": {
+    "topicsAny": [
+     "常用量词"
+    ]
+   },
+   "desc": "主题细化：常用量词（策展表判据见 docs/18）",
+   "aliases": [
+    "单位词",
+    "计量单位"
+   ],
+   "group": "工作与学习"
+  },
+  {
+   "id": "top_政务证件",
+   "name": "政务证件",
+   "parent": "top",
+   "count": 669,
+   "filter": {
+    "topicsAny": [
+     "政务证件"
+    ]
+   },
+   "desc": "场景主题：政务证件",
+   "group": "工作与学习"
+  },
+  {
+   "id": "top_计算机网络",
+   "name": "计算机网络",
+   "parent": "top",
+   "count": 808,
+   "filter": {
+    "topicsAny": [
+     "计算机网络"
+    ]
+   },
+   "desc": "场景主题：计算机网络",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_科学研究",
+   "name": "科学研究",
+   "parent": "top",
+   "count": 1167,
+   "filter": {
+    "topicsAny": [
+     "科学研究"
+    ]
+   },
+   "desc": "场景主题：科学研究",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_工程技术",
+   "name": "工程技术",
+   "parent": "top",
+   "count": 261,
+   "filter": {
+    "topicsAny": [
+     "工程技术"
+    ]
+   },
+   "desc": "场景主题：工程技术",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_物理",
+   "name": "物理",
+   "parent": "top",
+   "count": 843,
+   "filter": {
+    "topicsAny": [
+     "物理"
+    ]
+   },
+   "desc": "场景主题：物理",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_化学",
+   "name": "化学",
+   "parent": "top",
+   "count": 843,
+   "filter": {
+    "topicsAny": [
+     "化学"
+    ]
+   },
+   "desc": "场景主题：化学",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_天文宇宙",
+   "name": "天文宇宙",
+   "parent": "top",
+   "count": 433,
+   "filter": {
+    "topicsAny": [
+     "天文宇宙"
+    ]
+   },
+   "desc": "场景主题：天文宇宙",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_科技工程",
+   "name": "科技工程",
+   "parent": "top",
+   "count": 1177,
+   "filter": {
+    "topicsAny": [
+     "科技工程"
+    ]
+   },
+   "desc": "场景主题：科技工程",
+   "group": "科学与技术"
+  },
+  {
+   "id": "top_金融银行",
+   "name": "金融银行",
+   "parent": "top",
+   "count": 740,
+   "filter": {
+    "topicsAny": [
+     "金融银行"
+    ]
+   },
+   "desc": "场景主题：金融银行",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_政法军事",
+   "name": "政法军事",
+   "parent": "top",
+   "count": 1704,
+   "filter": {
+    "topicsAny": [
+     "政法军事"
+    ]
+   },
+   "desc": "场景主题：政法军事",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_战争冲突",
+   "name": "战争冲突",
+   "parent": "top",
+   "count": 516,
+   "filter": {
+    "topicsAny": [
+     "战争冲突"
+    ]
+   },
+   "desc": "场景主题：战争冲突",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_宗教信仰",
+   "name": "宗教信仰",
+   "parent": "top",
+   "count": 964,
+   "filter": {
+    "topicsAny": [
+     "宗教信仰"
+    ]
+   },
+   "desc": "场景主题：宗教信仰",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_节日庆典",
+   "name": "节日庆典",
+   "parent": "top",
+   "count": 400,
+   "filter": {
+    "topicsAny": [
+     "节日庆典"
+    ]
+   },
+   "desc": "场景主题：节日庆典",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_文体娱乐",
+   "name": "文体娱乐",
+   "parent": "top",
+   "count": 1869,
+   "filter": {
+    "topicsAny": [
+     "文体娱乐"
+    ]
+   },
+   "desc": "场景主题：文体娱乐",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_旅行观光",
+   "name": "旅行观光",
+   "parent": "top",
+   "count": 696,
+   "filter": {
+    "topicsAny": [
+     "旅行观光"
+    ]
+   },
+   "desc": "场景主题：旅行观光",
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_家庭人际",
+   "name": "家庭人际",
+   "parent": "top",
+   "count": 814,
+   "filter": {
+    "topicsAny": [
+     "家庭人际"
+    ]
+   },
+   "desc": "场景主题：家庭人际",
+   "group": "社会与文化"
+  },
+  {
+   "id": "topc_亲属称谓",
+   "name": "亲属称谓",
+   "parent": "top",
+   "count": 73,
+   "filter": {
+    "topicsAny": [
+     "亲属称谓"
+    ]
+   },
+   "desc": "主题细化：亲属称谓（策展表判据见 docs/18）",
+   "aliases": [
+    "家庭成员",
+    "家人",
+    "亲戚",
+    "称谓"
+   ],
+   "group": "社会与文化"
+  },
+  {
+   "id": "top_自然万物",
+   "name": "自然万物",
+   "parent": "top",
+   "count": 1095,
+   "filter": {
+    "topicsAny": [
+     "自然万物"
+    ]
+   },
+   "desc": "场景主题：自然万物",
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_天气气候",
+   "name": "天气气候",
+   "parent": "top",
+   "count": 685,
+   "filter": {
+    "topicsAny": [
+     "天气气候"
+    ]
+   },
+   "desc": "场景主题：天气气候",
+   "aliases": [
+    "气候",
+    "气象"
+   ],
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_农业渔业",
+   "name": "农业渔业",
+   "parent": "top",
+   "count": 683,
+   "filter": {
+    "topicsAny": [
+     "农业渔业"
+    ]
+   },
+   "desc": "场景主题：农业渔业",
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_动物",
+   "name": "动物",
+   "parent": "top",
+   "count": 980,
+   "filter": {
+    "topicsAny": [
+     "动物"
+    ]
+   },
+   "desc": "场景主题：动物",
+   "aliases": [
+    "牲畜",
+    "禽兽"
+   ],
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_植物",
+   "name": "植物",
+   "parent": "top",
+   "count": 901,
+   "filter": {
+    "topicsAny": [
+     "植物"
+    ]
+   },
+   "desc": "场景主题：植物",
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_地质水文",
+   "name": "地质水文",
+   "parent": "top",
+   "count": 790,
+   "filter": {
+    "topicsAny": [
+     "地质水文"
+    ]
+   },
+   "desc": "场景主题：地质水文",
+   "group": "自然与万物"
+  },
+  {
+   "id": "topc_水果",
+   "name": "水果",
+   "parent": "top",
+   "count": 43,
+   "filter": {
+    "topicsAny": [
+     "水果"
+    ]
+   },
+   "desc": "主题细化：水果（策展表判据见 docs/18）",
+   "aliases": [
+    "果类"
+   ],
+   "group": "自然与万物"
+  },
+  {
+   "id": "topc_蔬菜作物",
+   "name": "蔬菜作物",
+   "parent": "top",
+   "count": 64,
+   "filter": {
+    "topicsAny": [
+     "蔬菜作物"
+    ]
+   },
+   "desc": "主题细化：蔬菜作物（策展表判据见 docs/18）",
+   "aliases": [
+    "蔬菜",
+    "农作物"
+   ],
+   "group": "自然与万物"
+  },
+  {
+   "id": "top_工具材料",
+   "name": "工具材料",
+   "parent": "top",
+   "count": 1161,
+   "filter": {
+    "topicsAny": [
+     "工具材料"
+    ]
+   },
+   "desc": "场景主题：工具材料",
+   "group": "自然与万物"
+  },
+  {
+   "id": "topc_疑问词",
+   "name": "疑问词",
+   "parent": "top",
+   "count": 7,
+   "filter": {
+    "topicsAny": [
+     "疑问词"
+    ]
+   },
+   "desc": "主题细化：疑问词（策展表判据见 docs/18）",
+   "aliases": [
+    "疑问",
+    "问句",
+    "提问"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_人称代词",
+   "name": "人称代词",
+   "parent": "top",
+   "count": 16,
+   "filter": {
+    "topicsAny": [
+     "人称代词"
+    ]
+   },
+   "desc": "主题细化：人称代词（策展表判据见 docs/18）",
+   "aliases": [
+    "代词",
+    "人称"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_指示词",
+   "name": "指示词",
+   "parent": "top",
+   "count": 6,
+   "filter": {
+    "topicsAny": [
+     "指示词"
+    ]
+   },
+   "desc": "主题细化：指示词（策展表判据见 docs/18）",
+   "aliases": [
+    "指示代词",
+    "这那"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_程度副词",
+   "name": "程度副词",
+   "parent": "top",
+   "count": 9,
+   "filter": {
+    "topicsAny": [
+     "程度副词"
+    ]
+   },
+   "desc": "主题细化：程度副词（策展表判据见 docs/18）",
+   "aliases": [
+    "程度",
+    "副词"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_方向方位",
+   "name": "方向方位",
+   "parent": "top",
+   "count": 22,
+   "filter": {
+    "topicsAny": [
+     "方向方位"
+    ]
+   },
+   "desc": "主题细化：方向方位（策展表判据见 docs/18）",
+   "aliases": [
+    "方位",
+    "方向",
+    "朝向"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_问候礼貌语",
+   "name": "问候礼貌语",
+   "parent": "top",
+   "count": 8,
+   "filter": {
+    "topicsAny": [
+     "问候礼貌语"
+    ]
+   },
+   "desc": "主题细化：问候礼貌语（策展表判据见 docs/18）",
+   "aliases": [
+    "问候语",
+    "礼貌用语",
+    "寒暄",
+    "客套话"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_问候寒暄",
+   "name": "问候寒暄",
+   "parent": "top",
+   "count": 23,
+   "filter": {
+    "topicsAny": [
+     "问候寒暄"
+    ]
+   },
+   "desc": "主题细化：问候寒暄（策展表判据见 docs/18）",
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_礼貌客套",
+   "name": "礼貌客套",
+   "parent": "top",
+   "count": 33,
+   "filter": {
+    "topicsAny": [
+     "礼貌客套"
+    ]
+   },
+   "desc": "主题细化：礼貌客套（策展表判据见 docs/18）",
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_问答常用",
+   "name": "问答常用",
+   "parent": "top",
+   "count": 61,
+   "filter": {
+    "topicsAny": [
+     "问答常用"
+    ]
+   },
+   "desc": "主题细化：问答常用（策展表判据见 docs/18）",
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_语言与语法",
+   "name": "语言与语法",
+   "parent": "top",
+   "count": 248,
+   "filter": {
+    "topicsAny": [
+     "语言与语法"
+    ]
+   },
+   "desc": "主题细化：语言与语法（策展表判据见 docs/18）",
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_口语与俚语（Bahasa Gaul）",
+   "name": "口语与俚语（Bahasa Gaul）",
+   "parent": "top",
+   "count": 43,
+   "filter": {
+    "topicsAny": [
+     "口语与俚语（Bahasa Gaul）"
+    ]
+   },
+   "desc": "主题细化：口语与俚语（Bahasa Gaul）（策展表判据见 docs/18）",
+   "aliases": [
+    "俚语",
+    "gaul",
+    "slang",
+    "网络用语",
+    "口语",
+    "非正式"
+   ],
+   "group": "语言与表达"
+  },
+  {
+   "id": "topc_拟声词",
+   "name": "拟声词",
+   "parent": "top",
+   "count": 106,
+   "filter": {
+    "topicsAny": [
+     "拟声词"
+    ]
+   },
+   "desc": "主题细化：拟声词（策展表判据见 docs/18）",
+   "group": "其他"
+  },
+  {
+   "id": "phr_生活起居",
+   "name": "短语·生活起居",
+   "parent": "phr",
+   "count": 4986,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "日常起居",
+     "餐饮食物",
+     "烹饪厨艺",
+     "饮品酒水",
+     "食材调料",
+     "服饰穿着",
+     "房间家具",
+     "厨房用具",
+     "餐具",
+     "房屋居所",
+     "颜色",
+     "交通工具",
+     "交通出行",
+     "购物金钱",
+     "城市建筑",
+     "生活实用"
+    ]
+   },
+   "group": "生活起居",
+   "desc": "短语子分类：生活起居（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_时间与数量",
+   "name": "短语·时间与数量",
+   "parent": "phr",
+   "count": 1209,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "星期",
+     "月份",
+     "数字",
+     "序数",
+     "时间单位",
+     "时间日历",
+     "频率",
+     "数学计量"
+    ]
+   },
+   "group": "时间与数量",
+   "desc": "短语子分类：时间与数量（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_人体与情感",
+   "name": "短语·人体与情感",
+   "parent": "phr",
+   "count": 2014,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "身体健康",
+     "身体部位",
+     "医疗就医",
+     "情绪感受",
+     "情感心理",
+     "性格品质"
+    ]
+   },
+   "group": "人体与情感",
+   "desc": "短语子分类：人体与情感（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_工作与学习",
+   "name": "短语·工作与学习",
+   "parent": "phr",
+   "count": 3108,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "工作职场",
+     "学习教育",
+     "学习用品",
+     "通讯网络",
+     "通信传媒",
+     "常用量词",
+     "政务证件"
+    ]
+   },
+   "group": "工作与学习",
+   "desc": "短语子分类：工作与学习（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_科学与技术",
+   "name": "短语·科学与技术",
+   "parent": "phr",
+   "count": 4066,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "计算机网络",
+     "科学研究",
+     "工程技术",
+     "物理",
+     "化学",
+     "天文宇宙",
+     "科技工程"
+    ]
+   },
+   "group": "科学与技术",
+   "desc": "短语子分类：科学与技术（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_社会与文化",
+   "name": "短语·社会与文化",
+   "parent": "phr",
+   "count": 5196,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "金融银行",
+     "政法军事",
+     "战争冲突",
+     "宗教信仰",
+     "节日庆典",
+     "文体娱乐",
+     "旅行观光",
+     "家庭人际",
+     "亲属称谓"
+    ]
+   },
+   "group": "社会与文化",
+   "desc": "短语子分类：社会与文化（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_自然与万物",
+   "name": "短语·自然与万物",
+   "parent": "phr",
+   "count": 4372,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "自然万物",
+     "天气气候",
+     "农业渔业",
+     "动物",
+     "植物",
+     "地质水文",
+     "水果",
+     "蔬菜作物",
+     "工具材料"
+    ]
+   },
+   "group": "自然与万物",
+   "desc": "短语子分类：自然与万物（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phr_语言与表达",
+   "name": "短语·语言与表达",
+   "parent": "phr",
+   "count": 285,
+   "filter": {
+    "tier": [
+     "phrase"
+    ],
+    "topicsAny": [
+     "疑问词",
+     "人称代词",
+     "指示词",
+     "程度副词",
+     "方向方位",
+     "问候礼貌语",
+     "问候寒暄",
+     "礼貌客套",
+     "问答常用",
+     "语言与语法"
+    ]
+   },
+   "group": "语言与表达",
+   "desc": "短语子分类：语言与表达（按主题 8 组切分，A92 补遗）"
+  },
+  {
+   "id": "phk_func",
+   "name": "语法与功能短语",
+   "parent": "phr_kind",
+   "count": 644,
+   "filter": {
+    "phraseKind": [
+     "func"
+    ]
+   },
+   "desc": "关联连词、篇章衔接、介词/副词/否定短语与高频会话套语"
+  },
+  {
+   "id": "phk_idiom",
+   "name": "习语与比喻",
+   "parent": "phr_kind",
+   "count": 1849,
+   "filter": {
+    "phraseKind": [
+     "idiom"
+    ]
+   },
+   "desc": "固定比喻习语与惯用表达（语义不可由字面直接推知）"
+  },
+  {
+   "id": "phk_verbal",
+   "name": "动词词组与短语",
+   "parent": "phr_kind",
+   "count": 2305,
+   "filter": {
+    "phraseKind": [
+     "verbal"
+    ]
+   },
+   "desc": "复合动词（Verba Majemuk）与动词搭配短语"
+  },
+  {
+   "id": "phk_adj",
+   "name": "形容词词组与短语",
+   "parent": "phr_kind",
+   "count": 1271,
+   "filter": {
+    "phraseKind": [
+     "adj"
+    ]
+   },
+   "desc": "复合形容词（Adjektiva Majemuk）与性状短语"
+  },
+  {
+   "id": "phk_nominal",
+   "name": "通用名词词组",
+   "parent": "phr_kind",
+   "count": 36199,
+   "filter": {
+    "phraseKind": [
+     "nominal"
+    ]
+   },
+   "desc": "日常复合名词（Nomina Majemuk）与固定名物词组"
+  },
+  {
+   "id": "phk_term",
+   "name": "学科专业术语",
+   "parent": "phr_kind",
+   "count": 19377,
+   "filter": {
+    "phraseKind": [
+     "term"
+    ]
+   },
+   "desc": "经济、医学、法律、化学、生物、计算机等学科专业复合词"
+  },
+  {
+   "id": "phk_peribahasa",
+   "name": "谚语俗语",
+   "parent": "phr_kind",
+   "count": 924,
+   "filter": {
+    "phraseKind": [
+     "peribahasa"
+    ]
+   },
+   "desc": "印尼语常用谚语与固定比喻格言"
+  },
+  {
+   "id": "p1",
+   "name": "高频短语",
+   "parent": "phr_freq",
+   "count": 2718,
+   "filter": {
+    "phraseTier": [
+     "p1"
+    ]
+   },
+   "desc": "wordfreq Zipf ≥ 5.0：terima kasih / akan tetapi 这一档"
+  },
+  {
+   "id": "p2",
+   "name": "常用短语",
+   "parent": "phr_freq",
+   "count": 20012,
+   "filter": {
+    "phraseTier": [
+     "p2"
+    ]
+   },
+   "desc": "4.0 ≤ Zipf < 5.0：日常读到的固定搭配"
+  },
+  {
+   "id": "p3",
+   "name": "低频短语",
+   "parent": "phr_freq",
+   "count": 24567,
+   "filter": {
+    "phraseTier": [
+     "p3"
+    ]
+   },
+   "desc": "0 < Zipf < 4.0：多出现在书面语里的搭配"
+  },
+  {
+   "id": "pk_people",
+   "name": "人名",
+   "parent": "prop",
+   "count": 118,
+   "filter": {
+    "properKind": [
+     "people"
+    ]
+   },
+   "desc": "专名细类：人名（判据见 xbook_verdict.json）"
+  },
+  {
+   "id": "pk_place",
+   "name": "地名",
+   "parent": "prop",
+   "count": 105,
+   "filter": {
+    "properKind": [
+     "place"
+    ]
+   },
+   "desc": "专名细类：地名（判据见 xbook_verdict.json）"
+  },
+  {
+   "id": "pk_org",
+   "name": "机构",
+   "parent": "prop",
+   "count": 24,
+   "filter": {
+    "properKind": [
+     "org"
+    ]
+   },
+   "desc": "专名细类：机构（判据见 xbook_verdict.json）"
+  },
+  {
+   "id": "pk_work",
+   "name": "作品",
+   "parent": "prop",
+   "count": 7,
+   "filter": {
+    "properKind": [
+     "work"
+    ]
+   },
+   "desc": "专名细类：作品（判据见 xbook_verdict.json）"
+  },
+  {
+   "id": "pk_deity",
+   "name": "宗教专名",
+   "parent": "prop",
+   "count": 19,
+   "filter": {
+    "properKind": [
+     "deity"
+    ]
+   },
+   "desc": "专名细类：宗教专名（判据见 xbook_verdict.json）"
+  },
+  {
+   "id": "pk_other",
+   "name": "其他专名",
+   "parent": "prop",
+   "count": 10,
+   "filter": {
+    "properKind": [
+     "other"
+    ]
+   },
+   "desc": "专名细类：其他专名（判据见 xbook_verdict.json）"
+  }
+ ]
+}
