@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KataMemo 印尼语专业内测问卷</title>
+  <style>
+    :root {
+      --brand: #147b5d;
+      --brand-light: #e8f5ef;
+      --bg: #f4f8f6;
+      --card: #ffffff;
+      --text: #1b2a24;
+      --sub: #5b6e66;
+      --line: #dbe7e1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 14px 48px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(135deg, #147b5d, #1f9b76);
+      color: #fff;
+      border-radius: 16px;
+      padding: 22px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 20px rgba(20, 123, 93, 0.18);
+    }
+    .hero h1 { margin: 0 0 6px; font-size: 20px; }
+    .hero p { margin: 0; font-size: 13.5px; opacity: 0.92; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .q-title { font-size: 15px; font-weight: 700; margin: 0 0 10px; }
+    .req { color: #d93025; margin-left: 3px; }
+    .sub-note { font-size: 12.5px; color: var(--sub); margin: -6px 0 10px; }
+    label.opt {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.15s;
+    }
+    label.opt:hover { background: var(--brand-light); }
+    input[type="radio"], input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--brand);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: #fbfdfc;
+      outline: none;
+    }
+    textarea:focus, input[type="text"]:focus {
+      border-color: var(--brand);
+      background: #fff;
+    }
+    textarea { min-height: 76px; resize: vertical; }
+    .btn {
+      width: 100%;
+      padding: 13px 18px;
+      border: none;
+      border-radius: 12px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      box-shadow: 0 4px 14px rgba(20, 123, 93, 0.25);
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .done-box {
+      display: none;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 34px 20px;
+    }
+    .done-box h2 { margin: 8px 0 6px; color: var(--brand); }
+    .err { color: #c0392b; font-size: 13px; margin-top: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>KataMemo 内测反馈问卷</h1>
+    <p>面向印尼语学习者 · 共 6 题，约 1 分钟填完，帮助我们锁定最真实的卡点与词条错漏。</p>
+  </div>
+
+  <form id="form">
+    <div class="card">
+      <p class="q-title">1. 你的使用设备与方式？<span class="req">*</span></p>
+      <label class="opt"><input type="radio" name="q1" value="iPhone Safari 网页" required> iPhone Safari 网页</label>
+      <label class="opt"><input type="radio" name="q1" value="iPhone 添加到主屏幕"> iPhone 添加到主屏幕（PWA）</label>
+      <label class="opt"><input type="radio" name="q1" value="安卓 App"> 安卓 App</label>
+      <label class="opt"><input type="radio" name="q1" value="电脑网页"> 电脑网页</label>
+    </div>
+
+    <div class="card">
+      <p class="q-title">2. 你目前处于印尼语学习的哪个阶段？<span class="req">*</span></p>
+      <label class="opt"><input type="radio" name="q2" value="大一（语音与基础词汇入门）" required> 大一（语音与基础词汇入门）</label>
+      <label class="opt"><input type="radio" name="q2" value="大二（基础语法与核心词汇积累）"> 大二（基础语法与核心词汇积累）</label>
+      <label class="opt"><input type="radio" name="q2" value="大三 / 大四（高年级、阅读翻译或专四/BIPA 备考）"> 大三 / 大四（高年级、阅读翻译或专四/BIPA 备考）</label>
+      <label class="opt"><input type="radio" name="q2" value="研一及以上 / 已毕业工作"> 研一及以上 / 已毕业从事相关工作</label>
+    </div>
+
+    <div class="card">
+      <p class="q-title">3. 实际刷卡和听发音时，哪个环节最影响你的连贯感？（可多选）</p>
+      <label class="opt"><input type="checkbox" name="q3" value="首次打开载入词库等待较久（网页版）"> 首次打开载入词库等待较久（网页版）</label>
+      <label class="opt"><input type="checkbox" name="q3" value="点词发音有延迟 / 后台语音下载提示比较打扰"> 点词发音有延迟 / 后台语音下载提示比较打扰（网页版）</label>
+      <label class="opt"><input type="checkbox" name="q3" value="默认词频分层太简单或太难，不好快速切到合适年级"> 默认词频分层太简单或太难，不好快速切到适合自己年级的范围</label>
+      <label class="opt"><input type="checkbox" name="q3" value="复习间隔 / 每日复习量不太合节奏"> 每天的复习间隔 / 复习量不太合节奏（太密或隔太久）</label>
+      <label class="opt"><input type="checkbox" name="q3" value="总体很顺畅，没有明显卡点"> 总体很顺畅，没有明显卡点</label>
+    </div>
+
+    <div class="card">
+      <p class="q-title">4. 词条内容上，你最容易觉得“有问题”或“不够用”的是哪几类？（可多选）</p>
+      <label class="opt"><input type="checkbox" name="q4" value="é/ê 音标标错或合成发音读错 e 音/重音"> <code>é / ê</code> 音标标注错误，或合成发音读错了 e 音 / 重音位置</label>
+      <label class="opt"><input type="checkbox" name="q4" value="词缀拆解不准，或派生词与词根关联不直观"> 词缀拆解不准，或派生词与词根之间的关联不够直观</label>
+      <label class="opt"><input type="checkbox" name="q4" value="多义词释义排序不合理，或书面/口语未区分清楚"> 多义词的中文释义排序不合理，或书面语 / 口语（cak.）未区分清楚</label>
+      <label class="opt"><input type="checkbox" name="q4" value="例句译文不够地道、与义项不匹配或难度不合适"> 例句译文不够地道、与目标词义项不匹配，或难度不合适</label>
+      <label class="opt"><input type="checkbox" name="q4" value="语法/写作板块内容有疏漏或不好查找"> 语法 / 写作板块的内容有疏漏或不好查找</label>
+      <label class="opt"><input type="checkbox" name="q4" value="词条内容整体准确够用，没遇到明显硬伤"> 词条内容整体准确够用，没遇到明显硬伤</label>
+    </div>
+
+    <div class="card">
+      <p class="q-title">4-1. 【捉虫直通车】（选填）</p>
+      <p class="sub-note">如果上面勾选了内容或发音问题，请直接写下具体单词或页面位置（如：<code>debat</code> 的 e 标错了 / 某词例句不匹配），方便我们逐条定点修复：</p>
+      <textarea name="q4_words" placeholder="例如：debat、mempertanggungjawabkan 的音标或例句问题..."></textarea>
+    </div>
+
+    <div class="card">
+      <p class="q-title">5. 在「学习 / 词库 / 语法 / 统计 / AI」这几个模块里，你最常用哪个？哪个基本没点开过？</p>
+      <textarea name="q5" placeholder="例如：最常用「学习」和「语法」，「统计」基本没点开过..."></textarea>
+    </div>
+
+    <div class="card">
+      <p class="q-title">6. 如果下一版只能优先改掉 1 个地方，或专门加 1 个小功能，你最希望是什么？</p>
+      <textarea name="q6" placeholder="畅所欲言，哪怕是很小的一个吐槽也很有帮助"></textarea>
+    </div>
+
+    <button id="submitBtn" class="btn" type="submit">提交反馈</button>
+    <div id="errBox" class="err"></div>
+  </form>
+
+  <div id="doneBox" class="done-box">
+    <div style="font-size:40px;">✅</div>
+    <h2>感谢反馈！</h2>
+    <p style="color:var(--sub);font-size:14px;">你的意见已记录，我们会对照实际反馈继续打磨词库与体验。</p>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('form');
+const btn = document.getElementById('submitBtn');
+const errBox = document.getElementById('errBox');
+const doneBox = document.getElementById('doneBox');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  errBox.textContent = '';
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+
+  const fd = new FormData(form);
+  const payload = {
+    q1: fd.get('q1') || '',
+    q2: fd.get('q2') || '',
+    q3: fd.getAll('q3'),
+    q4: fd.getAll('q4'),
+    q4_words: (fd.get('q4_words') || '').trim(),
+    q5: (fd.get('q5') || '').trim(),
+    q6: (fd.get('q6') || '').trim(),
+    ua: navigator.userAgent,
+  };
+
+  try {
+    const resp = await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const res = await resp.json().catch(() => ({}));
+    if (!resp.ok || !res.ok) throw new Error(res.error || ('HTTP ' + resp.status));
+    form.style.display = 'none';
+    doneBox.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    errBox.textContent = '提交失败：' + err.message + '，请稍后重试。';
+    btn.disabled = false;
+    btn.textContent = '提交反馈';
+  }
+});
+</script>
+</body>
+</html>
