@@ -19,7 +19,7 @@ extension type _RangeHeaders._(JSObject _) implements JSObject {
 @JS()
 @anonymous
 extension type _RangeReqInit._(JSObject _) implements JSObject {
-  external factory _RangeReqInit({String method, _RangeHeaders headers});
+  external factory _RangeReqInit({String method, _RangeHeaders headers, String cache});
 }
 
 @JS('DecompressionStream')
@@ -101,13 +101,18 @@ void ensureWebDatabaseFactory() {
 
 Future<bool> seedWebDatabaseFromAsset(
   String assetRelPath, {
+  String? cacheBust,
   void Function(double progress)? onProgress,
 }) async {
   ensureWebDatabaseFactory();
+  final url = (cacheBust == null || cacheBust.isEmpty)
+      ? 'assets/$assetRelPath'
+      : 'assets/$assetRelPath?v=$cacheBust';
   for (var attempt = 0; attempt < 3; attempt++) {
     try {
       onProgress?.call(0.1);
-      final resp = await _webFetch('assets/$assetRelPath'.toJS).toDart;
+      final resp =
+          await _webFetch(url.toJS, _RangeReqInit(cache: 'no-cache')).toDart;
       if (!resp.ok || resp.body == null) {
         if (attempt < 2) {
           await Future<void>.delayed(const Duration(seconds: 1));
@@ -136,9 +141,12 @@ Future<bool> seedWebDatabaseFromAsset(
 
 Future<String?> loadWebGzipTextAsset(
   String assetRelPath, {
+  String? cacheBust,
   bool persist = false,
 }) async {
-  final url = 'assets/$assetRelPath';
+  final url = (cacheBust == null || cacheBust.isEmpty)
+      ? 'assets/$assetRelPath'
+      : 'assets/$assetRelPath?v=$cacheBust';
   try {
     _RangeResp? resp;
     _JSCache? cache;
@@ -149,7 +157,9 @@ Future<String?> loadWebGzipTextAsset(
       }
     }
     if (resp == null) {
-      final fetched = await _webFetch(url.toJS).toDart;
+      final fetched = persist
+          ? await _webFetch(url.toJS).toDart
+          : await _webFetch(url.toJS, _RangeReqInit(cache: 'no-cache')).toDart;
       if (!fetched.ok || fetched.body == null) return null;
       if (persist && cache != null) {
         try {

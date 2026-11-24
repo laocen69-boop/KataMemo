@@ -149,6 +149,21 @@
       }
     })();
 
+    // Auto-reload into updated Service Worker during initial boot window
+    (function () {
+      if (!('serviceWorker' in navigator)) return;
+      var reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!reloading && performance.now() < 12000) {
+          reloading = true;
+          location.reload();
+        }
+      });
+      navigator.serviceWorker.getRegistration().then(function (reg) {
+        if (reg) reg.update().catch(function () {});
+      }).catch(function () {});
+    })();
+
     // Unlock Web Audio on first user gesture for iOS Safari autoSpeak
     (function () {
       var unlocked = false;

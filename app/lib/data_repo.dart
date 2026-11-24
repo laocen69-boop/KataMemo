@@ -40,8 +40,16 @@ class DataRepo {
     if (_imported) return;
     final installed = await db.dataVersion();
     if (installed == kDataVersionEffective && await db.wordCount() > 0) {
-      _imported = true;
-      return;
+      if (kIsWeb) {
+        final probe = await db.getWord('sudah');
+        if (probe != null && probe.examples.isNotEmpty) {
+          _imported = true;
+          return;
+        }
+      } else {
+        _imported = true;
+        return;
+      }
     }
     if (await db.wordCount() > 0) {
       importIsUpdate = true;
@@ -50,6 +58,7 @@ class DataRepo {
       await db.close();
       final seeded = await seedWebDatabaseFromAsset(
         'assets/data/web_seed.db.gz',
+        cacheBust: '$kDataVersionEffective',
         onProgress: (v) => importProgress.value = v,
       );
       if (seeded &&
@@ -61,7 +70,10 @@ class DataRepo {
     }
     final sw = Stopwatch()..start();
     final raw = (kIsWeb
-            ? await loadWebGzipTextAsset('assets/data/words.json.gz')
+            ? await loadWebGzipTextAsset(
+                'assets/data/words.json.gz',
+                cacheBust: '$kDataVersionEffective',
+              )
             : null) ??
         await rootBundle.loadString('assets/data/words.json');
     final list = jsonDecode(raw) as List<dynamic>;

@@ -13,12 +13,14 @@ void ensureWebDatabaseFactory() {}
 
 Future<bool> seedWebDatabaseFromAsset(
   String assetRelPath, {
+  String? cacheBust,
   void Function(double progress)? onProgress,
 }) async =>
     false;
 
 Future<String?> loadWebGzipTextAsset(
   String assetRelPath, {
+  String? cacheBust,
   bool persist = false,
 }) async =>
     null;
