@@ -33,3 +33,4 @@ Thumbs.db
 *.apk
 *.aab
 app/.wrangler/
+app/wrangler.toml

@@ -290,7 +290,7 @@ class _ForgetCurveChart extends StatelessWidget {
 
 /// 集成趋势图的档位切换（30 天 / 30 周 / 30 月）。
 ///
-/// 同类记忆 App 那套是小胶囊分段控件；这里做成一行圆角小按键，选中填品牌绿。
+/// 做成一行圆角小按键，选中填品牌色。
 class _TrendModeSwitch extends StatelessWidget {
   final int mode;
   final void Function(int) onChanged;

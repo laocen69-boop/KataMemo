@@ -5,4 +5,4 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "KATAMEMO_FEEDBACK"
-id = "a0f3ff0125ea4b6ebbaf7667eec53f06"
+id = "YOUR_KV_NAMESPACE_ID"
