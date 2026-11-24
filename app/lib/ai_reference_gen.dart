@@ -1,3 +1,7 @@
+// 由 .agents/skills/indonesian-tutor/build.py 从 kb/*.md 生成，不要手改。
+// 改内容：改 kb/ 下的主题文件，再跑 build.py。
+
+/// 已迁移到单一来源的知识库条目（与 ai_skill.dart 里的手写条目合并成 kIndoReference）。
 const Map<String, String> kIndoReferenceGen = {
   'me-词缀 meN- 鼻音化 脱落':
       '**要点**：八条音变规则 → 语法意义 → 口语省略。me-词缀（语法书也写作 meN-，N 代表随词根变化的鼻音）加在词根前会发生鼻音化，加了词缀的词叫接续词。八条规则：① l'
@@ -53,9 +57,10 @@ const Map<String, String> kIndoReferenceGen = {
       ' mobil / menjalani hukuman；menanamkan benih ke sawah / menanami sawah；menaikkan bendera / '
       'menaiki tiang；membacakan（为……读）/ membacai（反复读）；mengagumkan（令人钦佩）/ mengagumi（钦佩）；merajakan（立'
       '为王）/ merajai（称霸）。口诀：宾语是被移动、被造成、受益的东西用 -kan，是动作落到的地方、对象或接受者用 -i：mengirimkan surat kepada ib'
-      'u / mengirimi ibu surat。memenangkan / memenangi：KBBI 中 memenangi 是「赢得」，memenangkan 是「使获胜」也'
-      '收「赢得」义，正式写「赢得比赛」用 memenangi pertandingan 最稳妥。依据：TBBBI 第四章 §4.2.2.5（Sufiks -kan）、§4.2.2.6（S'
-      'ufiks -i）；KBBI VI。',
+      'u（或省 -kan 说 mengirim surat kepada ibu，两句均合规范，出选择题时勿把 mengirim surat kepada... 当错项）/ mengir'
+      'imi ibu surat（绝不能写 *mengirimi surat kepada ibu）。memenangkan / memenangi：KBBI 中 memenangi 是'
+      '「赢得」，memenangkan 是「使获胜」也收「赢得」义，正式写「赢得比赛」用 memenangi pertandingan 最稳妥。依据：TBBBI 第四章 §4.2.2.5'
+      '（Sufiks -kan）、§4.2.2.6（Sufiks -i）；KBBI VI。',
   '规范 常见误用':
       '以 KBBI 为准，只有标 bentuk tidak baku 才是写法错误。四类：①非规范写法：sirup 不规范、规范是 sirop；antri 不规范、规范是 antre；p'
       'opular 不规范、规范是 populer；lempang 不规范、规范是 lempeng；terimakasih 不规范、规范是 terima kasih；jumat 才规范（'
@@ -163,15 +168,54 @@ const Map<String, String> kIndoReferenceGen = {
       'BBI 第一章 §1.2 Ragam Bahasa、§1.3 Diglosia、§1.4–§1.5 Pembakuan / Bahasa Baku；第七章 §7.2.2.1 Pro'
       'nomina Persona、§7.2.2.2 Nomina Penyapa dan Pengacu sebagai Pengganti Pronomina Persona；KBB'
       'I VI。',
+  '交际 语域对照 场合表达':
+      '1. 委婉拒绝邀请或提议（雷区：直接生硬说 Tidak mau! 显得粗鲁；印尼交际重铺垫，常先致谢或致歉再给理由）：- 熟人日常：Maaf ya, hari ini aku be'
+      'lum bisa ikut. Lain kali ya!（不好意思呀，今天我去不了，下次吧！）；- 半正式（同事/服务）：Terima kasih atas ajakannya, '
+      'Kak, tetapi kebetulan saya sudah ada janji lain.（谢谢邀请，不过碰巧我已经有别的约了。）；- 正式敬语（导师/客户）：Terima '
+      'kasih atas undangan Bapak/Ibu. Mohon maaf, saat ini saya belum dapat hadir karena ada agen'
+      'da yang tidak dapat ditinggalkan.（感谢您的邀请。非常抱歉，目前因有无法推脱的日程，我暂无法出席。）。2. 请人帮忙或托付事务（雷区：对长辈或上级用'
+      ' Tolong + 祈使句仍偏直接；应改用疑问句或 apakah Bapak/Ibu berkenan 实施间接请求）：- 熟人日常：Bisa minta tolong ambil'
+      'kan buku itu sebentar?（能帮我拿一下那本书吗？）；- 半正式（同事/客服）：Kak, boleh minta tolong dicek lagi bagian'
+      ' ini?（麻烦帮我再核对一下这一部分好吗？用 di- 被动弱化命令感。）；- 正式敬语（导师/上司）：Mohon maaf mengganggu waktu Bapak/Ibu.'
+      ' Apabila Bapak/Ibu berkenan, saya ingin memohon arahan mengenai draf laporan ini.（抱歉打扰您的时间'
+      '。若您方便，我想就这份报告初稿请教您的指导。）。3. 道歉与补救（雷区：正式场合只说一句 Maaf 不够，需用 mohon maaf 并主动说明补救措施）：- 熟人日常：Maaf '
+      'banget ya, aku terlambat tadi jalanan macet.（真不好意思，我迟到了，刚才路上堵车。）；- 半正式（同事/店铺）：Maaf atas ke'
+      'terlambatannya, Kak. Pesanan Kakak sedang segera kami proses.（抱歉久等了，您的订单我们正在加紧处理。）；- 正式敬语（'
+      '导师/客户）：Saya memohon maaf yang sebesar-besarnya atas kekeliruan pada dokumen tersebut. Revi'
+      'sinya akan segera saya kirimkan hari ini.（就该文件中的差错我谨致以诚挚歉意，修订版将于今日立即发出。）。4. 催问进度与跟进确认（雷区：直'
+      '译「你做好了吗？」Sudah selesai belum? 对上级或合作方显得逼问；宜用被动式或询问「进展如何」）：- 熟人日常：Eh, tugas bagianmu sudah '
+      'beres belum?（嗨，你那部分作业搞定没？）；- 半正式（跨部门/客服）：Halo Kak, izin menanyakan perkembangan permohonan'
+      ' yang kemarin kami ajukan.（您好，想跟进询问一下我们昨天提交的申请目前进展如何。）；- 正式敬语（导师/客户）：Selamat pagi, Bapak/I'
+      'bu. Saya izin menindaklanjuti dokumen yang telah saya kirimkan minggu lalu. Apakah ada bag'
+      'ian yang perlu saya perbaiki?（早上好。我想跟进上周发您的文件，请问是否有需要我修改的地方？）。5. 表达不同意见或纠偏（雷区：直接说 Anda sal'
+      'ah 会让对方难堪；宜先肯定合理处，再用 kurang tepat 或从「建议/补充」角度切入）：- 熟人日常：Kayaknya bukan begitu deh, coba ki'
+      'ta cek lagi.（好像不是那样吧，我们再查查。）；- 半正式（团队讨论）：Pendapat itu menarik, tetapi menurut saya data ba'
+      'gian ini masih perlu disesuaikan.（这个看法很有意思，不过在我看来这部分数据还需要调整。）；- 正式敬语（会议/答辩）：Terima kasih a'
+      'tas masukannya, Bapak/Ibu. Izin menambahkan sedikit sudut pandang lain mengenai hal terseb'
+      'ut.（感谢您的意见。请允许我就此事补充一点不同的视角。）。6. 请假与更改日程（雷区：开口先给结论不提原因；规范做法是先致礼、说明客观原因、请求许可并主动提出补救时间）：- 熟人'
+      '日常：Besok kita geser jam ketemunya ke sore bisa? Pagi aku ada urusan mendadak.（明天我们把碰面时间挪到下'
+      '午行吗？上午我有急事。）；- 半正式（同事）：Kak, hari ini saya izin bekerja dari rumah karena sedang kurang ena'
+      'k badan.（今天我身体不太舒服，请假居家办公。）；- 正式敬语（导师/主管）：Selamat pagi, Ibu. Mohon maaf, hari ini saya mem'
+      'ohon izin tidak dapat mengikuti perkuliahan karena harus mengurus perpanjangan visa. Apaka'
+      'h Ibu berkenan jika jadwal bimbingan digeser ke hari Rabu?（早上好，老师。非常抱歉，今天因须办理签证延期，我恳请请假无法上'
+      '课。不知您是否方便将指导时间改至周三？）。7. 道谢与得体回应（雷区：所有场合都只回 Sama-sama；对长辈或客户宜用 Terima kasih kembali 或 Denga'
+      'n senang hati）：- 熟人日常：Makasih ya! — Sama-sama / Santai saja.（谢啦！— 不客气。）；- 半正式（服务/同事）：Terim'
+      'a kasih banyak atas bantuannya, Mas. — Sama-sama, Kak, senang bisa membantu.（非常感谢您的帮忙。— 不客'
+      '气，很高兴能帮上忙。）；- 正式敬语（导师/贵宾）：Terima kasih banyak atas waktu dan bimbingan Bapak/Ibu. — Terima'
+      ' kasih kembali, semoga lancar.（非常感谢您抽空指导。— 也谢谢你，祝一切顺利。）。8. 礼貌打断与追问确认（雷区：听不懂时直接说 Apa? 很不礼貌；'
+      '应先说 Maaf 再请对方重复或确认）：- 熟人日常：Maaf, tadi maksudnya gimana?（不好意思，刚才你的意思是？）；- 半正式（课堂/同事）：Maaf m'
+      'emotong sebentar, Kak. Boleh dijelaskan ulang bagian terakhir tadi?（抱歉打断一下，能请您再解释一遍刚才最后那部分'
+      '吗？）；- 正式敬语（会议/访谈）：Mohon maaf apabila saya menyela, Bapak/Ibu. Apakah yang Bapak/Ibu maksud'
+      'kan adalah perubahan pada tahap kedua?（非常抱歉插话。请问您指的是第二阶段的变更吗？）。依据：TBBBI 第一章；KBBI VI。',
   '俚语 网络用语 流行语 mager gabut baper kepo':
-      '这些网络口语词 KBBI VI 已收，且都标 cak（口语）：mager（懒得动）、gabut（无所事事）、bucin（恋爱脑）、julid（嫉妒眼红）、salfok（看错重点）、'
-      'mantul（特别棒）、gercep（行动迅速）、gaje（莫名其妙）、curcol（顺带倾诉）、kepo（对别人的事过分好奇）、baper（太敏感）、nongkrong（闲坐聊天'
-      '）、cuek（满不在乎）、alay（浮夸做派）、kece（好看）、bokek（没钱）、kudet（信息落伍）、jaim（过分在意形象）、bete（无聊透顶）、gombal（胡扯）、'
-      'gokil（疯癫搞笑）、jadul（老派过时）、cemen（胆小）、santuy（悠闲）、rempong（麻烦繁琐）。其中 mager、gabut、bucin、salfok、man'
-      'tul、gercep、gaje、baper、alay、kudet、jaim、jadul、cemen 在词典里还标了缩略词。KBBI 收了但没标 cak 的有 galau（思绪纷乱）'
-      '、tajir（富有）、songong（不懂规矩）、nyinyir（唠叨、爱挖苦）。lebay 是 lebai 的非规范形，jomblo 是 jomlo 的非规范形；ngopi、so'
-      'toy 在 KBBI 里查不到，只说「没查到」，不说「不存在」。标 cak 说明是被词典承认的口语词，不是错词；正式写作按场合换成普通说法。问某词是不是词典里的词，先看这里，不在这'
-      '里又没查到就如实说没查到。依据：KBBI VI。依据：KBBI VI（各词条的 (cak) 标注与释义）。',
+      '这些网络口语词 KBBI VI 已收，且都标 cak（口语）：mager（懒得动，源自 malas gerak）、gabut（无所事事，源自 gaji buta）、bucin（恋爱'
+      '脑）、julid（嫉妒眼红）、salfok（看错重点）、mantul（特别棒）、gercep（行动迅速）、gaje（莫名其妙）、curcol（顺带倾诉）、kepo（对别人的事过分好'
+      '奇）、baper（太敏感）、nongkrong（闲坐聊天）、cuek（满不在乎）、alay（浮夸做派）、kece（好看）、bokek（没钱）、kudet（信息落伍）、jaim（过分'
+      '在意形象）、bete（无聊透顶）、gombal（胡扯）、gokil（疯癫搞笑）、jadul（老派过时）、cemen（胆小）、santuy（悠闲）、rempong（麻烦繁琐）。其中 '
+      'mager、gabut、bucin、salfok、mantul、gercep、gaje、baper、alay、kudet、jaim、jadul、cemen 在词典里还标了缩略词。K'
+      'BBI 收了但没标 cak 的有 galau（思绪纷乱）、tajir（富有）、songong（不懂规矩）、nyinyir（唠叨、爱挖苦）。lebay 是 lebai 的非规范形，j'
+      'omblo 是 jomlo 的非规范形；ngopi、sotoy 在 KBBI 里查不到，只说「没查到」，不说「不存在」。标 cak 说明是被词典承认的口语词，不是错词；正式写作按场'
+      '合换成普通说法。问某词是不是词典里的词，先看这里，不在这里又没查到就如实说没查到。依据：KBBI VI。依据：KBBI VI（各词条的 (cak) 标注与释义）。',
   '手机软件 聊天界面 数码术语 WhatsApp 置顶 转发 静音 备份':
       '印尼语手机与软件界面（WhatsApp、Telegram、Android、iOS 等）的按钮多用**省去 `meN-` 的祈使形**，叙述句才加 `meN-`/`di-`：1. *'
       '*聊天高频操作**：置顶 **Sematkan**（`menyematkan`/`disematkan`，源自 `semat` 别针，引申为把消息钉在顶部：`sematkan pe'
@@ -403,18 +447,19 @@ const Map<String, String> kIndoReferenceGen = {
       '/pengeboman、cat→pengecatan、sah→pengesahan）。peN- + 及物动词表示做动作的人或机构（pembaca 读者、penerbit 出版社）或'
       '工具（pembuka、penghapus 橡皮），同一个词可指人也可指物；+ 不及物动词或形容词表示常做某事或有某性格的人（pelari、pelupa、pemalu、pemalas'
       '、pemuda）或起作用的东西（pemanis、penenang）；+ 名词表示以此为业者（pedagang、pelaut、pengemudi、petugas）。「工匠、手艺人」规'
-      '范写法是 perajin（来自 rajin，KBBI 标 pengrajin 为非规范形）。成对而意义不同：pengajar 教师 / pelajar 学生，pejabat 官员 '
-      '/ penjabat 代理人，peserta 参加者 / penyerta 陪同者，petinju 拳击手 / peninju。peN-…-an 对应 me- 及物动词，表示过程或'
-      '方式（pembangunan、pemakaian、pembelian）、能力（pendengaran、penglihatan）、地点（penginapan、pelabuhan、pe'
-      'ngadilan）、集合（pegunungan、pedesaan）；per-…-an 对应 ber- 动词，表示结果或对象（perbuatan、perjalanan、pertany'
-      'aan）、名词化（percakapan、perdebatan）、行业（pertanian、perikanan）、地点（perpustakaan、perusahaan、perempa'
-      'tan）。对比：pemisahan 分开 / perpisahan 离别，penemuan 发现 / pertemuan 会议，penunjukan 任命 / pertunjuka'
-      'n 演出。memper- 动词也对应 per-an（perbaikan、perhatian）。复合词同时加前后缀时连写成一个词（tanggung jawab → pertanggu'
-      'ngjawaban；只加前缀 bertanggung jawab 则分写）。音变：bekerja → pekerjaan，belajar → pelajaran。具体义类以 KBB'
-      'I 为准。ke-…-an：抽象（kesehatan、keindahan、keadaan）、名词化（kedatangan、kehidupan、kelahiran）、处所机构（kedu'
-      'taan、kerajaan）。-an：多表动作的结果或产物（tulisan、bacaan、makanan）、集合（sayuran）；也有不表结果的：patokan 是「基准、准则」'
-      '、rombongan 是「一群人」，按 KBBI 逐个记，别一律理解成结果。依据：TBBBI 第七章 §7.1.4.2 Nomina berdasarkan Bentuk Morf'
-      'ologisnya；KBBI VI。',
+      '范写法是 perajin（由无鼻音变体 pe- + 词根 rajin 构成，r 是词根首音而非前缀变成 per-；词根以 l/r/w/y/m/n 开头加 peN- 时一律用无鼻音变'
+      '体 pe-，如 pelari、pejuang；KBBI 标 pengrajin 为非规范形）。成对而意义不同（无鼻音 pe- 多对应 ber- 或职业/受事，带鼻音 peN- 对应'
+      ' meN- 施事）：pengajar 教师 / pelajar 学生，pejabat 官员 / penjabat 代理人，peserta 参加者 / penyerta 陪同者，pe'
+      'tinju 拳击手 / peninju 打人者。peN-…-an 对应 me- 及物动词，表示过程或方式（pembangunan、pemakaian、pembelian）、能力（p'
+      'endengaran、penglihatan）、地点（penginapan、pelabuhan、pengadilan）、集合（pegunungan、pedesaan）；per-…-'
+      'an 对应 ber- 动词，表示结果或对象（perbuatan、perjalanan、pertanyaan）、名词化（percakapan、perdebatan）、行业（perta'
+      'nian、perikanan）、地点（perpustakaan、perusahaan、perempatan）。对比：pemisahan 分开 / perpisahan 离别，pen'
+      'emuan 发现 / pertemuan 会议，penunjukan 任命 / pertunjukan 演出。memper- 动词也对应 per-an（perbaikan、perh'
+      'atian）。复合词同时加前后缀时连写成一个词（tanggung jawab → pertanggungjawaban；只加前缀 bertanggung jawab 则分写）。音变'
+      '：bekerja → pekerjaan，belajar → pelajaran。具体义类以 KBBI 为准。ke-…-an：抽象（kesehatan、keindahan、kead'
+      'aan）、名词化（kedatangan、kehidupan、kelahiran）、处所机构（kedutaan、kerajaan）。-an：多表动作的结果或产物（tulisan、ba'
+      'caan、makanan）、集合（sayuran）；也有不表结果的：patokan 是「基准、准则」、rombongan 是「一群人」，按 KBBI 逐个记，别一律理解成结果。依据'
+      '：TBBBI 第七章 §7.1.4.2 Nomina berdasarkan Bentuk Morfologisnya；KBBI VI。',
   '重叠 kata ulang 复合词 majemuk idiom':
       '重叠一律用连字符。形式：单纯重叠（makan-makan、rumah-rumah）；词根 + 前缀词根（pukul-memukul、tolong-menolong）；带后缀（cin'
       'ta-mencintai）；前缀词根 + 词根（berbisik-bisik、menunggu-nunggu）；前缀 + 重叠 + 后缀（bersalam-salaman）；tid'
@@ -536,6 +581,31 @@ const Map<String, String> kIndoReferenceGen = {
       'ancing → menjaga jarak fisik、hand sanitizer → pembersih tangan、rapid test → tes cepat；正式写作'
       '避免 gue/lo、nggak、banget。批改顺序：先确认原意，按影响理解排序，一次最多 3 处；口语合法说法只标（口语），不强行改成书面语；规则不确定先查 KBBI/EYD。'
       '编辑练习与更多例子见 kalimat-efektif.md。',
+  '汉印 高频易混 迁移坑':
+      '1. 「会 / 能」四分：bisa（最通用，表能力或许可，口语和半正式皆宜）/ dapat（与 bisa 同义，书面与公文更常用；注意 dapat 作及物动词另有「获得」义）/ m'
+      'ampu（具备财力、体力或客观条件去承担，如 mampu membeli rumah；不能用来问许可「我能进来吗」）/ pandai 或 mahir（通过学习掌握某项技艺，如「她很'
+      '会做菜」说 Dia pandai memasak，不把技能熟练说成 mampu）。2. 「应该 / 必须」五分：harus（主客观必须；否定 tidak harus 是「不必」，禁'
+      '止用 jangan）/ wajib（法规、制度或宗教规定的强制义务，如 wajib hadir）/ perlu（有需要，否定 tidak perlu = 不用）/ sebaikny'
+      'a（委婉建议「最好……」，提议时最自然得体）/ seharusnya 或 semestinya（「按理本应该……」，常暗含「实际没做到」的遗憾或责备，如 Seharusnya ka'
+      'mu memberi kabar lebih awal）。3. 「觉得 / 认为」四分：merasa（身心感觉或情绪体验，后接形容词或从句，如 Saya merasa lelah）'
+      '/ menurut saya 或 bagi saya（表达个人观点「在我看来……」，最地道）/ mengira 或 menyangka（「误以为、起初以为」，常用于事实与预想相反，'
+      '如 Saya mengira toko ini sudah tutup）/ berpikir（思考的动作本身，如 berpikir tenang）。4. 「让 / 叫 / 使」四分'
+      '：menyuruh（长辈或上级吩咐、命令下级做；对老师、长辈或客户用 menyuruh 失礼）/ meminta 或 memohon（请求、拜托别人做）/ membiarkan（放'
+      '任、听任、不加干预，如 Jangan membiarkan pintu terbuka）/ membuat（致使产生某种状态或情绪，如 Kabar itu membuat kami'
+      ' lega）。5. 「借入 vs 借出」「租入 vs 出租」靠 -kan 区分方向：meminjam（向别人借入：Saya meminjam kamus dari teman）vs'
+      ' meminjamkan（把东西借给别人，-kan 标出移动客体或受益：Saya meminjamkan kamus kepada adik）；同理 menyewa（租用别人的房或'
+      '车）vs menyewakan（把自己的房或车出租给别人）。6. 「问 / 找 / 查」及物性：bertanya（不及物，接人用 kepada，接内容用 tentang：berta'
+      'nya kepada dosen tentang tugas）vs menanyakan（及物，直接接所询问的事物作宾语，不加 tentang：menanyakan jadwal '
+      '或 menanyakan kabar）；mencari（寻找丢失或需要的事物）vs memeriksa（检查、核查身体或文件）。7. 「错 / 不对」三分：salah（客观错误或怪'
+      '罪；还能直接置于动词或名词前表「弄错」，如 salah paham 误会、salah masuk 走错、salah ketik 打错字）/ keliru（认知、判断或账目上的差错，'
+      '语气比 salah 温和正式）/ kurang tepat（礼貌指出对方说法「不太准确、欠妥」，日常纠错或职场沟通比直接说 Salah! 得体）。8. 「等 / 留 / 剩」：me'
+      'nunggu（等待某人或某事）/ tinggal（居住；或置数量前表「只剩下」，如 Waktu kita tinggal sepuluh menit 我们只剩十分钟了）/ ters'
+      'isa（剩余下来的部分）/ meninggalkan（离开某地，或把某物遗留、丢在某处）。9. 「很 / 太 / 够」位置与色彩：sangat（形容词前）/ sekali（形容词后'
+      '；注意 *sangat ... sekali 同时用是典型冗余）/ terlalu（「过于、太……」，多带超出限度的负面色彩；汉语客套话「太感谢了」不能直译成 *terlalu t'
+      'erima kasih，应说 Terima kasih banyak）/ cukup（放形容词前表「还算、挺……」，如 cukup jelas 挺清楚的；也可表「足够」）。10. '
+      '「再 / 又 / 还」：lagi（放动词后或句末表「再一次、又、还想要」，如 tambah satu lagi；日常口语放动词前也可表「正在」）/ masih（放动词或形容词前表状'
+      '态持续「仍然、还在」，如 masih menunggu）/ kembali 或 ulang（表恢复原状或重新做一遍，如 memeriksa kembali 重新核查）。依据：TBB'
+      'BI 第四章；KBBI VI。',
   '小学 文本 教学 K13':
       'K13 的 BASASTRA 文本教学（教学综述，非实证、非规范）：语言即文本，学习是在语境中理解并产出完整文本，不是背词表/规则表。四阶段：建立语境（观察文本用途/读者/价值）→'
       ' 建模（从样例发现结构、词汇、语法、意义）→ 共同建构（小组协作产出）→ 独立建构（学生独立写/说，教师按意义—结构—语言反馈）。KI-1/2 态度目标不单独教，通过 KI-3/4'
@@ -607,7 +677,10 @@ const Map<String, String> kIndoReferenceGen = {
       'layan；可不必一词对一词，肯定对肯定，尽量保留词类）、造新词（perekaan，如 factoring → anjak piutang）、借入（penyerapan：改拼写与读'
       '音 camera → kamera；改拼写不改读音 design → desain；不改拼写改读音 radar；已普遍使用的正体，专门的外语表达用斜体如 status quo）。词'
       '缀式术语要按印尼语派生线造，不随意造词：pirsa → pemirsa（不是 pirsawan）；hantar → keterhantaran（不是 kehantaran）。同义术'
-      '语要定一个规范形（gulma 优于 tumbuhan pengganggu）；同形术语要靠语境或定义区分，如 teras（木芯 / 阳台）。',
+      '语要定一个规范形（gulma 优于 tumbuhan pengganggu）；同形术语要靠语境或定义区分，如 teras（木芯 / 阳台）。常见官方数码对应词（padanan is'
+      'tilah）：online → daring（dalam jaringan）、offline → luring（luar jaringan）、download → unduh（me'
+      'ngunduh）、upload → unggah（mengunggah）、link → tautan / pranala、mouse → tetikus、email → pos-e'
+      'l / surel（surat elektronik）、podcast → siniar、hoax → hoaks。',
   '公文 商标 招牌 外语 法规 Perpres 官方':
       '公务与公共场合用语（Perpres 63/2019，摘要）：法律、正式公文（决定书、学历证书、身份证明、买卖契约、合同、法院判决）、总统与部长级以上的正式讲话，必须用印尼语；正式文'
       '件若附外语版，印尼语版为准。建筑名称必须用印尼语，有历史或文化价值的可用地方语言或外语但仍附印尼语。商标：印尼公民或法人拥有的必须用印尼语，外国授权的不受限；企业与教育机构名称同此'
@@ -806,6 +879,7 @@ const Map<String, String> kIndoReferenceGen = {
       'bungan Koordinatif、§10.2 Hubungan Subordinatif、§10.3 Pelesapan；KBBI VI。',
 };
 
+/// 检索触发词：学生原话里出现这些词时也命中对应条目（键 → 触发词）。
 const Map<String, List<String>> kIndoReferenceTriggers = {
   'me-词缀 meN- 鼻音化 脱落': ['menyapu', 'memperbaiki', 'mempelajari', 'mentertawakan', 'menertawakan', 'memengaruhi', 'mempengaruhi', 'menyukseskan', 'mensukseskan', 'menyosialisasikan', 'mensosialisasikan', 'mengkritik', 'mentransfer', 'memproduksi', 'mengebom', 'membom', 'mengetik', 'mengkaji', 'mengaji', 'mempunyai', '鼻音', '同化'],
   '语态 被动 主动 对象语态 di- ter- ke-an oleh': ['被动句', '主动句', 'dibaca saya', 'kuambil', 'dibacanya', 'terlempar', 'kehujanan', 'ketahuan', '施动者', '受事主语'],
@@ -816,6 +890,7 @@ const Map<String, List<String>> kIndoReferenceTriggers = {
   '时体 情态 时间副词 助动词': ['sudah', 'telah', 'sempat', 'pernah', 'sedang', 'masih', 'lagi', '时态', '助动词', '情态动词'],
   '语气词 -lah -kah -tah kok sih dong deh toh': ['kan', 'lho', 'nih', 'tuh', 'ding', '语气助词', '小品词', 'Duduklah', 'Dialah'],
   '语域 口语 称谓 人称代词': ['gue', 'kalian', 'engkau', 'beliau', 'Saudara', 'kami kita', 'kamu 还是 Anda', '敬语', '敬语体系', '称呼', '正式场合', '非正式', '尊敬', '表示尊敬', '礼貌', '怎么表达尊重', 'hormat', 'sopan', 'Pak Bu', '书面语', '口语形'],
+  '交际 语域对照 场合表达': ['委婉拒绝', '怎么拒绝', '推掉', '催进度', '不同意见', '请假怎么说', '道歉怎么说', '请人帮忙', '道谢回应', '打断别人', '三种语域', '场合表达'],
   '俚语 网络用语 流行语 mager gabut baper kepo': ['mager', 'gabut', 'bucin', 'julid', 'salfok', 'mantul', 'gercep', 'gaje', 'curcol', 'kepo', 'baper', 'nongkrong', 'cuek', 'alay', 'kece', 'bokek', 'kudet', 'jaim', 'bete', 'gombal', 'gokil', 'jadul', 'cemen', 'santuy', 'rempong', 'lebay', 'jomblo', 'ngopi', 'sotoy', 'galau', 'tajir', 'songong', 'nyinyir', '俚语', '网络用语', '流行语'],
   '手机软件 聊天界面 数码术语 WhatsApp 置顶 转发 静音 备份': ['whatsapp', 'wa', '置顶', '转发', '撤回', '已读', '蓝勾', '静音', '归档', '拉黑', '屏蔽', '备份', '截屏', '录屏', '链接', '下载', '上传', '轻触', '点击', '滑动', '设置', '主页', '首页', '密码', '验证码', '两步验证', '加密', '话题标签', '艾特', 'sematkan', 'menyematkan', 'teruskan', 'meneruskan', 'bisukan', 'membisukan', 'arsipkan', 'mengarsipkan', 'blokir', 'memblokir', 'cadangkan', 'mencadangkan', 'pencadangan', 'pulihkan', 'memulihkan', 'tautan', 'unduh', 'mengunduh', 'unggah', 'mengunggah', 'ketuk', 'mengetuk', 'geser', 'menggeser', 'usap', 'mengusap', 'gulir', 'menggulir', 'beranda', 'setelan', 'pengaturan', 'notifikasi', 'pemberitahuan', 'tagar', 'sorotan', 'umpan', 'lini masa', 'pratinjau', 'centang biru', 'laporan dibaca', 'tangkapan layar'],
   '句子成分 主语 谓语 宾语 补语 状语 句型 klausa': ['主谓宾', '成分测试', '删除测试', '必有成分', 'SPO', 'SPOK', 'S-P-O', '小句', '补语还是宾语'],
@@ -846,6 +921,7 @@ const Map<String, List<String>> kIndoReferenceTriggers = {
   '小学 拼写 大写 标点': ['小学', '拼写教学'],
   '小学 词缀 词素 复合词 重叠': ['小学课本'],
   '有效句 编辑 写作': ['kalimat efektif', '改作文', '润色', '语病', '病句', '缺主语', '无主句', 'Bagi peserta', 'Dalam rapat'],
+  '汉印 高频易混 迁移坑': ['bisa dapat mampu', 'mampu pandai', 'sebaiknya seharusnya', 'merasa mengira', 'menyuruh meminta', 'salah keliru', 'meminjam meminjamkan', 'bertanya menanyakan', '会和能', '觉得怎么说', '让怎么说', '借给和向人借'],
   '小学 文本 教学 K13': ['Kurikulum 2013', '文本教学'],
   '研究 思路 方法': ['证据等级', '论文'],
   '翻译 错误 分析': ['批改', '错误分类'],
@@ -855,8 +931,8 @@ const Map<String, List<String>> kIndoReferenceTriggers = {
   'saling 相互 反身 相互动词': ['saling', '互相', '反身', 'diri sendiri'],
   '信息结构 tema rema 焦点 语篇 衔接': ['tema rema', '焦点', '衔接', '语篇'],
   '语义关系 同义 反义 同形异义 上下义': ['同义词', '反义词', '同形词', '上下义'],
-  '拼写 标点 分写 分行 缩略 正字法': ['大写', '标点', '分写', '连写', '逗号', 'EYD', 'PUEBI', '星期 大写', '月份 大写', 'hari Senin 大写', 'Bapak 大写', '称呼 大写'],
-  '术语 istilah 造词 意译 借词 pemadanan': ['术语', '专业词', '译名'],
+  '拼写 标点 分写 分行 缩略 正字法': ['大写', '标点', '分写', '连写', '逗号', 'EYD', 'PUEBI', '星期 大写', '月份 大写', 'hari Senin 大写', 'Bapak 大写', '称呼 大写', 'berterima kasih', 'bertanggung jawab', 'menggarisbawahi', 'memberitahukan', 'ketidaktahuan', '复合词加词缀'],
+  '术语 istilah 造词 意译 借词 pemadanan': ['术语', '专业词', '译名', 'padanan', '本土替换词', '官方对应词', 'daring', 'luring', 'unduh', 'unggah', 'tautan', 'tetikus', 'surel', 'siniar', 'hoaks', 'podcast', 'mouse', 'email', 'link'],
   '公文 商标 招牌 外语 法规 Perpres 官方': ['招牌', '商标', '公文', '法规'],
   '语用 言外之意 言语行为 会话准则 礼貌': ['言外之意', '暗示', '礼貌', '含意', '预设', '指示语', 'deiksis'],
   '发音 语音 元音 辅音 音节 重音 清浊': ['读音', '怎么读', '颤音', '喉塞'],
@@ -871,4 +947,25 @@ const Map<String, List<String>> kIndoReferenceTriggers = {
   '连词 并列连词 主从连词 句间连词': ['tetapi', 'akan tetapi', 'namun', 'sedangkan', 'padahal', 'melainkan', 'baik maupun', 'tidak hanya', 'bahwa', 'sehingga', 'agar', 'supaya', 'yaitu', 'yakni', 'selain itu', 'oleh karena itu'],
   '冠词 感叹词 si sang': ['冠词', '感叹词', 'si', 'sang', 'sri', 'hang', 'dang', 'aduh', 'astaga', 'amboi', 'aduhai', 'alhamdulillah', 'insyaallah', 'syukurlah', 'wah', 'lho', 'si pengirim', 'si dia', 'sang suami', 'sang guru'],
   '复句 并列句 主从复句 从句': ['并列句', '联合复句', '主从复句', '偏正复句', '主句', 'meskipun tetapi', 'walaupun tetapi', 'kalimat majemuk', 'induk kalimat', 'anak kalimat'],
+};
+
+/// 离线 Doc2Query 口语问法扩展（键 → 学生常见大白话问法，零运行期算力破除语义鸿沟）。
+const Map<String, List<String>> kIndoReferenceQueries = {
+  '语态 被动 主动 对象语态 di- ter- ke-an oleh': ['为什么书放前面我不加di', '我读了这本书怎么说被动', '为什么不能说dibaca saya', '体标记放代词前面还是后面'],
+  'me-kan me-i -kan -i 致使 为动 着落点': ['什么时候加kan什么时候加i', '给别人买东西用什么后缀', '动词后面加kan和i的区别'],
+  '规范 常见误用': ['哪些写法是错别字或不规范', 'merubah对不对', 'antri还是antre标准', 'terima kasih 是一个词还是两个词', 'terimakasih 这样写对吗'],
+  '否定 tidak bukan belum jangan 不没': ['什么时候用tidak什么时候用bukan', '昨天没去怎么说', '还没做怎么说', '不要做某事怎么说'],
+  '时体 情态 时间副词 助动词': ['昨天去了市场要不要加sudah', '正在做某事怎么说', '来得及和曾经怎么说'],
+  '语气词 -lah -kah -tah kok sih dong deh toh': ['句尾加dong sih kok是什么意思', '口语里怎么缓和语气', '怎么用kok表达惊讶'],
+  '语域 口语 称谓 人称代词': ['对老师长辈能不能说kamu', '对陌生人怎么称呼礼貌', '怎么表达敬语和尊重', 'nggak gak ga 哪个对'],
+  '交际 语域对照 场合表达': ['怎么礼貌推掉别人的邀请', '怎么跟老师请假改时间', '开会怎么委婉反对别人的意见', '怎么客气地催对方进度'],
+  '语序 定语后置 名词短语 修饰顺序 关系从句 系词 adalah': ['形容词放名词前面还是后面', '为什么不能说dia adalah cantik', '我出生的城市怎么说不用di mana'],
+  'yang 结构 名物化 yang 的用法 关系词': ['cara yang belajar 对吗'],
+  '拟声词 象声词 动物叫声': ['gemuruh 是什么词'],
+  '汉印 高频易混 迁移坑': ['会做菜用bisa还是pandai', '太感谢了能不能说terlalu', '只剩五分钟怎么说', '我以为他走了怎么说'],
+  '词素 基词 逆生 缩略 首字母': ['infix el er em 中缀'],
+  '拼写 标点 分写 分行 缩略 正字法': ['复合词加前缀分写还是连写', '为什么berterima kasih分写而menggarisbawahi连写'],
+  '术语 istilah 造词 意译 借词 pemadanan': ['online download link email 对应的官方标准印尼语词是什么'],
+  '发音 语音 元音 辅音 音节 重音 清浊': ['e 有几种读法'],
+  '数词 量词 序数 时间表达': ['星期一到星期天印尼语'],
 };

@@ -55,6 +55,20 @@ void main() {
       final out = AppDbStudy.interleaveFreshRows(rows);
       expect([for (final r in out) r['id']], ['w1', 'w2', 'w3', 'w4']);
     });
+
+    test('不同词根的 memb-/meng- 前缀词不误撞键，保持原序', () {
+      final rows = <Map<String, Object?>>[
+        {'id': 'membaca', 'base_word': null, 'word': 'membaca'},
+        {'id': 'membeli', 'base_word': null, 'word': 'membeli'},
+        {'id': 'mengambil', 'base_word': null, 'word': 'mengambil'},
+        {'id': 'mengajar', 'base_word': null, 'word': 'mengajar'},
+      ];
+      final out = AppDbStudy.interleaveFreshRows(rows, window: 4, minGap: 2);
+      expect(
+        [for (final r in out) r['id']],
+        ['membaca', 'membeli', 'mengambil', 'mengajar'],
+      );
+    });
   });
 
   group('SLA 1 & 3: 水蛭卡干预 + 听音辨词模式', () {

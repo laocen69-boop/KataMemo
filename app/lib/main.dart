@@ -15,6 +15,16 @@ import 'version.dart' show kAppName, kOpenTheme;
 import 'widgets/ai_widgets.dart' show AiFloatingBall, kRootNavKey;
 import 'widgets/speak_button.dart' show kSpeakGreen;
 
+/// 全局主字体：Plus Jakarta Sans（印尼官方数字视觉常用字体，SIL OFL 1.1），
+/// 音标（IPA）与中文依次回退至 Noto Sans 与系统字体。
+const String kAppFontFamily = 'PlusJakartaSans';
+const List<String> kAppFontFallback = [
+  'NotoSans',
+  'Noto Sans SC',
+  'PingFang SC',
+  'Microsoft YaHei',
+];
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -132,15 +142,7 @@ class _AppBody extends StatelessWidget {
       darkTheme: _theme(true),
 
       themeMode: themeMode,
-      home: FutureBuilder(
-        future: app.init(),
-        builder: (context, snap) {
-          if (!ready) return _ImportSplash(repo: app.repo);
-
-          NotificationService.init(enabled: app.reminderOn);
-          return const HomeShell();
-        },
-      ),
+      home: _BootGate(app: app, ready: ready),
     );
   }
 
@@ -172,6 +174,8 @@ class _AppBody extends StatelessWidget {
       colorScheme: scheme,
       extensions: <ThemeExtension<dynamic>>[k],
       scaffoldBackgroundColor: k.bg,
+      fontFamily: kAppFontFamily,
+      fontFamilyFallback: kAppFontFallback,
       appBarTheme: AppBarTheme(
         backgroundColor: k.surface,
 
@@ -188,11 +192,34 @@ class _AppBody extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         color: k.surface,
       ),
-      fontFamilyFallback: const [
-        'Noto Sans SC',
-        'PingFang SC',
-        'Microsoft YaHei'
-      ],
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: k.deep,
+          backgroundColor: k.surface,
+          side: BorderSide(color: k.border, width: 1),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: k.bg,
+        selectedColor: k.tint,
+        side: BorderSide(color: k.border, width: 1),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        labelStyle: const TextStyle(
+          fontSize: 13,
+          fontFamily: kAppFontFamily,
+          fontFamilyFallback: kAppFontFallback,
+        ).copyWith(color: k.text),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith(
+              (s) => s.contains(WidgetState.selected) ? k.tint : k.surface),
+          foregroundColor: WidgetStateProperty.resolveWith(
+              (s) => s.contains(WidgetState.selected) ? k.deep : k.t2),
+          side: WidgetStatePropertyAll(BorderSide(color: k.border, width: 1)),
+        ),
+      ),
     );
   }
 }
@@ -251,6 +278,83 @@ class _ImportSplash extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _BootGate extends StatefulWidget {
+  const _BootGate({required this.app, required this.ready});
+
+  final AppState app;
+  final bool ready;
+
+  @override
+  State<_BootGate> createState() => _BootGateState();
+}
+
+class _BootGateState extends State<_BootGate> {
+  late Future<void> _initFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initFuture = widget.app.init();
+  }
+
+  void _retry() {
+    setState(() {
+      _initFuture = widget.app.init();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<void>(
+      future: _initFuture,
+      builder: (context, snap) {
+        if (snap.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.error_outline,
+                        size: 44, color: Theme.of(context).colorScheme.error),
+                    const SizedBox(height: 12),
+                    const Text(
+                      '词库初始化失败',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '请退出无痕/隐私浏览模式，或切换至 Safari / Chrome 系统浏览器后重试。\n\n${snap.error}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        height: 1.5,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    FilledButton.icon(
+                      onPressed: _retry,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('重试'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+        if (!widget.ready) return _ImportSplash(repo: widget.app.repo);
+
+        NotificationService.init(enabled: widget.app.reminderOn);
+        return const HomeShell();
+      },
     );
   }
 }

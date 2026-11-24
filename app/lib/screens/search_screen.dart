@@ -21,6 +21,7 @@ import '../perf_log.dart';
 import '../widgets/word_tile.dart';
 import 'scan_screen.dart';
 import 'select_screen.dart';
+import 'text_reader_screen.dart';
 import 'word_detail_screen.dart';
 
 const int kSearchHistoryMax = 20;
@@ -31,7 +32,9 @@ const String kSearchHistoryKey = 'search_history';
 const String kSearchHistoryBookKey = 'search_history_book';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String? initialQuery;
+
+  const SearchScreen({super.key, this.initialQuery});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -73,6 +76,13 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     _loadStatic();
+    final init = widget.initialQuery?.trim();
+    if (init != null && init.isNotEmpty) {
+      _ctl.text = init;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _run(init);
+      });
+    }
   }
 
   @override
@@ -406,6 +416,16 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                   ],
                 ),
+              ),
+            ),
+
+            IconButton(
+              icon: Icon(Icons.article_outlined,
+                  size: 22, color: context.k.t2),
+              tooltip: '粘贴文章高亮阅读',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const TextReaderScreen()),
               ),
             ),
 

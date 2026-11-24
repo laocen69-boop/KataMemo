@@ -208,11 +208,16 @@ extension AppDbSearch on AppDb {
 
     for (final part in kParticleSuffixes) {
       if (!folded.endsWith(part) || folded.length - part.length < 3) continue;
-      if (await searchWords(folded.substring(0, folded.length - part.length)) !=
-          null) {
+      final baseHit =
+          await searchWords(folded.substring(0, folded.length - part.length));
+      if (baseHit != null) {
         return (
-          card: null,
-          clitic: null,
+          card: baseHit,
+          clitic: CliticParse(
+            form: folded,
+            base: baseHit.word,
+            clitic: '-$part',
+          ),
           passive: null,
           spacing: null,
           derived: null
@@ -242,6 +247,31 @@ extension AppDbSearch on AppDb {
         spacing: null,
         derived: p
       );
+    }
+    // 层 ⑤：前附着代词 `ku-` / `kau-`（kubaca → ku- + baca；也兜底主动词形）
+    for (final p in procliticParses(folded)) {
+      final direct = await searchWords(p.base);
+      if (direct != null) {
+        return (
+          card: direct,
+          clitic: p,
+          passive: null,
+          spacing: null,
+          derived: null
+        );
+      }
+      for (final cand in activeCandidates(p.base)) {
+        final hit = await searchWords(cand);
+        if (hit != null) {
+          return (
+            card: hit,
+            clitic: p,
+            passive: null,
+            spacing: null,
+            derived: null
+          );
+        }
+      }
     }
     return (
       card: null,

@@ -166,11 +166,7 @@ class _WordSheetState extends State<WordSheet> {
 
   static const _lastRatingGuess = Fsrs.ratingKnow;
 
-  double get _elapsedDays {
-    final lr = _srs?.lastReview;
-    if (lr == null) return 0.0;
-    return DateTime.now().difference(lr).inHours / 24.0;
-  }
+  double get _elapsedDays => Fsrs.elapsedDaysSince(_srs?.lastReview);
 
   List<Widget> _senses(WordCard card) {
     final list = card.senses.take(3).toList();
@@ -287,30 +283,57 @@ class _WordSheetState extends State<WordSheet> {
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w700)),
               Text(' = ', style: TextStyle(fontSize: 14, color: context.k.nT2)),
-              Text(p.base,
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w700)),
-              if (oddClass)
-                Text('（${card.wordClassLabel}）',
-                    style: TextStyle(fontSize: 12, color: context.k.nT2)),
-              Text(' + ', style: TextStyle(fontSize: 14, color: context.k.nT2)),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => showWordSheet(context, p.host,
-                    onOpenDetail: widget.onOpenDetail),
-                child: Text(p.clitic,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: context.k.hl2,
-                        decoration: TextDecoration.underline)),
-              ),
+              if (p.isProclitic) ...[
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => showWordSheet(context, p.host,
+                      onOpenDetail: widget.onOpenDetail),
+                  child: Text(p.clitic,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: context.k.hl2,
+                          decoration: TextDecoration.underline)),
+                ),
+                Text(' + ',
+                    style: TextStyle(fontSize: 14, color: context.k.nT2)),
+                Text(p.base,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w700)),
+              ] else ...[
+                Text(p.base,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w700)),
+                if (oddClass)
+                  Text('（${card.wordClassLabel}）',
+                      style: TextStyle(fontSize: 12, color: context.k.nT2)),
+                Text(' + ',
+                    style: TextStyle(fontSize: 14, color: context.k.nT2)),
+                if (p.host.isNotEmpty)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => showWordSheet(context, p.host,
+                        onOpenDetail: widget.onOpenDetail),
+                    child: Text(p.clitic,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: context.k.hl2,
+                            decoration: TextDecoration.underline)),
+                  )
+                else
+                  Text(p.clitic,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: context.k.nT2)),
+              ],
             ],
           ),
           Text(
               '这个词形词库里没有单独的卡，上面显示的是原词。'
-              '点带下划线的 ${p.clitic} 可以看它的用法。'
-              '${oddClass ? '原词是${card.wordClassLabel}，这里 ${p.clitic} 把它当名词用。' : ''}',
+              '${p.host.isNotEmpty ? '点带下划线的 ${p.clitic} 可以看它的用法。' : '句末附着词 ${p.clitic} 不单独成词。'}'
+              '${oddClass && !p.isProclitic && p.host.isNotEmpty ? '原词是${card.wordClassLabel}，这里 ${p.clitic} 把它当名词用。' : ''}',
               style: note),
         ],
       ),

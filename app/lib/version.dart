@@ -4,7 +4,7 @@ const String kAppName = 'KataMemo';
 
 const String kAppVersion = '1.0.4';
 
-const String kBuildNumber = '13';
+const String kBuildNumber = '14';
 
 const bool kOpenTheme = false;
 

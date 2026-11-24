@@ -65,6 +65,8 @@ class AppState extends ChangeNotifier {
 
   double _retention = 0.9;
   double get retention => _retention;
+  bool _loadBalance = true;
+  bool get loadBalance => _loadBalance;
 
   bool _darkMode = false;
   ThemeMode _themeMode = ThemeMode.system;
@@ -260,6 +262,7 @@ class AppState extends ChangeNotifier {
   static const _kQuota = 'new_quota';
   static const _kAutoSpeak = 'auto_speak';
   static const _kRetention = 'retention';
+  static const _kLoadBalance = 'fsrs_load_balance';
   static const _kDark = 'dark_mode';
   static const _kThemeMode = 'theme_mode';
   static const _kStudyMode = 'study_mode';
@@ -305,6 +308,8 @@ class AppState extends ChangeNotifier {
 
     final r = double.tryParse(await db.metaGet(_kRetention) ?? '');
     if (r != null) _retention = r.clamp(0.80, 0.95);
+    final lb = await db.metaGet(_kLoadBalance);
+    if (lb != null) _loadBalance = lb == '1';
 
     final tm = await db.metaGet(_kThemeMode);
     if (tm == 'light' || tm == 'dark' || tm == 'system') {
@@ -404,8 +409,21 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> reloadAfterRestore() async {
+    await db.applyUserEdits();
+    await db.replayPlannedDerived();
     await _loadSettings();
     Fsrs.requestedRetention = _retention;
+    final bid = await db.currentBook();
+    _book = null;
+    if (bid != null) {
+      final books = await repo.loadBooks();
+      for (final b in books) {
+        if (b.id == bid) {
+          _book = b;
+          break;
+        }
+      }
+    }
     _queueRevision++;
     notifyListeners();
   }
@@ -711,6 +729,23 @@ class AppState extends ChangeNotifier {
     _retention = v.clamp(0.80, 0.95);
     await db.metaSet(_kRetention, '$_retention');
     notifyListeners();
+  }
+
+  Future<void> setLoadBalance(bool v) async {
+    _loadBalance = v;
+    await db.metaSet(_kLoadBalance, v ? '1' : '0');
+    notifyListeners();
+  }
+
+  Future<int> postponeOverdue({required int days, double ratio = 0.5}) async {
+    final moved =
+        await db.postponeOverdueReviews(postponeDays: days, ratio: ratio);
+    if (moved > 0) {
+      _queueRevision++;
+      _planRevision++;
+      notifyListeners();
+    }
+    return moved;
   }
 
   Future<void> setThemeMode(ThemeMode m) async {

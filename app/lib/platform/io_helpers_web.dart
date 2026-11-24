@@ -104,23 +104,34 @@ Future<bool> seedWebDatabaseFromAsset(
   void Function(double progress)? onProgress,
 }) async {
   ensureWebDatabaseFactory();
-  try {
-    onProgress?.call(0.1);
-    final resp = await _webFetch('assets/$assetRelPath'.toJS).toDart;
-    if (!resp.ok || resp.body == null) return false;
-    onProgress?.call(0.45);
-    final decompressed =
-        resp.body!.pipeThrough(_JSDecompressionStream('gzip'));
-    final ab = await _RangeResp(decompressed).arrayBuffer().toDart;
-    final dbBytes = ab.toDart.asUint8List();
-    if (dbBytes.length < 1024) return false;
-    onProgress?.call(0.75);
-    await databaseFactory.writeDatabaseBytes('katamemo.db', dbBytes);
-    onProgress?.call(1.0);
-    return true;
-  } catch (_) {
-    return false;
+  for (var attempt = 0; attempt < 3; attempt++) {
+    try {
+      onProgress?.call(0.1);
+      final resp = await _webFetch('assets/$assetRelPath'.toJS).toDart;
+      if (!resp.ok || resp.body == null) {
+        if (attempt < 2) {
+          await Future<void>.delayed(const Duration(seconds: 1));
+          continue;
+        }
+        return false;
+      }
+      onProgress?.call(0.45);
+      final decompressed =
+          resp.body!.pipeThrough(_JSDecompressionStream('gzip'));
+      final ab = await _RangeResp(decompressed).arrayBuffer().toDart;
+      final dbBytes = ab.toDart.asUint8List();
+      if (dbBytes.length < 1024) return false;
+      onProgress?.call(0.75);
+      await databaseFactory.writeDatabaseBytes('katamemo.db', dbBytes);
+      onProgress?.call(1.0);
+      return true;
+    } catch (_) {
+      if (attempt < 2) {
+        await Future<void>.delayed(const Duration(seconds: 1));
+      }
+    }
   }
+  return false;
 }
 
 Future<String?> loadWebGzipTextAsset(

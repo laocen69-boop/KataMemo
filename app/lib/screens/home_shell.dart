@@ -1,20 +1,31 @@
 library;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 import 'package:provider/provider.dart';
 
 import '../ai_tools.dart' show AiHomeTabs;
 import '../app_state.dart';
+import '../native_channel.dart';
 import '../platform/io_shim.dart' show Platform;
 import '../theme/k_colors.dart';
 import '../widgets/first_notice.dart';
 import '../widgets/web_audio_pill.dart';
 import 'study_screen.dart';
 import 'grammar/grammar_hub_screen.dart';
+import 'search_screen.dart';
 import 'select_screen.dart';
 import 'stats_screen.dart';
+import 'text_reader_screen.dart';
 import 'profile_screen.dart';
+
+String cleanLookupText(String raw) {
+  final collapsed = raw.replaceAll(RegExp(r'\s+'), ' ').trim();
+  return collapsed
+      .replaceAll(RegExp(r'^[^\p{L}\p{N}]+', unicode: true), '')
+      .replaceAll(RegExp(r'[^\p{L}\p{N}]+$', unicode: true), '');
+}
 
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
@@ -25,13 +36,14 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> {
   int _tab = 0;
+  final _studyActive = ValueNotifier<bool>(true);
   final _studyTick = ValueNotifier<int>(0);
   final _libraryTick = ValueNotifier<int>(0);
 
   final _statsTick = ValueNotifier<int>(0);
   final _profileTick = ValueNotifier<int>(0);
   late final List<Widget> _pages = [
-    StudyScreen(focusTick: _studyTick),
+    StudyScreen(focusTick: _studyTick, activeListenable: _studyActive),
     SelectScreen(focusTick: _libraryTick, onGoStudy: _goStudyTab),
 
     const GrammarHubScreen(),
@@ -100,8 +112,19 @@ class _HomeShellState extends State<HomeShell> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshTaskBadge();
       _maybeShowNotice();
+      _consumeProcessText();
     });
     _landNewUserOnLibrary();
+    if (!kIsWeb &&
+        Platform.isAndroid &&
+        !Platform.environment.containsKey('FLUTTER_TEST')) {
+      kNativeChannel.setMethodCallHandler((call) async {
+        if (call.method == 'onProcessText') {
+          final raw = (call.arguments ?? '').toString();
+          if (mounted) _openExternalLookup(raw);
+        }
+      });
+    }
 
     _app.addListener(_onAppChanged);
   }
@@ -130,18 +153,56 @@ class _HomeShellState extends State<HomeShell> {
 
   int _lastRev = -1;
   int _lastPlanRev = -1;
+  int _badgeSeq = 0;
 
   Future<void> _refreshTaskBadge() async {
+    final seq = ++_badgeSeq;
     final plan = await _app.db.todayPlan(dailyQuota: _app.dailyQuota);
     final n = plan.taskLeft;
-    if (!mounted || n == _badge) return;
+    if (!mounted || seq != _badgeSeq || n == _badge) return;
     setState(() => _badge = n);
+  }
+
+  Future<void> _consumeProcessText() async {
+    if (kIsWeb ||
+        !Platform.isAndroid ||
+        Platform.environment.containsKey('FLUTTER_TEST') ||
+        !_app.ready) {
+      return;
+    }
+    try {
+      final raw = await kNativeChannel.invokeMethod<String>('consumeProcessText');
+      if (raw != null && raw.trim().isNotEmpty && mounted) {
+        _openExternalLookup(raw);
+      }
+    } catch (_) {}
+  }
+
+  void _openExternalLookup(String raw) {
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty || !mounted) return;
+    final cleaned = cleanLookupText(trimmed);
+    final isShortSingleLine =
+        !trimmed.contains('\n') && cleaned.isNotEmpty && cleaned.length <= 80;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => isShortSingleLine
+            ? SearchScreen(initialQuery: cleaned)
+            : TextReaderScreen(initialText: trimmed),
+      ),
+    );
   }
 
   @override
   void dispose() {
     if (AiHomeTabs.select == _selectTab) AiHomeTabs.select = null;
+    if (!kIsWeb &&
+        Platform.isAndroid &&
+        !Platform.environment.containsKey('FLUTTER_TEST')) {
+      kNativeChannel.setMethodCallHandler(null);
+    }
     _app.removeListener(_onAppChanged);
+    _studyActive.dispose();
     _studyTick.dispose();
     _libraryTick.dispose();
     _statsTick.dispose();
@@ -208,6 +269,7 @@ class _HomeShellState extends State<HomeShell> {
       if (i == 3) _statsTick.value++;
       if (i == 4) _profileTick.value++;
     }
+    _studyActive.value = i == 0;
     setState(() => _tab = i);
   }
 }

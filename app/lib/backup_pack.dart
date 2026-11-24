@@ -6,7 +6,8 @@ const String kPackFormat = 'katamemo-pack';
 const int kPackFormatVersion = 1;
 
 const List<String> kPackSettingKeys = [
-  'new_quota', 'auto_speak', 'retention', 'dark_mode', 'study_mode',
+  'new_quota', 'auto_speak', 'retention', 'dark_mode', 'theme_mode',
+  'fsrs_load_balance', 'study_mode',
   'show_intervals', 'library_sort', 'study_ui_style', 'lib_ui_style',
   'reminder_on', 'current_book',
   'fsrs_w', 'fsrs_w_ts',
@@ -113,12 +114,15 @@ class BackupPack {
       return false;
     }
 
+    final keptLocalNewer = <String>{};
+    final incomingSrsIds = <String>{};
     final local = {
       for (final r in await txn.query('srs')) r['card_id'] as String: r
     };
     for (final r in list('srs')) {
       final id = r['card_id'] as String;
       if (!ok(id)) continue;
+      incomingSrsIds.add(id);
       final cur = local[id];
       if (cur == null) {
         await txn.insert('srs', r);
@@ -128,8 +132,9 @@ class BackupPack {
       final fsA = cur['first_seen'] as int?, fsB = r['first_seen'] as int?;
       final fs =
           fsA == null ? fsB : (fsB == null ? fsA : (fsA < fsB ? fsA : fsB));
-      final newer = ((r['last_review'] as int?) ?? 0) >
-          ((cur['last_review'] as int?) ?? 0);
+      final curLr = (cur['last_review'] as int?) ?? 0;
+      final rLr = (r['last_review'] as int?) ?? 0;
+      final newer = rLr > curLr;
       if (newer) {
         await txn.update(
             'srs',
@@ -148,10 +153,14 @@ class BackupPack {
             whereArgs: [id]);
         rep.srsUpdated++;
       } else {
+        if (curLr > rLr) keptLocalNewer.add(id);
         await txn.update('srs', {'first_seen': fs},
             where: 'card_id=?', whereArgs: [id]);
         rep.srsKept++;
       }
+    }
+    for (final id in local.keys) {
+      if (!incomingSrsIds.contains(id)) keptLocalNewer.add(id);
     }
 
     final have = {
@@ -175,19 +184,28 @@ class BackupPack {
     }
     await batch.commit(noResult: true);
 
+    final incomingPlanIds = <String>{};
     for (final r in list('plan')) {
       final id = r['card_id'] as String;
       if (!ok(id)) continue;
+      incomingPlanIds.add(id);
       final cur =
           await txn.rawQuery('SELECT ts FROM plan WHERE card_id=?', [id]);
       if (cur.isEmpty) {
         await txn.insert('plan', r);
         rep.planAdded++;
+        await txn.update('words', {'enabled': 1},
+            where: 'id=? AND enabled=0', whereArgs: [id]);
       } else if ((r['ts'] as int) < (cur.first['ts'] as int)) {
         await txn.update('plan', {'ts': r['ts']},
             where: 'card_id=?', whereArgs: [id]);
       }
     }
+    final localOnlyPlanned = {
+      for (final r in await txn.rawQuery('SELECT card_id FROM plan'))
+        if (!incomingPlanIds.contains(r['card_id'] as String))
+          r['card_id'] as String
+    };
 
     for (final r in list('userEdit')) {
       final id = r['card_id'] as String;
@@ -275,10 +293,23 @@ class BackupPack {
       }
     }
 
+    // 7) 库词的收藏 / 停用标记（安全合并：不抹掉本地已收藏，不让旧包覆盖本地更新的 SRS 词）
     for (final r in list('wordFlags')) {
-      await txn.update(
-          'words', {'favorite': r['favorite'], 'enabled': r['enabled']},
-          where: 'id=? AND COALESCE(user_word,0)=0', whereArgs: [r['id']]);
+      final id = r['id'] as String?;
+      if (id == null) continue;
+      final patch = <String, Object?>{};
+      if (((r['favorite'] as int?) ?? 0) == 1) {
+        patch['favorite'] = 1;
+      }
+      final en = r['enabled'] as int?;
+      if (en != null &&
+          !keptLocalNewer.contains(id) &&
+          !(en == 0 && localOnlyPlanned.contains(id))) {
+        patch['enabled'] = en;
+      }
+      if (patch.isEmpty) continue;
+      await txn.update('words', patch,
+          where: 'id=? AND COALESCE(user_word,0)=0', whereArgs: [id]);
     }
 
     for (final m in list('meta')) {

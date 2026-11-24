@@ -169,12 +169,31 @@ class HandshakeException implements Exception {
   String toString() => 'HandshakeException: $message';
 }
 
+class ContentType {
+  final String primaryType;
+  final String subType;
+  final String? charset;
+
+  const ContentType(this.primaryType, this.subType, {this.charset});
+
+  static const ContentType json =
+      ContentType('application', 'json', charset: 'utf-8');
+
+  @override
+  String toString() =>
+      charset != null ? '$primaryType/$subType; charset=$charset' : '$primaryType/$subType';
+}
+
 class HttpHeaders {
   static const String authorizationHeader = 'authorization';
   static const String contentTypeHeader = 'content-type';
   static const String acceptHeader = 'accept';
 
   final Map<String, String> _map = {};
+
+  set contentType(ContentType? value) {
+    if (value != null) set(contentTypeHeader, value.toString());
+  }
 
   void set(String name, Object value) {
     _map[name] = value.toString();
@@ -205,6 +224,10 @@ class HttpClientRequest {
   HttpClientRequest._(this.method, this.url);
 
   void add(List<int> data) => _body.add(data);
+
+  void write(Object? object) {
+    if (object != null) add(utf8.encode(object.toString()));
+  }
 
   Future<HttpClientResponse> close() async {
     try {

@@ -382,6 +382,15 @@ class AiChatContext {
   });
 }
 
+/// 互动题卡块约定（普通对话与情景角色扮演共用，避免角色扮演结束复盘时输出纯文本选项）。
+const String kAiQuizFormatRule =
+    '互动题卡块格式（每道题用独立围栏包裹，内部必须是合法单行 JSON，禁止写纯文本 A./B./C./D.）：\n'
+    ':::' 'quiz\n'
+    '{"question":"题干","options":["选项A","选项B","选项C","选项D"],"answer":0,"explanation":"点名语法/词义规则并解释为什么其余干扰项不对","word_id":"可选目标词id"}\n'
+    ':::\n'
+    '干扰项必须针对中国学习者真实易混点设计（如 meN- 鼻音同化与规范形 memengaruhi/mengubah、-kan 受益/致使 vs -i 处所/多次、第一二人称对象语态体标记前置 sudah saya baca、被动前缀 di- 连写 vs 介词 di 分写、tidak vs bukan vs belum、DM 定语后置语序），不要出明显荒谬的凑数选项。'
+    '解析中引用选项请统一用 A/B/C/D，勿混用 0/1 序号；确保 4 个选项中只有 answer 对应项成立，其余 3 项明确有语法或语域错误，不出现双解。';
+
 const String _kRules = '规则：\n'
     '1. 用简体中文回答，简洁口语化。用轻量 Markdown 排版（App 会渲染）：小标题用 ###，要点用列表，'
     '印尼语词和例句用 **粗体**，批改用表格 | 原句 | 改后 | 原因 |，规则提示用引用块 >；'
@@ -391,7 +400,8 @@ const String _kRules = '规则：\n'
     '要说明是你的补充；没有把握的，直接说「我没有查到可靠依据」，不要编造释义、规则、出处、例句来源或数据。\n'
     '3. 举的印尼语例句要符合标准印尼语（bahasa baku），后面附中文；口语或俚语要标明。\n'
     '4. 批改句子时先指出错误，再给正确写法和简短理由。\n'
-    '5. 回答控制在 250 字以内，除非学生要求详细。';
+    '5. 回答控制在 250 字以内，除非学生要求详细。\n'
+    '6. 当学生要求「考考我 / 出选择题 / 出理解题 / 做小练习」时，优先使用$kAiQuizFormatRule';
 
 const String _kPersona = '你是一位耐心、专业的印尼语老师，学生是以中文为母语的印尼语学习者。'
     '你同时是这个背单词 App（$_kAppNameForAi）里的学习助手。';
@@ -473,9 +483,36 @@ AiChatContext aiGrammarContext(
 
 const List<(String, String)> kAiGrammarQuick = [
   ('换个说法讲', '用更简单的话把这一页的要点讲一遍，并各配一个新例句。'),
-  ('出几道题', '根据这一页出 3 道小练习，先只给题目，等我作答后再批改。'),
+  ('出几道题', '根据这一页出 3 道互动选择题（用 :::quiz 格式输出，干扰项针对中国学生常见偏误，附详细解析）。'),
   ('常见错误', '中国学生学这一点最容易犯什么错？各举一个错句和正确写法。'),
   ('和中文对比', '这一语法点和中文的说法有什么异同？'),
+];
+
+AiChatContext aiReadingContext({
+  required String text,
+  List<String> unknownWords = const [],
+  int? coveragePct,
+}) {
+  final b = StringBuffer(
+      '$_kPersona\n$_kRules\n\n$kIndoTutorSkill\n\n【学生正在阅读的印尼语文章】\n${_cut(text, 2800)}');
+  if (unknownWords.isNotEmpty) {
+    b.writeln('\n\n【文章中尚未掌握的生词（最多列 30 个）】');
+    b.write(unknownWords.take(30).join('、'));
+  }
+  return AiChatContext(
+    key: 'reading',
+    title: '文章阅读',
+    subtitle: coveragePct != null ? '掌握率 $coveragePct% · ${unknownWords.length} 个生词' : '当前文章',
+    system: b.toString(),
+    quick: kAiReadingQuick,
+  );
+}
+
+const List<(String, String)> kAiReadingQuick = [
+  ('翻译全文', '把我正在读的这篇文章逐段翻译成自然中文，保留专有名词原形。'),
+  ('挑难点讲', '挑出这篇文章里最值得学的 3 个难句或地道搭配，讲清结构与用法。'),
+  ('生词串讲', '结合文章语境，把还没掌握的生词串起来讲一遍，重点讲它们在句中的意思。'),
+  ('出理解题', '根据这篇文章出 3 道阅读理解或词汇选择题（用 :::quiz 互动题卡格式输出，附解析与对应 word_id）。'),
 ];
 
 AiChatContext aiGeneralContext({List<(String, String)> recent = const []}) {
@@ -493,7 +530,7 @@ AiChatContext aiGeneralContext({List<(String, String)> recent = const []}) {
     system: b.toString().trimRight(),
     quick: [
       if (recent.isNotEmpty)
-        ('考考今天的词', '从我今天学过的词里挑 5 个出题（中译印或填空），先只给题目，等我回答后再批改。'),
+        ('考考今天的词', '从我今天学过的词里挑 4 个出互动选择题（用 :::quiz 格式输出，考查词义、搭配或词缀辨析，附 word_id 与解析）。'),
       ('复盘今天的错词', '看看我今天学习时答错（困难/模糊）的词，帮我分析容易混的原因，给每个词一个好记的提示。'),
       ('搜过的词建词单', '把我今天搜索过的单词整理成一个词单，词单名用今天的日期。'),
       ('语法错题', '统计我今天做错的语法练习题，按语法点归类讲解，并各出一道类似的题。'),
@@ -524,7 +561,7 @@ const Map<String, String> kAiQuickHints = {
   '教我用 App': '三句话讲清最重要的用法',
   '帮我翻译': '中译印，并解释用词',
   '批改句子': '发一句印尼语，指出错在哪',
-  '情景对话': '在餐馆点菜的印尼语对话',
+  '情景对话': '12 个 BIPA 分级场景 + 任务词打卡',
   '词缀小课': 'me- 和 ber- 的区别',
 };
 
@@ -532,7 +569,7 @@ const List<(String, String)> kAiQuickPrompts = [
   ('讲讲用法', '用中文简单讲讲「{w}」最常见的用法和搭配，给 2 个日常例句（附中文）。'),
   ('近义词辨析', '「{w}」有哪些容易混的近义词？用中文说清区别，各给一个例句。'),
   ('怎么记', '给「{w}」想一个好记的助记方法（拆词缀、同源词或联想都行），控制在 60 字以内。'),
-  ('考考我', '用「{w}」给我出一道小题（翻译或填空），先别给答案，等我回答后再批改。'),
+  ('考考我', '用「{w}」给我出一道互动选择题（用 :::quiz 格式输出，干扰项针对易混词或词缀用法，附解析与 word_id）。'),
   ('批改我的句子', '我想用「{w}」造句，我下一条发给你，请帮我批改并说明原因。'),
 ];
 

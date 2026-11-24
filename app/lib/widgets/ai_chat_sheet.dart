@@ -10,13 +10,19 @@ import 'package:provider/provider.dart';
 
 import '../ai_chat.dart';
 import '../ai_history.dart';
+import '../ai_quiz.dart';
+import '../ai_roleplay.dart';
 import '../ai_tools.dart';
+import '../ai_tts.dart';
 import '../app_state.dart';
 import '../models.dart';
 import '../screens/ai_history_screen.dart';
 import '../screens/ai_settings_screen.dart';
+import '../screens/text_reader_screen.dart';
 import '../theme/k_colors.dart';
 import 'ai_markdown.dart';
+import 'ai_quiz_card.dart';
+import 'ai_roleplay_sheet.dart';
 import 'ai_widgets.dart';
 import 'copy_text.dart';
 
@@ -181,11 +187,48 @@ class _AiChatSheetState extends State<AiChatSheet> {
 
   final Map<AiMessage, Widget> _bubbleCache = {};
   Object? _bubbleSig;
+  final AiTtsPlayer _tts = AiTtsPlayer();
+  List<String> _roleplayTargets = const [];
+
+  void _onTtsChanged() {
+    if (mounted) setState(() {});
+  }
+
+  Future<void> _pickRoleplay() async {
+    final curId = _ctx.key.startsWith('roleplay:') ? _ctx.key.substring(9) : null;
+    final sel = await showAiRoleplaySheet(context, _app, currentScenarioId: curId);
+    if (sel == null || !mounted) return;
+    AiSessionCache.put(_ctx.key, _msgs);
+    unawaited(_persist());
+    final nextCtx = aiRoleplayContext(sel.scenario, targetWords: sel.targetWords);
+    final cached = AiSessionCache.get(nextCtx.key);
+    if (cached.isEmpty) {
+      cached.add(AiMessage(
+        'assistant',
+        '**${sel.scenario.openerId}**\n（${sel.scenario.openerZh}）',
+      ));
+    }
+    setState(() {
+      _ctxNow = nextCtx;
+      _roleplayTargets = sel.targetWords;
+      _msgs = cached;
+      _convId = AiSessionCache.idOf(nextCtx.key);
+      _offers.clear();
+      _bubbleCache.clear();
+      _plan = const [];
+      _error = null;
+      _capped = false;
+    });
+    AiSessionCache.put(_ctx.key, _msgs);
+    unawaited(_persist());
+    _toBottom();
+  }
 
   @override
   void initState() {
     super.initState();
     _app = context.read<AppState>();
+    _tts.addListener(_onTtsChanged);
     _msgs = AiSessionCache.get(_ctx.key);
     _convId = AiSessionCache.idOf(_ctx.key);
     _toolsOff = !_app.aiTools;
@@ -257,6 +300,8 @@ class _AiChatSheetState extends State<AiChatSheet> {
   @override
   void dispose() {
     _stop = true;
+    _tts.removeListener(_onTtsChanged);
+    _tts.dispose();
     _pending?.$2.complete(false);
     AiSessionCache.put(_ctx.key, _msgs);
     unawaited(_persist());
@@ -334,13 +379,13 @@ class _AiChatSheetState extends State<AiChatSheet> {
 
   String _systemFor({bool tools = true, String extra = ''}) {
     final b = StringBuffer('${_ctx.system}\n\n${aiLevelRule(_app.aiLevel)}');
-    final mem = _app.aiMemoryEnabled ? _app.aiLearningMemory.trim() : '';
-    if (mem.isNotEmpty) {
-      b.write('\n\n【学生长期学习记忆】\n$mem');
-    }
     if (tools && !_toolsOff) {
       b.write('\n\n$kAiAgentRules');
       if (_app.aiSearchReady) b.write('\n\n$kAiSearchRules');
+    }
+    final mem = _app.aiMemoryEnabled ? _app.aiLearningMemory.trim() : '';
+    if (mem.isNotEmpty) {
+      b.write('\n\n【学生长期学习记忆】\n$mem');
     }
     if (extra.isNotEmpty) b.write('\n\n$extra');
     if (_plan.isNotEmpty) b.write('\n\n【任务清单】\n${aiPlanText(_plan)}');
@@ -752,7 +797,9 @@ class _AiChatSheetState extends State<AiChatSheet> {
       while (_round < maxRounds && !_stop) {
         setState(() => _round++);
         final useTools = !_toolsOff;
-        final specs = useTools ? aiToolSpecsFor(app) : const <AiToolSpec>[];
+        final specs = useTools
+            ? aiToolSpecsFor(app, contextKey: _ctx.key)
+            : const <AiToolSpec>[];
         var system = _systemFor();
         var msgBudget = _msgBudget(budget, system, specs);
         if (overflowCapTokens != null && overflowCapTokens < msgBudget) {
@@ -1211,6 +1258,7 @@ class _AiChatSheetState extends State<AiChatSheet> {
           if (!ready)
             Expanded(child: _setupHint(context, app))
           else ...[
+            if (_ctx.key.startsWith('roleplay:')) _roleplayBanner(context),
             Expanded(child: _messages(context)),
             _sessionNudgeBanner(context, app),
             _inputBar(context),
@@ -1452,7 +1500,7 @@ class _AiChatSheetState extends State<AiChatSheet> {
     final hint = kAiQuickHints[label];
     return GestureDetector(
       key: ValueKey('ai.quick.$label'),
-      onTap: () => _send(prompt),
+      onTap: () => label == '情景对话' ? _pickRoleplay() : _send(prompt),
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 9, 8, 9),
         decoration: BoxDecoration(
@@ -1494,7 +1542,7 @@ class _AiChatSheetState extends State<AiChatSheet> {
     final (label, prompt) = q;
     return GestureDetector(
       key: ValueKey('ai.quick.$label'),
-      onTap: () => _send(prompt),
+      onTap: () => label == '情景对话' ? _pickRoleplay() : _send(prompt),
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1507,6 +1555,115 @@ class _AiChatSheetState extends State<AiChatSheet> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13, color: k.text)),
+      ),
+    );
+  }
+
+  Widget _roleplayBanner(BuildContext context) {
+    final k = context.k;
+    final sc = aiRoleplayById(_ctx.key.substring(9));
+    final targets = _roleplayTargets.isNotEmpty
+        ? _roleplayTargets
+        : (sc?.defaultTargets ?? const <String>[]);
+    final used = matchRoleplayTargetWords(
+      targets,
+      [for (final m in _msgs) if (m.role == 'user') m.content],
+    );
+    return Container(
+      key: const Key('ai.roleplay.banner'),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      decoration: BoxDecoration(
+        color: k.surface,
+        border: Border(bottom: BorderSide(color: k.line)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '任务词 ${used.length}/${targets.length}',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                  color: k.t2,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Wrap(
+                  spacing: 5,
+                  runSpacing: 4,
+                  children: [
+                    for (final w in targets)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: used.contains(w) ? k.tint : k.bg,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: used.contains(w)
+                                ? k.brand.withValues(alpha: 0.45)
+                                : k.border,
+                          ),
+                        ),
+                        child: Text(
+                          '${used.contains(w) ? '✓ ' : ''}$w',
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: used.contains(w) ? FontWeight.w700 : FontWeight.w400,
+                            color: used.contains(w) ? k.deep : k.t2,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 6),
+              GestureDetector(
+                key: const Key('ai.roleplay.switch'),
+                onTap: _busy ? null : _pickRoleplay,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: k.bg,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: k.border),
+                  ),
+                  child: Text(
+                    '换场景',
+                    style: TextStyle(fontSize: 11.5, color: k.t2),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (_ctx.quick.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 4,
+              children: [
+                for (final (label, prompt) in _ctx.quick)
+                  GestureDetector(
+                    onTap: _busy ? null : () => _send(prompt),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: k.bg,
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(color: k.line),
+                      ),
+                      child: Text(
+                        label,
+                        style: TextStyle(fontSize: 11.5, color: k.t2),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -1900,6 +2057,8 @@ class _AiChatSheetState extends State<AiChatSheet> {
             ]),
           ),
         );
+    final ttsActive = _tts.isActive('last');
+    final idText = extractIndonesianForTts(text);
     return Padding(
       padding: const EdgeInsets.only(left: 4),
       child: Wrap(children: [
@@ -1909,14 +2068,39 @@ class _AiChatSheetState extends State<AiChatSheet> {
         if (_ctx.card != null)
           act(Icons.lightbulb_outline, '存为助记', () => _saveAsMnemonic(aiPlainText(text)),
               'ai.act.mn'),
-        if (context.watch<AppState>().aiTtsConfigured)
-          act(Icons.volume_up_outlined, '朗读', () {
-            final cfg = context.read<AppState>().aiTtsConfig;
-            final label = cfg.model.isNotEmpty ? cfg.model : cfg.endpoint;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('已接入 TTS（$label），朗读播放将在后续版本开放')),
+        if (idText.isNotEmpty)
+          act(Icons.auto_stories_outlined, '划词阅读', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => TextReaderScreen(initialText: idText)),
             );
-          }, 'ai.act.tts'),
+          }, 'ai.act.reader'),
+        if (context.watch<AppState>().aiTtsConfigured) ...[
+          act(
+            ttsActive ? Icons.stop_circle_outlined : Icons.volume_up_outlined,
+            ttsActive ? (_tts.loading ? '合成中…' : '停止') : '朗读',
+            () async {
+              final cfg = context.read<AppState>().aiTtsConfig;
+              final err = await _tts.toggleSpeak(
+                key: 'last',
+                rawText: text,
+                config: cfg,
+              );
+              if (err != null && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(err)),
+                );
+              }
+            },
+            'ai.act.tts',
+          ),
+          act(
+            Icons.speed,
+            (_tts.speed - 0.75).abs() < 0.05 ? '0.75×' : '1.0×',
+            _tts.toggleSpeed,
+            'ai.act.tts_speed',
+          ),
+        ],
       ]),
     );
   }
@@ -1968,7 +2152,7 @@ class _AiChatSheetState extends State<AiChatSheet> {
             mine
                 ? Text(m.content,
                     style: TextStyle(fontSize: 14.5, height: 1.6, color: k.text))
-                : AiMarkdown(m.content),
+                : _assistantContent(context, m.content),
         ],
       ),
     );
@@ -1978,6 +2162,36 @@ class _AiChatSheetState extends State<AiChatSheet> {
           ? bubble
           : GestureDetector(
               onLongPress: () => _bubbleMenu(m.content), child: bubble),
+    );
+  }
+
+  Widget _assistantContent(BuildContext context, String raw) {
+    final segs = parseAiChatSegments(raw);
+    if (segs.length == 1 && segs.first is AiTextSegment) {
+      return AiMarkdown((segs.first as AiTextSegment).markdown);
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < segs.length; i++) ...[
+          if (i > 0) const SizedBox(height: 8),
+          switch (segs[i]) {
+            AiTextSegment(:final markdown) => AiMarkdown(markdown),
+            AiQuizSegment(:final items) => AiQuizCard(
+                items: items,
+                onAddWord: (wordId) async {
+                  await _app.remember([wordId]);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('已将 $wordId 加入记忆')),
+                    );
+                  }
+                },
+              ),
+          },
+        ],
+      ],
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:katamemo/fsrs.dart';
-
+// `StudyScreen.needsRequeue` —— 「回不回队」的判据只有那一份，这里不自己拼一遍
 import 'package:katamemo/screens/study_screen.dart';
 
 void main() {
@@ -8,13 +8,14 @@ void main() {
     test('遗忘曲线锚点：R(S,S)=0.9, R(0)=1', () {
       expect(Fsrs.retrievability(0, 1), closeTo(1.0, 1e-9));
       expect(Fsrs.retrievability(1, 1), closeTo(0.9, 1e-6));
-
+      // R(1,1)=0.9 意味着 intervalFor(S, 0.9) == S（自洽）
       expect(Fsrs.intervalFor(5.0, 0.9), closeTo(5.0, 0.05));
     });
 
     test('成功路径稳定性 S\'_r（oracle: [25.602541, 28.226582, 58.656002, 127.226685]）',
         () {
-
+      // D 块（记忆算法）把 `W` 改成「可被用户个性化参数覆盖的可变静态」，
+      // 默认值挪到 `const defaultW` ⇒ 纯公式对拍这里取 `defaultW`（oracle 就是那 21 个数）。
       const w = Fsrs.defaultW;
       for (var i = 0; i < 4; i++) {
         final g = i + 1;
@@ -24,7 +25,7 @@ void main() {
             s, closeTo([25.602541, 28.226582, 58.656002, 127.226685][i], 0.001),
             reason: 'G=$g');
       }
-
+      // 关键：成功路径含 ((S+1)^w13 - 1) 之外的 hard/easy 权重
       expect(w[15], closeTo(0.6014, 1e-6));
       expect(w[16], closeTo(1.8729, 1e-6));
     });
@@ -76,7 +77,7 @@ void main() {
       expect(s.stability, closeTo(2.3065, 0.001));
       expect(s.reps, 1);
       final days = s.due.difference(DateTime.now()).inDays;
-      expect(days, inInclusiveRange(1, 3));
+      expect(days, inInclusiveRange(1, 3)); // 2.3 天（含毫秒取整误差）
     });
 
     test('新卡点困难 -> 进入学习，10分钟后', () {
@@ -88,20 +89,24 @@ void main() {
     test('新卡点模糊 -> 进入学习', () {
       final s = Fsrs.apply(null, Fsrs.ratingFuzzy, elapsedDays: 0);
       expect(s.state, FsrsState.learning);
-      expect(s.stability, closeTo(1.2931, 0.001));
+      expect(s.stability, closeTo(1.2931, 0.001)); // S0(Hard)
     });
 
+    // ---- 「记得门槛」（2026-09-23 用户拍板：照同类记忆 App 的手感）----
+    //
+    // 用户原话：「第一次点忘记后要连续点击两次记得才能过卡，且两次都有间隔以免用户是
+    // 假记得；点模糊后点击一次记得就会过卡」。
     test('困难后要连着两次「记得」才毕业', () {
       final l = Fsrs.apply(null, Fsrs.ratingForget, elapsedDays: 0);
       expect(l.state, FsrsState.learning);
       expect(l.step, 0);
-
+      // 第一次记得：还不够 → 留在学习里（`needsRequeue` 会让它隔 6 张再来）
       final s1 = Fsrs.apply(l, Fsrs.ratingKnow);
       expect(s1.state, FsrsState.learning, reason: '一次记得还不该过卡');
       expect(s1.step, 1);
       expect(s1.due.difference(DateTime.now()).inMinutes, closeTo(10, 1));
       expect(StudyScreen.needsRequeue(s1), isTrue, reason: '没攒够就得回队');
-
+      // 第二次记得：攒够 → 毕业进复习
       final s2 = Fsrs.apply(s1, Fsrs.ratingKnow);
       expect(s2.state, FsrsState.review);
       expect(s2.reps, 3);
@@ -109,13 +114,14 @@ void main() {
     });
 
     test('模糊后一次「记得」就毕业；复习卡点模糊也要回队', () {
-
+      // 新卡点模糊 → 学习（step 1 = 已算一次）
       final f = Fsrs.apply(null, Fsrs.ratingFuzzy, elapsedDays: 0);
       expect(f.state, FsrsState.learning);
       expect(f.step, 1);
       expect(Fsrs.apply(f, Fsrs.ratingKnow).state, FsrsState.review,
           reason: '模糊只要一次记得');
 
+      // 复习卡点模糊：以前**直接过卡、不回队**，现在要回队走一遍
       final rv = Fsrs.apply(null, Fsrs.ratingKnow, elapsedDays: 0);
       expect(rv.state, FsrsState.review);
       final fz = Fsrs.apply(rv, Fsrs.ratingFuzzy, elapsedDays: 1, now: rv.due);
@@ -179,7 +185,9 @@ void main() {
     });
 
     test('按钮标签：困难显示「重学」，认识显示天后', () {
-
+      // 2026-09-22 改：显示「重学」而不是「10分钟后」——那张卡在本组里
+      // **隔 6 张就再出现**（`_relearnGap`，不设上限），根本不是 10 分钟后
+      // 才见面；写时间会让用户觉得界面在骗人（`Fsrs.nextLabel` 的注释有全文）。
       final forgetLabel = Fsrs.nextLabel(null, Fsrs.ratingForget);
       expect(forgetLabel, '重学');
       expect(forgetLabel, isNot(contains('分钟')),
@@ -193,12 +201,18 @@ void main() {
       final s90 = Fsrs.apply(null, Fsrs.ratingKnow, elapsedDays: 0);
       Fsrs.requestedRetention = 0.95;
       final s95 = Fsrs.apply(null, Fsrs.ratingKnow, elapsedDays: 0);
-
+      // 保留率 0.95 > 0.9 → 间隔更短（更勤复习）
       expect(s95.due.difference(DateTime.now()),
           lessThan(s90.due.difference(DateTime.now())));
-      Fsrs.requestedRetention = 0.9;
+      Fsrs.requestedRetention = 0.9; // 还原
     });
 
+    // ===== FSRS-6 同日复习（短时公式，w17/w18/w19）=====
+    //
+    // 公式与判据对齐官方实现 ts-fsrs 的 `next_short_term_stability`
+    // + `if (t === 0 && enable_short_term)`；本移植用「小时/24」的浮点，
+    // 等价条件是 elapsedDays < 1。期望值是**按公式手算**的（见脚本留痕：
+    // data/rebuild/_shortterm.py），不是从实现里反推的。
     group('同日复习（短时稳定度）', () {
       FsrsState reviewCard(double s) => FsrsState(
             stability: s,
@@ -212,7 +226,7 @@ void main() {
       test('同日认识：sinc 被下限 1 托住，S 不倒退', () {
         final s = reviewCard(5);
         final n = Fsrs.apply(s, Fsrs.ratingKnow, elapsedDays: 0);
-
+        // sinc = 5^-w19 · e^{w17·w18} = 0.8995·1.0507 = 0.9452 < 1 → 取 1
         expect(n.stability, closeTo(5.0, 1e-9));
         expect(n.state, FsrsState.review);
       });
@@ -240,12 +254,12 @@ void main() {
         final s = reviewCard(5);
         final long = Fsrs.apply(s, Fsrs.ratingKnow, elapsedDays: 5);
         final short = Fsrs.apply(s, Fsrs.ratingKnow, elapsedDays: 0);
-
+        // 长期公式在 r<1 时才会增长；两者必须不同（说明分支确实分开了）
         expect(long.stability, isNot(closeTo(short.stability, 1e-9)));
       });
 
       test('w17/w18/w19 真的参与计算（改权重会改结果）', () {
-
+        // 这条是防回归：这三个权重曾经定义了却从未被用到
         final s = reviewCard(5);
         final n = Fsrs.apply(s, Fsrs.ratingForget, elapsedDays: 0);
         final manual = Fsrs.nextShortTermStability(5, 1);
@@ -254,6 +268,11 @@ void main() {
     });
   });
 
+  // ─────────────────────────────────────────────────────────────
+  // 第四档「轻松」（实施单 C · 用户已批 2026-10-12）——
+  // 官方对拍用例一字不动，这里只**新增** Easy 的行为用例。
+  // 评分映射：g = rating + 1 ⇒ Easy → g=4（easyBonus / S0(4) 官方路径）。
+  // ─────────────────────────────────────────────────────────────
   group('Easy（轻松）第四档', () {
     test('新卡首次点轻松 → 直接毕业进 review', () {
       final s = Fsrs.apply(null, Fsrs.ratingEasy, elapsedDays: 0);
@@ -268,16 +287,19 @@ void main() {
     });
 
     test('轻松**绕过记得门槛**：学习中的卡点轻松即毕业（不必攒两次「记得」）', () {
-
+      // ⚠️ 造「门槛未攒够」的学习卡要用**困难**（`banked = 0`）。
+      //    用「模糊」不行 —— 模糊本身就垫 1 次（`banked = prev.step + 1 = 2`），
+      //    下一次「记得」就该毕业，那是 `fsrs.dart` `_applyKnowGate` 注释里明写的
+      //    设计（「模糊 → 下一次记得就过卡」），不是 bug。
       final l = Fsrs.apply(null, Fsrs.ratingForget, elapsedDays: 0);
       expect(l.state, FsrsState.learning);
-
+      // 门槛（`kKnowStepsNeeded = 2`）未攒够时点「记得」仍在学习里…
       final k1 = Fsrs.apply(l, Fsrs.ratingKnow);
       expect(k1.state, FsrsState.learning, reason: '只垫了 1 次，还差 1 次');
-
+      // …但点「轻松」直接毕业
       final e = Fsrs.apply(l, Fsrs.ratingEasy);
       expect(e.state, FsrsState.review);
-
+      // 附：模糊垫 1 次 ⇒ 模糊 + 记得 就该毕业（设计如此，别当回归）
       final lf = Fsrs.apply(null, Fsrs.ratingFuzzy, elapsedDays: 0);
       expect(lf.state, FsrsState.learning);
       expect(Fsrs.apply(lf, Fsrs.ratingKnow).state, FsrsState.review,
@@ -305,6 +327,47 @@ void main() {
     test('nextLabel 支持轻松（给出非「重学」的预估文案）', () {
       final lbl = Fsrs.nextLabel(null, Fsrs.ratingEasy, elapsedDays: 0);
       expect(lbl, isNot('重学'));
+    });
+
+    test('跨夜早读（昨晚22:00学 → 今早08:30复习）判为跨天≥1天，不陷入短时1天死循环', () {
+      final night = DateTime(2026, 11, 23, 22, 0);
+      final morning = DateTime(2026, 11, 24, 8, 30);
+      final lateSameSession = DateTime(2026, 11, 24, 0, 10);
+
+      expect(Fsrs.elapsedDaysSince(night, lateSameSession), 0.0,
+          reason: '4小时内熬夜跨零点仍视为同一次会话');
+      final elapsed = Fsrs.elapsedDaysSince(night, morning);
+      expect(elapsed, 1.0);
+
+      final s0 = Fsrs.apply(null, Fsrs.ratingKnow, elapsedDays: 0, now: night);
+      final s1 = Fsrs.apply(s0, Fsrs.ratingKnow,
+          elapsedDays: elapsed, now: morning);
+      expect(s1.stability, greaterThan(s0.stability * 1.5),
+          reason: '跨夜复习必须走长期公式大幅增长，而不是被短时公式卡在 ~2.3 天');
+    });
+
+    test('learning 卡点轻松不再被 0.212 冻结成 1 天；跨天答对享受长期增益', () {
+      final t0 = DateTime(2026, 11, 18, 10, 0);
+      final l = Fsrs.apply(null, Fsrs.ratingForget, elapsedDays: 0, now: t0);
+      expect(l.state, FsrsState.learning);
+      expect(l.stability, closeTo(0.212, 1e-4));
+
+      // 同日连错，难度必须上升
+      final lAgain = Fsrs.apply(l, Fsrs.ratingForget, elapsedDays: 0, now: t0);
+      expect(lAgain.difficulty, greaterThan(l.difficulty));
+
+      // 同日点轻松，毕业稳定度不低于 S0(Easy)
+      final easyGrad =
+          Fsrs.apply(l, Fsrs.ratingEasy, elapsedDays: 0, now: t0);
+      expect(easyGrad.state, FsrsState.review);
+      expect(easyGrad.stability, greaterThanOrEqualTo(Fsrs.initStability(4)));
+
+      // 隔 5 天回来答对（两次认识或轻松），享受长期公式增益
+      final t5 = t0.add(const Duration(days: 5));
+      final crossDay =
+          Fsrs.apply(l, Fsrs.ratingEasy, elapsedDays: 5.0, now: t5);
+      expect(crossDay.state, FsrsState.review);
+      expect(crossDay.stability, greaterThan(Fsrs.initStability(1) * 2));
     });
   });
 }

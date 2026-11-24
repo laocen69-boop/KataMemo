@@ -2,6 +2,7 @@ library;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sqflite/sqflite.dart';
@@ -16,6 +17,7 @@ import 'derived_form.dart';
 import 'topic_classifier.dart';
 import 'spacing.dart';
 import 'fsrs.dart';
+import 'fsrs_queue_tools.dart';
 import 'grammar/grammar_edit.dart';
 import 'ai_history.dart' show kAiChatDdl, kAiChatIdx;
 import 'dict_import/dict_store.dart' show createDictTables;

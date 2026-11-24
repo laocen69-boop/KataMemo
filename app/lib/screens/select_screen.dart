@@ -22,6 +22,7 @@ import 'scan_screen.dart';
 import 'search_screen.dart';
 import 'study_screen.dart' show studyStopOf, StudyStop;
 import 'my_words_screen.dart';
+import 'text_reader_screen.dart';
 import 'today_words_screen.dart';
 import 'word_detail_screen.dart';
 import 'word_pick_screen.dart';
@@ -397,7 +398,10 @@ class _SelectScreenState extends State<SelectScreen> {
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const SearchScreen())),
+                      MaterialPageRoute(builder: (_) => const SearchScreen()))
+                      .then((_) {
+                    if (mounted) _load();
+                  }),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 14, right: 8),
                     child: Row(
@@ -1148,6 +1152,86 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  Widget _quickToolsStrip() {
+    final k = context.k;
+    Widget item({
+      required IconData icon,
+      required String label,
+      required VoidCallback onTap,
+    }) =>
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+              decoration: BoxDecoration(
+                color: k.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: k.border, width: 0.8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, size: 15, color: k.deep),
+                  const SizedBox(width: 5),
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                        color: k.text,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+    return Row(
+      children: [
+        item(
+          icon: Icons.auto_stories_outlined,
+          label: '文章阅读',
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const TextReaderScreen()),
+          ).then((_) {
+            if (mounted) _load();
+          }),
+        ),
+        const SizedBox(width: 8),
+        item(
+          icon: Icons.document_scanner_outlined,
+          label: '抓词加卡',
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ScanScreen()),
+          ).then((_) {
+            if (mounted) _load();
+          }),
+        ),
+        const SizedBox(width: 8),
+        item(
+          icon: Icons.bookmark_border_rounded,
+          label: '我的词库',
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const MyScreen()),
+          ).then((_) {
+            if (mounted) _load();
+          }),
+        ),
+      ],
+    );
+  }
+
   Widget _bookList(AppState app) {
     final roots = _books.where((b) => b.parent == null).toList();
     final segs = _groupRoots(roots);
@@ -1173,6 +1257,8 @@ class _SelectScreenState extends State<SelectScreen> {
           const SizedBox(height: 4),
           _memoryCardNew(app),
           const SizedBox(height: 6),
+          _quickToolsStrip(),
+          const SizedBox(height: 2),
 
           Padding(
             padding: const EdgeInsets.only(top: 18, left: 2, right: 2),

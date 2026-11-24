@@ -17,6 +17,7 @@ import '../widgets/word_tile.dart';
 import 'select_screen.dart' show wordEnrolled;
 
 import 'my_words_screen.dart' show openUserWordForm;
+import 'text_reader_screen.dart';
 import 'word_detail_screen.dart';
 
 enum _Phase { idle, recognizing, done, error }
@@ -37,6 +38,7 @@ class _ScanScreenState extends State<ScanScreen> {
   ScanOutcome? _outcome;
 
   bool _fromText = false;
+  String _pastedText = '';
 
   final Set<String> _sel = {};
   SrsLevelMap _levels = const {};
@@ -120,6 +122,7 @@ class _ScanScreenState extends State<ScanScreen> {
       _phase = _Phase.recognizing;
       _imagePath = '';
       _fromText = true;
+      _pastedText = src;
       _sel.clear();
       _err = '';
     });
@@ -437,6 +440,21 @@ class _ScanScreenState extends State<ScanScreen> {
                 style: TextStyle(fontSize: 12.5, color: context.k.nT2),
               ),
             ),
+            if (_fromText && _pastedText.isNotEmpty)
+              TextButton.icon(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => TextReaderScreen(initialText: _pastedText),
+                  ),
+                ),
+                icon: const Icon(Icons.auto_stories_outlined, size: 16),
+                label: const Text('原文高亮'),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                ),
+              ),
             TextButton(
                 onPressed: _repick,
                 child: Text(_fromText ? '重新输入' : '重拍')),

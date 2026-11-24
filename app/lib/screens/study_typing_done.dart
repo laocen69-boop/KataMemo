@@ -429,6 +429,31 @@ extension _StudyTypingDone on _StudyScreenState {
                     ],
                   ],
                 ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.tonalIcon(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const TextReaderScreen()),
+                    ),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: context.k.tint,
+                      foregroundColor: context.k.deep,
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    icon: const Icon(Icons.auto_stories_outlined, size: 17),
+                    label: const Text(
+                      '去读篇印尼语文章 · 测测掌握率',
+                      style:
+                          TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 4),
 
                 if (app.book == null)

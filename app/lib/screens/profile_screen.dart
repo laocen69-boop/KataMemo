@@ -12,12 +12,15 @@ import '../ai_chat.dart' show aiVendorNames;
 import '../widgets/ai_widgets.dart' show openGeneralAi;
 import '../widgets/day_stats_sheet.dart';
 import '../widgets/first_notice.dart';
+import '../widgets/postpone_sheet.dart';
 import '../widgets/speak_button.dart' show kSpeakGreen;
 import 'ai_settings_screen.dart' show openAiSettings;
 import 'favorites_screen.dart';
 import 'grammar/grammar_hub_screen.dart';
 import 'home_shell.dart' show HomeTabs;
+import 'scan_screen.dart';
 import 'settings_screen.dart';
+import 'text_reader_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, this.focusTick});
@@ -347,6 +350,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         builder: (_) => const GrammarHubScreen(writing: true)),
                   ),
                 ),
+                _ProfileTile(
+                  icon: Icons.auto_stories_outlined,
+                  title: '文章生词高亮阅读',
+                  subtitle: '粘贴印尼语新闻/课文，标出生词并一键加入记忆',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const TextReaderScreen()),
+                  ),
+                ),
+                _ProfileTile(
+                  icon: Icons.document_scanner_outlined,
+                  title: '拍照 / 粘贴抓词',
+                  subtitle: '拍书本或粘贴段落，自动匹配词库加词',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ScanScreen()),
+                  ),
+                ),
+                _ProfileTile(
+                  icon: Icons.event_repeat_rounded,
+                  title: '断签温和顺延',
+                  subtitle: '逾期积压较多时，按稳定度温和分摊复习',
+                  onTap: () async {
+                    final app = context.read<AppState>();
+                    final overdue = await app.db.overdueReviewCount();
+                    if (!context.mounted) return;
+                    final moved = await showPostponeSheet(
+                      context,
+                      app,
+                      overdueCount: overdue,
+                    );
+                    if (moved != null && moved > 0 && context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('已将 $moved 张逾期复习卡温和顺延')),
+                      );
+                    }
+                  },
+                ),
 
                 if (kAiChat)
                   _ProfileTile(
@@ -660,7 +701,7 @@ class _MonthCalendar extends StatelessWidget {
                               ? Colors.white
                               : (studied || isToday
                                   ? kSpeakGreen
-                                  : Colors.black87),
+                                  : context.k.text),
                           fontWeight: signed || studied || isToday
                               ? FontWeight.w600
                               : FontWeight.normal,

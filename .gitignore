@@ -32,3 +32,4 @@ Thumbs.db
 # 构建产物
 *.apk
 *.aab
+app/.wrangler/

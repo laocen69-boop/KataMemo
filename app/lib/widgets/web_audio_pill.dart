@@ -34,7 +34,7 @@ class _WebAudioPackPillState extends State<WebAudioPackPill> {
             final hEst = _minimized ? 40.0 : 34.0;
             final defPos = Offset(
               (maxW - wEst - 12).clamp(8.0, maxW - wEst - 8),
-              (padTop + 44).clamp(8.0, maxH - hEst - 16),
+              (maxH - hEst - 72).clamp(padTop, maxH - hEst - 16),
             );
             final cur = _pos ?? defPos;
             final left = cur.dx.clamp(8.0, (maxW - wEst - 8).clamp(8.0, maxW));

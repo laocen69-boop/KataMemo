@@ -72,6 +72,7 @@ class AudioService {
                 cache: false);
         final map = <String, ({int bucket, int offset, int length})>{};
         final builtIn = <String>{};
+        var maxBucket = -1;
         for (final line in raw.split('\n')) {
           if (line.isEmpty) continue;
           final parts = line.split('\t');
@@ -81,9 +82,11 @@ class AudioService {
           final off = int.tryParse(parts[2]);
           final len = int.tryParse(parts[3]);
           if (b == null || off == null || len == null) continue;
+          if (b > maxBucket) maxBucket = b;
           map[name] = (bucket: b, offset: off, length: len);
           builtIn.add('edge/ardi/$name');
         }
+        if (maxBucket >= 0) _webTotalShards = maxBucket + 1;
         _packIndex = map;
         _builtInArdi ??= builtIn;
         return map;
@@ -158,7 +161,8 @@ class AudioService {
     return null;
   }
 
-  static const int kWebTotalShards = 512;
+  int _webTotalShards = 16;
+  int get webTotalShards => _webTotalShards;
 
   final ValueNotifier<({bool visible, bool running, bool paused, bool doneToast, int done, int total})>
       webPackStatus = ValueNotifier((
@@ -167,7 +171,7 @@ class AudioService {
     paused: false,
     doneToast: false,
     done: 0,
-    total: kWebTotalShards,
+    total: 16,
   ));
 
   bool _webPackStarted = false;
@@ -185,17 +189,19 @@ class AudioService {
   Future<void> startBackgroundWebPack() async {
     if (!kIsWeb || _isTest) return;
     if (webPackStatus.value.running) return;
+    await _loadPackIndex();
+    final totalShards = _webTotalShards;
     _webPackStarted = true;
     _webPackPaused = false;
     final cached = await webAudioCachedShardCount();
-    if (cached >= kWebTotalShards) {
+    if (cached >= totalShards) {
       webPackStatus.value = (
         visible: false,
         running: false,
         paused: false,
         doneToast: false,
-        done: kWebTotalShards,
-        total: kWebTotalShards,
+        done: totalShards,
+        total: totalShards,
       );
       return;
     }
@@ -205,11 +211,11 @@ class AudioService {
       paused: false,
       doneToast: false,
       done: cached,
-      total: kWebTotalShards,
+      total: totalShards,
     );
     await downloadWebAudioShards(
       0,
-      kWebTotalShards - 1,
+      totalShards - 1,
       concurrency: 2,
       onProgress: (d, t) {
         webPackStatus.value = (
@@ -231,18 +237,18 @@ class AudioService {
         paused: true,
         doneToast: false,
         done: nowCached,
-        total: kWebTotalShards,
+        total: totalShards,
       );
       return;
     }
-    if (nowCached >= kWebTotalShards) {
+    if (nowCached >= totalShards) {
       webPackStatus.value = (
         visible: true,
         running: false,
         paused: false,
         doneToast: true,
-        done: kWebTotalShards,
-        total: kWebTotalShards,
+        done: totalShards,
+        total: totalShards,
       );
       await Future<void>.delayed(const Duration(seconds: 2));
       webPackStatus.value = (
@@ -250,8 +256,8 @@ class AudioService {
         running: false,
         paused: false,
         doneToast: false,
-        done: kWebTotalShards,
-        total: kWebTotalShards,
+        done: totalShards,
+        total: totalShards,
       );
     } else {
       webPackStatus.value = (
@@ -260,7 +266,7 @@ class AudioService {
         paused: false,
         doneToast: false,
         done: nowCached,
-        total: kWebTotalShards,
+        total: totalShards,
       );
     }
   }

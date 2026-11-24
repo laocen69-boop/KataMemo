@@ -151,4 +151,58 @@ void main() {
             (t) => BackupPack.import(t, pack, localSchemaVersion: 17)),
         throwsA(isA<PackException>()));
   });
+
+  test('设置键白名单、wordFlags 安全合并与 plan 重激活', () async {
+    expect(kPackSettingKeys, containsAll(['theme_mode', 'fsrs_load_balance']));
+    expect(kPackSettingKeys.where((k) => k.startsWith('ai')), isEmpty);
+
+    final a = await _mk('src'), b = await _mk('dst');
+    await b.update('words', {'favorite': 1, 'enabled': 1}, where: "id='w1'");
+    await b.update('words', {'enabled': 0}, where: "id='w2'");
+    await b.update('words', {'enabled': 1}, where: "id='w3'");
+    await b.insert('plan', {'card_id': 'w3', 'ts': 1500});
+    await b.insert('srs', {
+      'card_id': 'w1',
+      'stability': 8.0,
+      'difficulty': 4.0,
+      'due': 9999,
+      'last_review': 9000,
+      'reps': 4,
+      'lapses': 0,
+      'state': 2,
+      'step': 0,
+      'first_seen': 1000,
+    });
+
+    await a.insert('srs', {
+      'card_id': 'w1',
+      'stability': 2.0,
+      'difficulty': 5.0,
+      'due': 5000,
+      'last_review': 4000,
+      'reps': 1,
+      'lapses': 0,
+      'state': 2,
+      'step': 0,
+      'first_seen': 1000,
+    });
+    await a.update('words', {'favorite': 0, 'enabled': 0}, where: "id='w1'");
+    await a.update('words', {'enabled': 0}, where: "id='w3'");
+    await a.insert('plan', {'card_id': 'w2', 'ts': 2000});
+
+    final pack = await BackupPack.export(a,
+        appVersion: '1.0', schemaVersion: 17, dataVersion: 1);
+    await b
+        .transaction((t) => BackupPack.import(t, pack, localSchemaVersion: 17));
+
+    final w1 = (await b.query('words', where: "id='w1'")).first;
+    expect(w1['favorite'], 1, reason: '本地已收藏不得被旧包抹掉');
+    expect(w1['enabled'], 1, reason: '本地 SRS 更新时不得被旧包 wordFlags 停用');
+
+    final w2 = (await b.query('words', where: "id='w2'")).first;
+    expect(w2['enabled'], 1, reason: 'plan 导入应重激活词卡');
+
+    final w3 = (await b.query('words', where: "id='w3'")).first;
+    expect(w3['enabled'], 1, reason: '本地 plan 中的词不得被旧包 wordFlags 停用');
+  });
 }

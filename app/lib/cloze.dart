@@ -154,9 +154,12 @@ List<ClozeQuestion> clozeQuestions(List<WordExample> examples, String cardId,
 ClozeSpan? _spanOfAnswer(String text, String answer) {
   final a = answer.trim();
   if (a.isEmpty) return null;
-  final i = text.toLowerCase().indexOf(a.toLowerCase());
-  if (i < 0) return null;
-  return ClozeSpan(i, i + a.length, text.substring(i, i + a.length));
+  final m = RegExp(
+    '(?<![A-Za-z0-9\\u00C0-\\u024F])${RegExp.escape(a)}(?![A-Za-z0-9\\u00C0-\\u024F])',
+    caseSensitive: false,
+  ).firstMatch(text);
+  if (m == null) return null;
+  return ClozeSpan(m.start, m.end, text.substring(m.start, m.end));
 }
 
 bool clozeAnswerOk(String input,

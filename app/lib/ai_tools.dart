@@ -12,7 +12,7 @@ import 'ai_search.dart';
 import 'app_state.dart';
 import 'dict_import/dict_model.dart' show dictFold;
 import 'dict_import/dict_store.dart';
-import 'db.dart' show TodayPlanX;
+import 'db.dart' show AppDb, TodayPlanX;
 import 'grammar/grammar_models.dart' show GPage;
 import 'grammar/grammar_repo.dart' show GrammarRepo;
 import 'models.dart';
@@ -25,7 +25,9 @@ import 'screens/scan_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/select_screen.dart' show WordListDetailScreen;
 import 'screens/settings_screen.dart';
+import 'screens/text_reader_screen.dart';
 import 'screens/word_detail_screen.dart';
+import 'widgets/postpone_sheet.dart' show showPostponeSheet;
 
 enum AiToolKind { read, write, nav }
 
@@ -133,14 +135,19 @@ List<(AiToolKind, AiToolSpec)> get kAiToolSpecs => [
       (
         AiToolKind.read,
         AiToolSpec('search_words',
-            '在 App 词库里查词（印尼语或中文都行），返回 id、词形、中文、词性、是否已加入记忆。'
-                '查一个用 query；一次查多个用 queries（最多 30 个，比逐个调用快）。',
+            '在 App 词库里查词（印尼语或中文都行），返回 id、词形、中文、词性、短语分类、是否已加入记忆。'
+                '查一个用 query；一次查多个用 queries（最多 30 个，比逐个调用快）；也可以只传 phrase_kind 浏览某类短语或谚语。',
             _obj({
               'query': _strDesc('要查的词或中文'),
               'queries': {
                 'type': 'array',
                 'items': _str,
                 'description': '一次查多个词（最多 30 个），每个只返回最匹配的几条',
+              },
+              'phrase_kind': {
+                'type': 'string',
+                'enum': _kPhraseKinds.toList(),
+                'description': '可选，按短语/谚语语言学细类筛选：peribahasa(谚语俗语)、idiom(习语比喻)、func(语法功能短语)、term(学科术语)、verbal(动词词组)、adj(形容词词组)、nominal(名词词组)',
               },
               'limit': _intDesc('每个词最多返回几个，默认 8（用 queries 时默认 3），上限 30'),
             })),
@@ -156,13 +163,25 @@ List<(AiToolKind, AiToolSpec)> get kAiToolSpecs => [
       ),
       (
         AiToolKind.read,
-        AiToolSpec('today_overview', '今天的学习概况：今日卡量、已完成、剩余任务、今天碰过的词数、四档评分分布（轻松/记得/模糊/困难）。',
+        AiToolSpec(
+            'today_overview',
+            '今天的学习概况：今日卡量、已完成、剩余任务、积压到期复习数、长期痛点词数（遗忘≥5次）、今天碰过的词数、四档评分分布、当前学习方向与负荷均衡开关。',
             _obj({})),
       ),
       (
         AiToolKind.read,
         AiToolSpec('today_mistakes', '最近几天学习时答「困难/模糊」的词（错词），按出错次数排序。',
             _obj({'days': _intDesc('往前看几天，默认 1 = 今天，上限 7')})),
+      ),
+      (
+        AiToolKind.read,
+        AiToolSpec(
+            'leech_words',
+            '查看学生长期反复遗忘的痛点词（累计遗忘次数 ≥ 阈值，默认 5 次），按遗忘次数倒序返回。适合帮学生攻克顽固词、写助记或建专项词单。',
+            _obj({
+              'min_lapses': _intDesc('最少遗忘次数，默认 5，范围 2–20'),
+              'limit': _intDesc('最多返回几个，默认 20，上限 50'),
+            })),
       ),
       (
         AiToolKind.read,
@@ -198,7 +217,8 @@ List<(AiToolKind, AiToolSpec)> get kAiToolSpecs => [
             'indonesian_reference',
             '印尼语专业语法参考资料${kKbbiLocal ? '（含 KBBI 词典参考）' : ''}。讲词缀变体与例外、语态与被动、-kan/-i、'
                 '时体情态、句法语序、小品词与语域、近义词与借词、规范用法与常见误用之前先查它，不要凭印象编规则。'
-                '查单个问题用 topic；学生一次问了多个问题或语法点时，先拆成独立子问题放进 topics 一次查完。',
+                '查单个问题用 topic；学生一次问了多个问题或语法点时，先拆成独立子问题放进 topics 一次查完。'
+                '注意：topic 与 topics 至少填一个，禁止传空对象 {}。',
             _obj({
               'topic': _strDesc('学生问的词、词组或语法点（如 hang dang、tangan kotor、sirup、berhias diri、被动），'
                   '也可以从下列主题名里选：${kIndoReference.keys.join('、')}'),
@@ -262,6 +282,32 @@ List<(AiToolKind, AiToolSpec)> get kAiToolSpecs => [
       ),
       (
         AiToolKind.write,
+        AiToolSpec(
+            'save_user_example',
+            '给词库里已有的某个词追加一条地道例句（只写进学生个人编辑，不覆盖原有例句）。会先请学生确认。',
+            _obj({
+              'id': _strDesc('单词 id'),
+              'example_id': _strDesc('印尼语例句'),
+              'example_zh': _strDesc('例句中文翻译'),
+            }, ['id', 'example_id', 'example_zh'])),
+      ),
+      (
+        AiToolKind.write,
+        AiToolSpec(
+            'create_user_word',
+            '词库里没有这个印尼语词时，帮学生新建一张自建单词卡（可选同时加入记忆）。会先请学生确认。',
+            _obj({
+              'word': _strDesc('印尼语词头'),
+              'zh': _strDesc('简洁准确的中文释义'),
+              'word_class': _strDesc('可选词性：n/v/a/adv/prep/conj/pron/num/interj/part'),
+              'example_id': _strDesc('可选，一条印尼语例句'),
+              'example_zh': _strDesc('可选，例句中文翻译'),
+              'mnemonic': _strDesc('可选，简短助记'),
+              'add_to_memory': {'type': 'boolean', 'description': '是否同时加入记忆，默认 true'},
+            }, ['word', 'zh'])),
+      ),
+      (
+        AiToolKind.write,
         AiToolSpec('set_daily_quota', '修改今日卡量（复习 + 新词一共几张）。会先请学生确认。',
             _obj({'quota': _intDesc('新的卡量，0–9999')}, ['quota'])),
       ),
@@ -282,16 +328,27 @@ List<(AiToolKind, AiToolSpec)> get kAiToolSpecs => [
         AiToolKind.nav,
         AiToolSpec(
             'open_screen',
-            '回答结束后打开 App 的某个页面。',
+            '回答结束后打开 App 的某个页面（或断签顺延弹窗）。',
             _obj({
               'screen': {
                 'type': 'string',
                 'enum': _kScreens.keys.toList(),
                 'description': _kScreens.entries.map((e) => '${e.key}=${e.value}').join('，'),
               },
+              'text': _strDesc('可选，仅当 screen=text_reader 时传入，打开文章阅读器并自动分析这段印尼语文本'),
             }, ['screen'])),
       ),
     ];
+
+const Set<String> _kPhraseKinds = {
+  'peribahasa',
+  'idiom',
+  'func',
+  'term',
+  'verbal',
+  'adj',
+  'nominal',
+};
 
 const Map<String, String> _kScreens = {
   'study': '学习 Tab',
@@ -300,10 +357,12 @@ const Map<String, String> _kScreens = {
   'stats': '统计 Tab',
   'profile': '我的 Tab',
   'search': '搜索页',
+  'text_reader': '文章生词高亮阅读',
   'scan': '拍照抓词',
   'my_cards': '自建卡片与词单',
   'favorites': '我的收藏',
   'writing': '写作',
+  'postpone': '断签温和顺延',
   'settings': '设置',
   'ai_settings': 'AI 设置',
 };
@@ -313,13 +372,96 @@ const String kLearningMemoryTool = 'save_learning_memory';
 
 List<AiToolSpec> get kAiToolSpecList => [for (final (_, s) in kAiToolSpecs) s];
 
-List<AiToolSpec> aiToolSpecsFor(AppState app) => [
-      for (final (_, s) in kAiToolSpecs)
-        if ((s.name != kLocalDictTool || app.aiLocalDictOn) &&
-            (s.name != kWebSearchTool || app.aiSearchReady) &&
-            (s.name != kLearningMemoryTool || app.aiMemoryEnabled))
-          s,
-    ];
+const Set<String> _kWordReadTools = {
+  'task_plan',
+  'save_learning_memory',
+  'search_words',
+  'get_word',
+  'search_grammar',
+  'indonesian_reference',
+  'local_dictionary',
+  'web_search',
+  'list_word_lists',
+  'word_list_words',
+  'add_to_memory',
+  'create_word_list',
+  'add_to_word_list',
+  'save_mnemonic',
+  'save_user_example',
+  'create_user_word',
+  'open_word',
+  'open_grammar_page',
+  'open_word_list',
+};
+
+const Set<String> _kGrammarTools = {
+  'task_plan',
+  'save_learning_memory',
+  'search_words',
+  'get_word',
+  'search_grammar',
+  'grammar_mistakes',
+  'indonesian_reference',
+  'local_dictionary',
+  'web_search',
+  'list_word_lists',
+  'word_list_words',
+  'add_to_memory',
+  'create_word_list',
+  'add_to_word_list',
+  'save_mnemonic',
+  'create_user_word',
+  'save_user_example',
+  'open_word',
+  'open_grammar_page',
+  'open_word_list',
+};
+
+const Set<String> _kRoleplayTools = {
+  'save_learning_memory',
+  'search_words',
+  'get_word',
+  'indonesian_reference',
+  'local_dictionary',
+  'list_word_lists',
+  'add_to_memory',
+  'create_word_list',
+  'add_to_word_list',
+  'save_mnemonic',
+  'save_user_example',
+  'create_user_word',
+  'open_word',
+  'open_word_list',
+};
+
+Set<String>? _sceneAllowedTools(String? contextKey) {
+  if (contextKey == null || contextKey.isEmpty || contextKey == 'general') {
+    return null;
+  }
+  if (contextKey.startsWith('word:') || contextKey == 'reading') {
+    return _kWordReadTools;
+  }
+  if (contextKey.startsWith('grammar:')) {
+    return _kGrammarTools;
+  }
+  if (contextKey.startsWith('roleplay:')) {
+    return _kRoleplayTools;
+  }
+  return null;
+}
+
+/// 这一次真正发给模型的工具：按设置过滤并按场景裁剪，省 token 且减少误调。
+List<AiToolSpec> aiToolSpecsFor(AppState app, {String? contextKey}) {
+  final allow = _sceneAllowedTools(contextKey);
+  return [
+    for (final (_, s) in kAiToolSpecs)
+      if ((s.name != kLocalDictTool || app.aiLocalDictOn) &&
+          (s.name != kWebSearchTool || app.aiSearchReady) &&
+          (s.name != kLearningMemoryTool || app.aiMemoryEnabled) &&
+          (allow == null || allow.contains(s.name)))
+        s,
+  ];
+}
 
 AiToolKind? aiToolKind(String name) {
   for (final (k, s) in kAiToolSpecs) {
@@ -509,8 +651,9 @@ Map<String, double> referenceBm25Scores(
   for (final e in allEntries) {
     final t = e.value.toLowerCase();
     final tr = (kIndoReferenceTriggers[e.key] ?? const <String>[]).join(' ').toLowerCase();
+    final qr = (kIndoReferenceQueries[e.key] ?? const <String>[]).join(' ').toLowerCase();
     docText[e.key] = t;
-    metaText[e.key] = '${e.key.toLowerCase()} $tr';
+    metaText[e.key] = '${e.key.toLowerCase()} $tr $qr';
     totalLen += t.length;
   }
   final avgdl = totalLen / nDocs;
@@ -614,36 +757,143 @@ List<MapEntry<String, String>> referenceHitsFor(String topic) {
   return hit;
 }
 
-String sliceReferenceText(String rawText, String topic, int maxChars) {
+Map<String, List<String>> referenceTopicCatalog(Iterable<String> keys) {
+  final out = <String, List<String>>{
+    '词缀与构词': [],
+    '语态与句法': [],
+    '虚词与时体': [],
+    '语域语用与交际': [],
+    '词汇辨析与迁移': [],
+    '拼写读音与规范': [],
+  };
+  for (final k in keys) {
+    if (k.contains('词缀') ||
+        k.contains('中缀') ||
+        k.contains('重叠') ||
+        k.contains('词素') ||
+        k.contains('-kan') ||
+        k.contains('me-') ||
+        k.contains('ber-') ||
+        k.contains('ter-') ||
+        k.contains('se-')) {
+      out['词缀与构词']!.add(k);
+    } else if (k.contains('语态') ||
+        k.contains('被动') ||
+        k.contains('句') ||
+        k.contains('语序') ||
+        k.contains('系动词') ||
+        k.contains('连谓') ||
+        k.contains('相互') ||
+        k.contains('信息结构') ||
+        k.contains('词类')) {
+      out['语态与句法']!.add(k);
+    } else if (k.contains('介词') ||
+        k.contains('连词') ||
+        k.contains('语气词') ||
+        k.contains('冠词') ||
+        k.contains('时体') ||
+        k.contains('否定') ||
+        k.contains('代词') ||
+        k.contains('指示词') ||
+        k.contains('数词') ||
+        k.contains('形容词') ||
+        k.contains('副词') ||
+        k.contains('-nya') ||
+        k.contains('yang')) {
+      out['虚词与时体']!.add(k);
+    } else if (k.contains('语域') ||
+        k.contains('语用') ||
+        k.contains('交际') ||
+        k.contains('公文') ||
+        k.contains('教学')) {
+      out['语域语用与交际']!.add(k);
+    } else if (k.contains('词汇') ||
+        k.contains('借词') ||
+        k.contains('汉印') ||
+        k.contains('语义') ||
+        k.contains('术语') ||
+        k.contains('数码') ||
+        k.contains('动物') ||
+        k.contains('性别') ||
+        k.contains('拟声')) {
+      out['词汇辨析与迁移']!.add(k);
+    } else {
+      out['拼写读音与规范']!.add(k);
+    }
+  }
+  out.removeWhere((_, v) => v.isEmpty);
+  return out;
+}
+
+List<String> splitReferenceUnits(String clean) {
+  final rawUnits = <String>[];
+  final buf = StringBuffer();
+  var depth = 0;
+  for (var i = 0; i < clean.length; i++) {
+    final ch = clean[i];
+    if (ch == '（' || ch == '(') {
+      depth++;
+      buf.write(ch);
+    } else if (ch == '）' || ch == ')') {
+      if (depth > 0) depth--;
+      buf.write(ch);
+    } else if (depth == 0 && (ch == '。' || ch == '！' || ch == '？' || ch == '；' || ch == '\n')) {
+      buf.write(ch);
+      final s = buf.toString().trim();
+      if (s.isNotEmpty) rawUnits.add(s);
+      buf.clear();
+    } else {
+      buf.write(ch);
+    }
+  }
+  final tail = buf.toString().trim();
+  if (tail.isNotEmpty) rawUnits.add(tail);
+
+  final merged = <String>[];
+  for (var i = 0; i < rawUnits.length; i++) {
+    var u = rawUnits[i];
+    while ((u.endsWith('：') || u.endsWith(':')) && i + 1 < rawUnits.length) {
+      i++;
+      u = '$u${rawUnits[i]}';
+    }
+    merged.add(u);
+  }
+  return merged;
+}
+
+String sliceReferenceText(String rawText, String topic, int maxChars, {String? title}) {
   final clean = sanitizeReferenceText(rawText);
   if (clean.length <= maxChars) return clean;
-  final parts = clean
-      .split(RegExp(r'(?<=[。！？；\n])'))
-      .map((s) => s.trim())
-      .where((s) => s.isNotEmpty)
-      .toList();
-  if (parts.length <= 1) return _cut(clean, maxChars);
+  final chunks = splitReferenceUnits(clean);
+  if (chunks.length <= 1) return _cut(clean, maxChars > 1 ? maxChars - 1 : maxChars);
+
   final terms = _referenceQueryTerms(topic);
   final scored = <(int idx, double score, String text)>[];
-  for (var i = 1; i < parts.length; i++) {
-    final pLow = parts[i].toLowerCase();
+  for (var i = 1; i < chunks.length; i++) {
+    final pLow = chunks[i].toLowerCase();
     var sc = 0.0;
     for (final e in terms.entries) {
       if (pLow.contains(e.key)) sc += e.value * 2.0;
     }
-    scored.add((i, sc, parts[i]));
+    scored.add((i, sc, chunks[i]));
   }
   scored.sort((a, b) =>
       (b.$2 - a.$2).abs() > 1e-6 ? (b.$2 > a.$2 ? 1 : -1) : a.$1 - b.$1);
+
+  final prefix = (title != null && title.trim().isNotEmpty) ? '【${title.trim()}】' : '';
   final chosen = <int>{0};
-  var used = parts[0].length;
+  var used = prefix.length + chunks[0].length;
   for (final s in scored) {
     if (used + s.$3.length + 1 > maxChars) continue;
     chosen.add(s.$1);
     used += s.$3.length + 1;
   }
   final ordered = chosen.toList()..sort();
-  return [for (final idx in ordered) parts[idx]].join();
+  final body = [for (final idx in ordered) chunks[idx]].join();
+  final res = '$prefix$body';
+  return res.length <= maxChars
+      ? res
+      : _cut(res, maxChars > 1 ? maxChars - 1 : maxChars);
 }
 
 String sanitizeReferenceText(String text) {
@@ -720,6 +970,8 @@ class AiToolbox {
         'word': c.word,
         'zh': _cut(c.zhClean, 60),
         if (c.wordClassLabelsCombined.isNotEmpty) 'pos': c.wordClassLabelsCombined,
+        if (c.phraseKind != null) 'phrase_kind': c.phraseKind,
+        if (c.phraseKindLabel != null) 'phrase_kind_label': c.phraseKindLabel,
         if (inMemory != null) 'in_memory': inMemory,
       };
 
@@ -750,14 +1002,30 @@ class AiToolbox {
               m.isEmpty ? '学习记忆：已清空' : '已记下学习偏好（${m.length} 字）');
 
         case 'search_words':
+          final phk = '${a['phrase_kind'] ?? ''}'.trim();
+          final filter = _kPhraseKinds.contains(phk)
+              ? <String, dynamic>{'phraseKind': [phk]}
+              : null;
           final qs = <String>{
             for (final q in _idList(a['queries']).take(kSearchWordsMaxQueries)) q,
             if ('${a['query'] ?? ''}'.trim().isNotEmpty) '${a['query']}'.trim(),
           }.toList();
+          if (qs.isEmpty && filter != null) {
+            final cs = await app.db.wordsByFilter(filter,
+                limit: _clampInt(a['limit'], 12, 1, 30));
+            final mem = await _inMemory([for (final c in cs) c.id]);
+            return AiToolOutcome(
+                _j({
+                  'phrase_kind': phk,
+                  'results': [for (final c in cs) _brief(c, inMemory: mem.contains(c.id))],
+                }),
+                '查了短语分类：$phk（${cs.length} 个）');
+          }
           if (qs.isEmpty) return AiToolOutcome(_j({'error': '缺少 query'}), '查词：没给词');
           if (qs.length == 1) {
             final q = qs.single;
-            final cs = await app.db.searchAll(q, limit: _clampInt(a['limit'], 8, 1, 30));
+            final cs = await app.db.searchAll(q,
+                filter: filter, limit: _clampInt(a['limit'], 8, 1, 30));
             final mem = await _inMemory([for (final c in cs) c.id]);
             return AiToolOutcome(
                 _j({'results': [for (final c in cs) _brief(c, inMemory: mem.contains(c.id))]}),
@@ -766,7 +1034,7 @@ class AiToolbox {
           final per = _clampInt(a['limit'], 3, 1, 10);
           final found = <String, List<WordCard>>{};
           for (final q in qs) {
-            found[q] = await app.db.searchAll(q, limit: per);
+            found[q] = await app.db.searchAll(q, filter: filter, limit: per);
           }
           final mem = await _inMemory([for (final l in found.values) for (final c in l) c.id]);
           return AiToolOutcome(
@@ -828,6 +1096,11 @@ class AiToolbox {
         case 'today_overview':
           final p = await app.db.todayPlan(dailyQuota: app.dailyQuota);
           final ds = await app.db.dayStatsAt(DateTime.now());
+          final overdue = await app.db.overdueReviewCount();
+          final dOverview = await app.db.db;
+          final leechRows = await dOverview.rawQuery(
+              'SELECT COUNT(*) AS c FROM srs WHERE lapses >= 5');
+          final leechCount = (leechRows.first['c'] as num?)?.toInt() ?? 0;
           return AiToolOutcome(
               _j({
                 'daily_quota': app.dailyQuota,
@@ -836,6 +1109,10 @@ class AiToolbox {
                 'review_today': p.reviewShown,
                 'new_today': p.newPlan,
                 'new_words_waiting': p.poolLeft,
+                'overdue_reviews': overdue,
+                'leech_count': leechCount,
+                'study_mode': app.studyMode,
+                'load_balance': app.loadBalance,
                 'words_touched': ds.words,
                 'answers': ds.answers,
                 'first_try': {
@@ -871,6 +1148,31 @@ class AiToolbox {
                 ],
               }),
               '看了${days == 1 ? '今天' : '最近 $days 天'}的错词（${rows.length} 个）');
+
+        case 'leech_words':
+          final minLapses = _clampInt(a['min_lapses'], 5, 2, 20);
+          final lim = _clampInt(a['limit'], 20, 1, 50);
+          final dLeech = await app.db.db;
+          final leechList = await dLeech.rawQuery(
+              'SELECT w.id AS id, w.word AS word, w.zh AS zh, s.lapses AS lapses, s.reps AS reps '
+              'FROM srs s JOIN words w ON w.id = s.card_id WHERE s.lapses >= ? '
+              'ORDER BY s.lapses DESC, s.reps DESC LIMIT ?',
+              [minLapses, lim]);
+          return AiToolOutcome(
+              _j({
+                'min_lapses': minLapses,
+                'words': [
+                  for (final r in leechList)
+                    {
+                      'id': r['id'],
+                      'word': r['word'],
+                      'zh': _cut(r['zh'] as String?, 40),
+                      'lapses': r['lapses'],
+                      'reps': r['reps'],
+                    },
+                ],
+              }),
+              '看了痛点词（${leechList.length} 个，遗忘 ≥$minLapses 次）');
 
         case 'recent_searches':
           final days = _clampInt(a['days'], 1, 1, 7);
@@ -988,7 +1290,7 @@ class AiToolbox {
               results[q] = {
                 for (final e in hits)
                   e.key: emittedKeys.add(e.key)
-                      ? sliceReferenceText(e.value, q, eachCap)
+                      ? sliceReferenceText(e.value, q, eachCap, title: e.key)
                       : '（见上方「${e.key}」条）',
               };
             }
@@ -1010,16 +1312,21 @@ class AiToolbox {
             return AiToolOutcome(
                 _j({
                   'topics': [for (final e in hit) e.key],
-                  'note': '这个主题太宽，命中 ${hit.length} 条；请从 topics 里选最相关的一个再查'
+                  'catalog': referenceTopicCatalog([for (final e in hit) e.key]),
+                  'note': '这个主题太宽，命中 ${hit.length} 条；请从 topics 或 catalog 里选最相关的一个再查'
                 }),
                 '查了语法知识库：主题太宽，先列目录');
           }
           return AiToolOutcome(
               _j(hit.isEmpty
-                  ? {'topics': kIndoReference.keys.toList(), 'note': '没对上主题，请从 topics 里选'}
+                  ? {
+                      'topics': kIndoReference.keys.toList(),
+                      'catalog': referenceTopicCatalog(kIndoReference.keys),
+                      'note': '没对上主题，请从 catalog 分类或 topics 里选'
+                    }
                   : {
                       for (final e in hit)
-                        e.key: sliceReferenceText(e.value, topic, singleMaxChars),
+                        e.key: sliceReferenceText(e.value, topic, singleMaxChars, title: e.key),
                     }),
               '查了语法知识库${hit.isEmpty ? '' : '：${hit.map((e) => e.key.split(' ').first).join('、')}'}');
 
@@ -1179,6 +1486,72 @@ class AiToolbox {
           await app.db.saveMnemonic(c.id, full);
           return AiToolOutcome(_j({'saved': true}), '已存助记：${c.word}');
 
+        case 'save_user_example':
+          final c = await _card('${a['id'] ?? ''}');
+          final exId = '${a['example_id'] ?? ''}'.trim();
+          final exZh = '${a['example_zh'] ?? ''}'.trim();
+          if (c == null || exId.isEmpty || exZh.isEmpty) {
+            return AiToolOutcome(_j({'error': '单词或例句内容为空'}), '存例句：缺内容');
+          }
+          if (c.examples.any((e) => e.text.trim().toLowerCase() == exId.toLowerCase())) {
+            return AiToolOutcome(_j({'saved': false, 'note': '该卡片已有相同例句'}), '存例句：已存在');
+          }
+          final ok = await confirm(AiPendingAction(
+              '给「${c.word}」添加例句', [exId, exZh],
+              confirmLabel: '保存例句'));
+          if (!ok) return AiToolOutcome(_j({'declined': true}), '存例句：已取消');
+          final updated = [...c.examples, WordExample(text: exId, zh: exZh)];
+          await app.db.saveExamples(c.id, updated);
+          return AiToolOutcome(
+              _j({'saved': true, 'total_examples': updated.length}),
+              '已存例句：${c.word}');
+
+        case 'create_user_word':
+          final word = '${a['word'] ?? ''}'.trim();
+          final zh = '${a['zh'] ?? ''}'.trim();
+          if (word.isEmpty || zh.isEmpty) {
+            return AiToolOutcome(_j({'error': '词头或中文释义为空'}), '自建卡片：缺词头或释义');
+          }
+          final folded = AppDb.fold(word);
+          final dup = folded.isEmpty ? null : await app.db.searchWords(folded);
+          if (dup != null) {
+            return AiToolOutcome(
+                _j({'existed': true, 'id': dup.id, 'word': dup.word, 'note': '词库里已有该词，无需新建'}),
+                '自建卡片：词库已有「${dup.word}」');
+          }
+          final wc = '${a['word_class'] ?? ''}'.trim();
+          final exId = '${a['example_id'] ?? ''}'.trim();
+          final exZh = '${a['example_zh'] ?? ''}'.trim();
+          final mn = '${a['mnemonic'] ?? ''}'.trim();
+          final addMem = a['add_to_memory'] is bool ? a['add_to_memory'] as bool : true;
+          final ok = await confirm(AiPendingAction(
+              '新建自建卡「$word」',
+              [
+                zh,
+                if (exId.isNotEmpty) '例句：$exId',
+                if (addMem) '创建后自动加入记忆',
+              ],
+              confirmLabel: '创建'));
+          if (!ok) return AiToolOutcome(_j({'declined': true}), '自建卡片：已取消');
+          final created = await app.db.createUserWord(
+            word: word,
+            zh: zh,
+            wordClass: wc.isEmpty ? null : wc,
+            examples: exId.isEmpty ? const [] : [(i: exId, z: exZh.isEmpty ? null : exZh)],
+            mnemonic: mn.isEmpty ? null : mn,
+          );
+          if (created.id == null) {
+            return AiToolOutcome(_j({'error': '创建失败'}), '自建卡片：创建失败');
+          }
+          if (addMem) {
+            await app.remember([created.id!]);
+          }
+          return AiToolOutcome(
+              _j({'created': true, 'id': created.id, 'in_memory': addMem}),
+              '已新建自建卡：$word',
+              nav: AiNavAction('打开「$word」', (ctx) => Navigator.push(ctx,
+                  MaterialPageRoute(builder: (_) => WordDetailScreen(cardId: created.id!)))));
+
         case 'set_daily_quota':
           final q = _clampInt(a['quota'], app.dailyQuota, 0, AppState.kMaxDailyQuota);
           if (q == app.dailyQuota) return AiToolOutcome(_j({'quota': q, 'note': '没有变化'}), '卡量没变');
@@ -1213,7 +1586,9 @@ class AiToolbox {
 
         case 'open_screen':
           final s = '${a['screen'] ?? ''}';
-          final nav = _screenNav(s);
+          final text = '${a['text'] ?? ''}'.trim();
+          final overdue = s == 'postpone' ? await app.db.overdueReviewCount() : 0;
+          final nav = _screenNav(s, text: text, overdueCount: overdue);
           if (nav == null) return AiToolOutcome(_j({'error': '没有这个页面：$s'}), '打开页面：不认识');
           return AiToolOutcome(_j({'will_open': _kScreens[s]}), '将打开：${_kScreens[s]}', nav: nav);
       }
@@ -1223,14 +1598,18 @@ class AiToolbox {
     }
   }
 
-  AiNavAction? _screenNav(String s) {
+  AiNavAction? _screenNav(String s, {String text = '', int overdueCount = 0}) {
     const tabs = {'study': 0, 'library': 1, 'grammar': 2, 'stats': 3, 'profile': 4};
     final label = '打开${_kScreens[s] ?? s}';
     if (tabs.containsKey(s)) {
       return AiNavAction(label, (_) => AiHomeTabs.select?.call(tabs[s]!), closeSheet: true);
     }
+    if (s == 'postpone') {
+      return AiNavAction(label, (ctx) => showPostponeSheet(ctx, app, overdueCount: overdueCount));
+    }
     Widget? page = switch (s) {
       'search' => const SearchScreen(),
+      'text_reader' => TextReaderScreen(initialText: text.isEmpty ? null : text),
       'scan' => const ScanScreen(),
       'my_cards' => const MyScreen(),
       'favorites' => const FavoritesScreen(),

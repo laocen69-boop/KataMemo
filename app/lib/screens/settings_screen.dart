@@ -12,6 +12,7 @@ import '../theme/k_colors.dart';
 import '../ai_chat.dart' show aiVendorNames;
 import '../app_state.dart';
 import '../fsrs.dart';
+import '../widgets/postpone_sheet.dart';
 import '../version.dart';
 import 'algorithm_screen.dart';
 import 'dict_screen.dart';
@@ -83,6 +84,36 @@ class SettingsScreen extends StatelessWidget {
                     '${(app.retention * 100).round()}% — 越高复习越频繁，记忆越牢',
                 trailing: Icon(Icons.tune, size: 22, color: k.t2),
                 onTap: () => _retentionDialog(context, app),
+              ),
+              _Row(
+                key: const ValueKey('settings.row.复习负荷均衡'),
+                title: '复习负荷均衡',
+                subtitle: '自动摊平未来到期复习峰值，避免某天突然扎堆',
+                trailing: KSwitch(
+                  value: app.loadBalance,
+                  onChanged: (v) => app.setLoadBalance(v),
+                ),
+                onTap: () => app.setLoadBalance(!app.loadBalance),
+              ),
+              _Row(
+                key: const ValueKey('settings.row.断签温和顺延'),
+                title: '断签温和顺延',
+                subtitle: '逾期积压较多时，按记忆稳定度温和推迟部分复习',
+                trailing: Icon(Icons.event_repeat_rounded, size: 22, color: k.t2),
+                onTap: () async {
+                  final overdue = await app.db.overdueReviewCount();
+                  if (!context.mounted) return;
+                  final moved = await showPostponeSheet(
+                    context,
+                    app,
+                    overdueCount: overdue,
+                  );
+                  if (moved != null && moved > 0 && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('已将 $moved 张逾期复习卡温和顺延')),
+                    );
+                  }
+                },
               ),
               _Row(
                 key: const ValueKey('settings.row.学习方向'),
@@ -651,13 +682,14 @@ class _WebAudioPackSheetState extends State<_WebAudioPackSheet> {
               ),
               const SizedBox(height: 10),
               OutlinedButton.icon(
-                onPressed: () => _download(0, 511),
+                onPressed: () =>
+                    _download(0, AudioService.instance.webTotalShards - 1),
                 icon: const Icon(Icons.cloud_download_outlined),
                 label: const Text('下载全库离线语音（9.7 万词，约 220 MB）'),
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: _cached >= AudioService.kWebTotalShards
+                onPressed: _cached >= AudioService.instance.webTotalShards
                     ? null
                     : () {
                         AudioService.instance.showWebPackPill();

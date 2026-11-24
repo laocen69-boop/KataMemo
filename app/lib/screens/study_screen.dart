@@ -3,10 +3,17 @@ library;
 import 'dart:async' show Timer, unawaited;
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show ValueListenable, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart'
     show SchedulerBinding, SchedulerPhase, TickerCanceled;
-import 'package:flutter/services.dart' show HapticFeedback;
+import 'package:flutter/services.dart'
+    show
+        HapticFeedback,
+        HardwareKeyboard,
+        KeyDownEvent,
+        KeyEvent,
+        LogicalKeyboardKey;
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
@@ -16,6 +23,7 @@ import '../cloze.dart';
 
 import '../db.dart';
 import 'package:katamemo/fsrs.dart';
+import '../fsrs_queue_tools.dart';
 import '../models.dart';
 import '../question_zh.dart';
 import '../ratings.dart';
@@ -33,6 +41,7 @@ import '../widgets/letter_slots.dart';
 import '../widgets/mnemonic_section.dart';
 import '../widgets/pair_list_editor.dart';
 import '../widgets/mnemonic_templates.dart';
+import '../widgets/postpone_sheet.dart';
 import '../widgets/quota_dialog.dart';
 import '../widgets/review_history.dart';
 import '../widgets/speak_button.dart';
@@ -43,6 +52,7 @@ import '../widgets/word_sheet.dart';
 import 'home_shell.dart' show HomeTabs;
 import 'select_screen.dart';
 import 'settings_screen.dart';
+import 'text_reader_screen.dart';
 import 'word_detail_screen.dart';
 
 part 'study_edit.dart';
@@ -187,10 +197,16 @@ StudyStop studyStopOf(TodayPlan plan) {
 class StudyScreen extends StatefulWidget {
 
   final ValueNotifier<int>? focusTick;
+  final ValueListenable<bool>? activeListenable;
 
   final WordCard? previewCard;
 
-  const StudyScreen({super.key, this.focusTick, this.previewCard});
+  const StudyScreen({
+    super.key,
+    this.focusTick,
+    this.activeListenable,
+    this.previewCard,
+  });
 
   static bool needsRequeue(FsrsState next) =>
       next.state == FsrsState.learning || next.state == FsrsState.relearning;
@@ -350,10 +366,13 @@ class _StudyScreenState extends State<StudyScreen>
 
   AppState? _app;
   int _seenRevision = -1;
+  int _overdueCount = 0;
+  bool _postponeBannerDismissed = false;
 
   @override
   void initState() {
     super.initState();
+    HardwareKeyboard.instance.addHandler(_onHardwareKey);
     _flashCtrl =
         AnimationController(vsync: this, duration: kRateFlash);
     _app = context.read<AppState>();
@@ -383,6 +402,7 @@ class _StudyScreenState extends State<StudyScreen>
 
   @override
   void dispose() {
+    HardwareKeyboard.instance.removeHandler(_onHardwareKey);
     _app?.removeListener(_onAppChanged);
     widget.focusTick?.removeListener(_onFocus);
     _prebuildTimer?.cancel();
@@ -445,10 +465,12 @@ class _StudyScreenState extends State<StudyScreen>
     await _hydrate(queue, 0, newCards);
 
     final plan = await app.db.todayPlan(dailyQuota: app.dailyQuota);
+    final overdue = await app.db.overdueReviewCount();
     final never = queue.isEmpty && !await app.db.hasEnrolledCards();
     if (!mounted) return;
     setState(() {
       _neverEnrolled = never;
+      _overdueCount = overdue;
       _queue = queue;
       _cards
         ..clear()
@@ -464,11 +486,8 @@ class _StudyScreenState extends State<StudyScreen>
 
   String? _audioOf(WordCard card) => card.audio;
 
-  static double _elapsed(FsrsState? prev) {
-    final lr = prev?.lastReview;
-    if (lr == null) return 0.0;
-    return DateTime.now().difference(lr).inHours / 24.0;
-  }
+  static double _elapsed(FsrsState? prev) =>
+      Fsrs.elapsedDaysSince(prev?.lastReview);
 
   double get _elapsedDays => _elapsed(_curSrs);
 
@@ -592,11 +611,36 @@ class _StudyScreenState extends State<StudyScreen>
     unawaited(_loadCurrent(resetFlip: false));
   }
 
+  Future<FsrsState> _applyLoadBalance(AppState app, FsrsState next) async {
+    if (!app.loadBalance || next.state != FsrsState.review) return next;
+    final base = next.lastReview ?? DateTime.now();
+    final rawDays = next.due.difference(base).inDays;
+    if (rawDays < 4) return next;
+    final delta = math.max(1, (rawDays * 0.05).round()).clamp(1, 7);
+    final counts = await app.db.futureDueWindowCounts(
+      minDayOffset: math.max(2, rawDays - delta),
+      maxDayOffset: rawDays + delta,
+    );
+    final balanced = chooseBalancedDays(rawDays, counts);
+    if (balanced == rawDays) return next;
+    return FsrsState(
+      stability: next.stability,
+      difficulty: next.difficulty,
+      due: next.due.add(Duration(days: balanced - rawDays)),
+      reps: next.reps,
+      lapses: next.lapses,
+      state: next.state,
+      lastReview: next.lastReview,
+      step: next.step,
+    );
+  }
+
   Future<void> _persistRating(
       AppState app, WordCard card, int idx, int rating, bool wasNew) async {
     Fsrs.requestedRetention = app.retention;
     final prev = await app.db.getSrs(card.id);
-    final next = Fsrs.apply(prev, rating, elapsedDays: _elapsed(prev));
+    var next = Fsrs.apply(prev, rating, elapsedDays: _elapsed(prev));
+    next = await _applyLoadBalance(app, next);
     final logF = app.db.logRating(card.id, rating);
     await app.db.saveSrs(card.id, next);
     final logId = await logF;
@@ -621,6 +665,14 @@ class _StudyScreenState extends State<StudyScreen>
     if (_busy || _index >= _queue.length) return;
 
     _busy = true;
+    // 等前一张卡的异步写库链落完，避免队尾或快速连点时读到未落库的旧状态。
+    try {
+      await _writeChain;
+    } catch (_) {}
+    if (!mounted || _index >= _queue.length) {
+      _busy = false;
+      return;
+    }
     final sw = Stopwatch()..start();
 
     final app = context.read<AppState>();
@@ -643,7 +695,9 @@ class _StudyScreenState extends State<StudyScreen>
       return;
     }
 
-    final next = Fsrs.apply(prev, rating, elapsedDays: _elapsed(prev));
+    var next = Fsrs.apply(prev, rating, elapsedDays: _elapsed(prev));
+    next = await _applyLoadBalance(app, next);
+    if (!mounted) return;
 
     final logF = app.db.logRating(card.id, rating);
     await app.db.saveSrs(card.id, next);
@@ -725,6 +779,70 @@ class _StudyScreenState extends State<StudyScreen>
 
     unawaited(AudioService.instance.playCard(
         audio: _audioOf(card), parts: card.audioParts, word: card.word));
+  }
+
+  bool _onHardwareKey(KeyEvent event) {
+    if (event is! KeyDownEvent || !mounted || _previewMode) return false;
+    if (!(widget.activeListenable?.value ?? true)) return false;
+    if (_loading || _busy || _queue.isEmpty || _index >= _queue.length) {
+      return false;
+    }
+    if (ModalRoute.of(context)?.isCurrent != true) return false;
+    final kb = HardwareKeyboard.instance;
+    if (kb.isControlPressed || kb.isMetaPressed || kb.isAltPressed) {
+      return false;
+    }
+    if (FocusManager.instance.primaryFocus?.context?.widget is EditableText) {
+      return false;
+    }
+    final app = _app;
+    final card = _cardAt(_index);
+    if (app == null || card == null) return false;
+    if (_spellingOf(app, card) && !_flipped) return false;
+
+    final key = event.logicalKey;
+    if (key == LogicalKeyboardKey.space || key == LogicalKeyboardKey.enter) {
+      if (!_flipped) {
+        _flip();
+        return true;
+      }
+      return false;
+    }
+    if (_flipped) {
+      if (key == LogicalKeyboardKey.digit1 ||
+          key == LogicalKeyboardKey.numpad1) {
+        unawaited(_rate(Fsrs.ratingForget));
+        return true;
+      }
+      if (key == LogicalKeyboardKey.digit2 ||
+          key == LogicalKeyboardKey.numpad2) {
+        unawaited(_rate(Fsrs.ratingFuzzy));
+        return true;
+      }
+      if (key == LogicalKeyboardKey.digit3 ||
+          key == LogicalKeyboardKey.numpad3) {
+        unawaited(_rate(Fsrs.ratingKnow));
+        return true;
+      }
+      if (key == LogicalKeyboardKey.digit4 ||
+          key == LogicalKeyboardKey.numpad4) {
+        unawaited(_rate(Fsrs.ratingEasy));
+        return true;
+      }
+    }
+    if (key == LogicalKeyboardKey.keyR) {
+      unawaited(AudioService.instance.playCard(
+        audio: _audioOf(card),
+        parts: card.audioParts,
+        word: card.word,
+      ));
+      return true;
+    }
+    if (key == LogicalKeyboardKey.keyZ && _undo.isNotEmpty) {
+      unawaited(_undoLast());
+      return true;
+    }
+    return false;
   }
 
   void _flip() {
@@ -861,6 +979,10 @@ class _StudyScreenState extends State<StudyScreen>
         child: Column(
           children: [
             _studyHeader(app, card, item, spelling: spelling),
+            if (!_previewMode &&
+                _overdueCount >= 30 &&
+                !_postponeBannerDismissed)
+              _buildOverdueBanner(app),
             Expanded(
               child: GestureDetector(
 
@@ -913,12 +1035,73 @@ class _StudyScreenState extends State<StudyScreen>
                 ),
               ),
             ),
+            if (!_previewMode &&
+                (kIsWeb || MediaQuery.sizeOf(context).width >= 720))
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  '快捷键：Space 翻面 · 1-4 评分 · R 重听 · Z 撤销',
+                  style: TextStyle(fontSize: 11, color: context.k.t3),
+                ),
+              ),
             if (!_previewMode)
 
               _controls(app, card, isNew: item.isNew, spelling: spelling),
           ],
         ),
       ),
+      ),
+    );
+  }
+
+  Widget _buildOverdueBanner(AppState app) {
+    final k = context.k;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(14, 6, 14, 2),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: k.tint,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: k.border),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.event_repeat_rounded, size: 16, color: k.deep),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              '积压 $_overdueCount 张逾期复习，可温和顺延',
+              style: TextStyle(
+                  fontSize: 12, fontWeight: FontWeight.w500, color: k.deep),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              final moved = await showPostponeSheet(
+                context,
+                app,
+                overdueCount: _overdueCount,
+              );
+              if (moved != null && moved > 0 && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('已将 $moved 张逾期复习卡温和顺延')),
+                );
+              }
+            },
+            style: TextButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+            child: const Text('去顺延'),
+          ),
+          InkWell(
+            onTap: () => setState(() => _postponeBannerDismissed = true),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Icon(Icons.close, size: 15, color: k.t2),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -54,6 +54,8 @@
 
 - Flutter SDK 与 Dart：BSD-3-Clause（Google）。
 - Material Icons 字体：Apache License 2.0（Google），构建时按用到的图标子集化。
+- **Plus Jakarta Sans** 字体（`app/assets/fonts/PlusJakartaSans-*.ttf`）：SIL Open Font License 1.1（Tokotype / Pemerintah Provinsi DKI Jakarta）。
+- **Noto Sans** 字体（`app/assets/fonts/NotoSans-*.ttf`）：SIL Open Font License 1.1（Google）。
 - `app/web/sqlite3.wasm` 与 `app/web/sqflite_sw.js`：由 `sqflite_common_ffi_web` / `sqlite3.dart` 官方工具生成（MIT / SQLite Public Domain）。
 
 发现遗漏或需要更正，请提 issue。

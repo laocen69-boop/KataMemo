@@ -114,6 +114,8 @@ class _StatsScreenState extends State<StatsScreen>
 
   double? _medianS;
 
+  List<double> _stabilities = const [];
+
   double? _recallRate;
 
   Map<String, int> _dailySeconds = {};
@@ -145,7 +147,14 @@ class _StatsScreenState extends State<StatsScreen>
     final today = await app.db.todayStats();
     final streak = await app.db.streakDays();
     final recall = await app.db.overallRecallRate();
-    final medianS = await app.db.medianStability();
+    final stabilities = await app.db.learnedStabilities();
+    double? medianS;
+    if (stabilities.isNotEmpty) {
+      final mid = stabilities.length ~/ 2;
+      medianS = stabilities.length.isOdd
+          ? stabilities[mid]
+          : (stabilities[mid - 1] + stabilities[mid]) / 2;
+    }
     final forgetCurve = await app.db.forgetRateByInterval();
 
     final daily = await app.db.dailyWordRatingCounts(days: 950);
@@ -158,6 +167,7 @@ class _StatsScreenState extends State<StatsScreen>
       _today = today;
       _streak = streak;
       _recallRate = recall;
+      _stabilities = stabilities;
       _medianS = medianS;
       _forgetCurve = forgetCurve;
       _daily = daily;
@@ -525,9 +535,9 @@ class _StatsScreenState extends State<StatsScreen>
             _medianS == null
                 ? '还没有足够的复习数据。曲线按记忆稳定性 S 绘制，'
                     'S 是你的已学词的中位稳定性，学一段时间后这里会变成你自己的曲线。'
-                : '曲线 = 你的已学词在「距上次复习 N 天」时的预测回忆率'
-                    '（中位稳定性 S = ${_medianS!.toStringAsFixed(1)} 天）。'
-                    '实际回忆率 =（轻松+记得+模糊）/ 全部作答。',
+                : '曲线 = 全量已学词在「距上次复习 N 天」时的期望回忆率'
+                    '（共 ${_stabilities.length} 词，中位稳定性 S = ${_medianS!.toStringAsFixed(1)} 天）。'
+                    '实际回忆率 = 跨天复习的回忆成功率。',
             style: statCaption(context),
           ),
           const SizedBox(height: 12),
@@ -537,6 +547,7 @@ class _StatsScreenState extends State<StatsScreen>
                 targetRetention: app.retention,
                 actualRecall: _recallRate,
                 medianS: _medianS,
+                stabilities: _stabilities,
               )),
         ],
       ),
